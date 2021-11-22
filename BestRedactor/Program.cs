@@ -11,7 +11,6 @@ namespace BestRedactor
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
-        //  afdklsnlkdsfsjs
         [STAThread]
         static void Main()
         {
