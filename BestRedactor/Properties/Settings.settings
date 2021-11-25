@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BestRedactor.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PathLog" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\\..\\..\\Log</Value>
+    </Setting>
+    <Setting Name="FailClose" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LastUseColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LastUseSize" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="PathBackup" Type="System.String" Scope="User">
+      <Value Profile="(Default)">~Backup.dat</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
