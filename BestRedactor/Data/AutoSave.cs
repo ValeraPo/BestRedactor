@@ -6,7 +6,7 @@ namespace BestRedactor.Data
 {
     public static class AutoSave
     {
-        public static void Backup(Form1 form)
+        public static void Backup(MainForm form)
         {
             string path = Settings.Default["PathBackup"].ToString();
             if (File.Exists(path))
