@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace BestRedactor.Data
 {
@@ -13,6 +14,12 @@ namespace BestRedactor.Data
         {
             if (!DirectoryСheck(path))
                 Directory.CreateDirectory(path);
+        }
+
+        public static void PathNotNull(this string path)
+        {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path), @"Путь должен быть");
         }
     }
 }
