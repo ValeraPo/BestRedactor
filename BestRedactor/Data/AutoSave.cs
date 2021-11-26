@@ -15,7 +15,7 @@ namespace BestRedactor.Data
             using (FileStream stream = File.Open(path, FileMode.Create))
             {
                 BinaryFormatter bf = new();
-                bf.Serialize(stream, form);
+                //bf.Serialize(stream, form);
                 File.SetAttributes(stream.Name, FileAttributes.Hidden | FileAttributes.ReadOnly);
             }
         }

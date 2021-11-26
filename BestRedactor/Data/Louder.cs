@@ -13,7 +13,7 @@ namespace BestRedactor.Data
             {
                 BinaryFormatter bf = new();
                 // Написать код создание экземпляров из файла и развернуть на их основе форму
-                bf.Deserialize(stream);
+                //bf.Deserialize(stream);
             }
         }
     }
