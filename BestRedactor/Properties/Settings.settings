@@ -15,7 +15,7 @@
       <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="PathBackup" Type="System.String" Scope="User">
-      <Value Profile="(Default)">~Backup.dat</Value>
+      <Value Profile="(Default)">~Backup.json</Value>
     </Setting>
     <Setting Name="OpenedTabs" Type="UInt32" Scope="User">
       <Value Profile="(Default)">1</Value>
