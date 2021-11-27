@@ -17,7 +17,7 @@ namespace BestRedactor.Data.AutoSave
             if (File.Exists(path))
                 File.SetAttributes(path!, 0);
 
-            var openedTabs = (uint)Properties.Settings.Default["OpenedTabs"];
+            uint openedTabs = (uint)Properties.Settings.Default["OpenedTabs"];
             var saveSettings = new AutoSaveSettings
                                {
                                    Directory    = new string[openedTabs],
@@ -28,7 +28,7 @@ namespace BestRedactor.Data.AutoSave
             var ctn = 0;
             foreach (var elem in collection)
             {
-                elem.Bitmap.Save($"~{elem.FileName}", elem.ImageFormat);
+                elem.Bitmap.Save($"~{elem.FileName}.{elem.ImageFormat.ToString().ToLower()}", elem.ImageFormat);
                 File.SetAttributes($"~{elem.FileName}.{elem.ImageFormat.ToString().ToLower()}", FileAttributes.Hidden);
                 saveSettings.Name[ctn]         = elem.FileName;
                 saveSettings.Directory[ctn]    = elem.Directory;
