@@ -22,6 +22,13 @@ namespace BestRedactor.Data
                 throw new ArgumentNullException(nameof(picture.ImageFormat), @"Для сохранения должен быть указан тип");
 
             picture.Directory.DirectoryCreature();
+            var i = 1;
+            while (File.Exists($"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}"))
+            {
+                picture.FileName = $"{picture.FileName}({i})";
+                i++;
+            }
+            
             picture.Bitmap.Save(picture.Directory + picture.FileName, picture.ImageFormat);
         }
 
