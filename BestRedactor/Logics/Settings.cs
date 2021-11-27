@@ -1,7 +1,8 @@
 ﻿using System.Drawing;
 using BestRedactor.Interface;
+using BestRedactor.Data;
 
-namespace BestRedactor.Data
+namespace BestRedactor.Logics
 {
     public class Settings : ISettings
     {
