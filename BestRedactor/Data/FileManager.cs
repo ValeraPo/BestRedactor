@@ -23,13 +23,17 @@ namespace BestRedactor.Data
 
             picture.Directory.DirectoryCreature();
             var i = 1;
-            while (File.Exists($"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}"))
+            var path = $"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}";
+            while (File.Exists(path))
             {
                 picture.FileName = $"{picture.FileName}({i})";
                 i++;
             }
+
+            // if (File.Exists(path))
+            //     File.Delete(path);
             
-            picture.Bitmap.Save(picture.Directory + picture.FileName, picture.ImageFormat);
+            picture.Bitmap.Save($"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}", picture.ImageFormat);
         }
 
 
