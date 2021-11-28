@@ -9,6 +9,7 @@ namespace BestRedactor.Logics
 {
     class Filters
     {
+        public static uint[,] pixel;
 
         //преобразование из  Bitmap to uint[,]
         public static uint[,] FromBitmapToPixel(Bitmap image)
