@@ -1,0 +1,33 @@
+c:\users\user\documents\visual studio 2012\Projects\Program\Program\bin\Debug\Program.exe.config
+c:\users\user\documents\visual studio 2012\Projects\Program\Program\bin\Debug\Program.exe
+c:\users\user\documents\visual studio 2012\Projects\Program\Program\bin\Debug\Program.pdb
+c:\users\user\documents\visual studio 2012\Projects\Program\Program\obj\Debug\Program.csprojResolveAssemblyReference.cache
+c:\users\user\documents\visual studio 2012\Projects\Program\Program\obj\Debug\Program.Form1.resources
+c:\users\user\documents\visual studio 2012\Projects\Program\Program\obj\Debug\Program.Properties.Resources.resources
+c:\users\user\documents\visual studio 2012\Projects\Program\Program\obj\Debug\Program.csproj.GenerateResource.Cache
+c:\users\user\documents\visual studio 2012\Projects\Program\Program\obj\Debug\Program.exe
+c:\users\user\documents\visual studio 2012\Projects\Program\Program\obj\Debug\Program.pdb
+C:\Users\User\documents\visual studio 2012\Projects\Program\Program\obj\Debug\Program.Form2.resources
+C:\Users\Игорь\Desktop\Program\Program\bin\Debug\Program.exe.config
+C:\Users\Игорь\Desktop\Program\Program\obj\Debug\Program.exe
+C:\Users\Игорь\Desktop\Program\Program\obj\Debug\Program.pdb
+C:\Users\Игорь\Desktop\Program\Program\bin\Debug\Program.exe
+C:\Users\Игорь\Desktop\Program\Program\bin\Debug\Program.pdb
+C:\Users\Игорь\Desktop\Program\Program\obj\Debug\Program.csprojResolveAssemblyReference.cache
+C:\Users\Игорь\Desktop\Program\Program\obj\Debug\Program.Form1.resources
+C:\Users\Игорь\Desktop\Program\Program\obj\Debug\Program.Form2.resources
+C:\Users\Игорь\Desktop\Program\Program\obj\Debug\Program.Properties.Resources.resources
+C:\Users\Игорь\Desktop\Program\Program\obj\Debug\Program.csproj.GenerateResource.Cache
+C:\Users\User\documents\visual studio 2012\Projects\Program\Program\obj\Debug\Program.Form3.resources
+C:\Users\admin\Desktop\Program\Program\bin\Debug\Program.exe.config
+C:\Users\admin\Desktop\Program\Program\bin\Debug\Program.exe
+C:\Users\admin\Desktop\Program\Program\bin\Debug\Program.pdb
+C:\Users\admin\Desktop\Program\Program\obj\Debug\Program.csproj.AssemblyReference.cache
+C:\Users\admin\Desktop\Program\Program\obj\Debug\Program.Form1.resources
+C:\Users\admin\Desktop\Program\Program\obj\Debug\Program.Form2.resources
+C:\Users\admin\Desktop\Program\Program\obj\Debug\Program.Form3.resources
+C:\Users\admin\Desktop\Program\Program\obj\Debug\Program.Properties.Resources.resources
+C:\Users\admin\Desktop\Program\Program\obj\Debug\Program.csproj.GenerateResource.cache
+C:\Users\admin\Desktop\Program\Program\obj\Debug\Program.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\Program\Program\obj\Debug\Program.exe
+C:\Users\admin\Desktop\Program\Program\obj\Debug\Program.pdb
