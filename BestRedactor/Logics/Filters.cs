@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BestRedactor.Interface;
+
 
 namespace BestRedactor.Logics
 {
@@ -12,17 +14,17 @@ namespace BestRedactor.Logics
         public static uint[,] pixel;
 
         //преобразование из  Bitmap to uint[,]
-        public static uint[,] FromBitmapToPixel(Bitmap image)
+        public static uint[,] FromBitmapToPixel(IPicture image)
         {
             //получение матрицы с пикселями
-            uint[,] pixel = new uint[image.Height, image.Width];
-            for (int y = 0; y < image.Height; y++)
-                for (int x = 0; x < image.Width; x++)
-                    pixel[y, x] = (uint)(image.GetPixel(x, y).ToArgb());
+            uint[,] pixel = new uint[image.Bitmap.Height, image.Bitmap.Width];
+            for (int y = 0; y < image.Bitmap.Height; y++)
+                for (int x = 0; x < image.Bitmap.Width; x++)
+                    pixel[y, x] = (uint)(image.Bitmap.GetPixel(x, y).ToArgb());
             //заполнение матрицы пикселями
-            for (int y = 0; y < image.Height; y++)
-                for (int x = 0; x < image.Width; x++)
-                    image.SetPixel(x, y, Color.FromArgb((int)pixel[y, x]));
+            for (int y = 0; y < image.Bitmap.Height; y++)
+                for (int x = 0; x < image.Bitmap.Width; x++)
+                    image.Bitmap.SetPixel(x, y, Color.FromArgb((int)pixel[y, x]));
             return pixel;
         }
 
@@ -30,7 +32,6 @@ namespace BestRedactor.Logics
         public static uint Brightness(uint point, int poz, int lenght)
         {
             PixelPoint pixel = new PixelPoint();
-
 
             int N = (100 / lenght) * poz; //кол-во процентов
 
@@ -71,7 +72,7 @@ namespace BestRedactor.Logics
             return point;
         }
         // Повысить резкость
-        public static uint[,] UpSharpness(Bitmap image)
+        public static uint[,] UpSharpness(IPicture image)
         {
             uint[,] pixel = FromBitmapToPixel(image);
             double[,] sharpness = new double[,] {{-1, -1, -1},
@@ -80,7 +81,7 @@ namespace BestRedactor.Logics
             return Precision.Filtration(pixel, sharpness);
         }
         // Размыть
-        public static uint[,] Blur(Bitmap image)
+        public static uint[,] Blur(IPicture image)
         {
             uint[,] pixel = FromBitmapToPixel(image);
             double[,] blur = new double[,] {{0.111, 0.111, 0.111},
