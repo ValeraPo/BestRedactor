@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BestRedactor.Interface;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,52 +11,65 @@ namespace BestRedactor.Logics
     public class ColorBalance
     {
         //цветовой баланс R
-        public static uint Change_R(uint point, int poz, int lenght)
+        public static void R(IPicture image, int poz, int lenght)
         {
-            PixelPoint pixel = new PixelPoint();
-
             int N = (100 / lenght) * poz; //кол-во процентов
+            PixelPoint rgb = new PixelPoint();
+            Color c;
 
-            pixel.R = (int)(((point & 0x00FF0000) >> 16) + N * 128 / 100);
-            pixel.G = (int)((point & 0x0000FF00) >> 8);
-            pixel.B = (int)(point & 0x000000FF);
-
-            point = 0xFF000000 | ((uint)pixel.R << 16) | ((uint)pixel.G << 8) | ((uint)pixel.B);
-
-            return point;
+            for (int y = 0; y < image.Bitmap.Height; y++)
+                for (int x = 0; x < image.Bitmap.Width; x++)
+                {
+                    c = image.Bitmap.GetPixel(x, y);
+                    rgb.R = c.R + N * 128 / 100;
+                    image.Bitmap.SetPixel(x, y, Color.FromArgb(rgb.R, c.G, c.B));
+                }
         }
 
         //цветовой баланс G
-        public static uint Change_G(uint point, int poz, int lenght)
+        public static void G(IPicture image, int poz, int lenght)
         {
-            PixelPoint pixel = new PixelPoint();
-
-
             int N = (100 / lenght) * poz; //кол-во процентов
+            PixelPoint rgb = new PixelPoint();
+            Color c;
 
-            pixel.R = (int)((point & 0x00FF0000) >> 16);
-            pixel.G = (int)(((point & 0x0000FF00) >> 8) + N * 128 / 100);
-            pixel.B = (int)(point & 0x000000FF);
-
-            point = 0xFF000000 | ((uint)pixel.R << 16) | ((uint)pixel.G << 8) | ((uint)pixel.B);
-
-            return point;
+            for (int y = 0; y < image.Bitmap.Height; y++)
+                for (int x = 0; x < image.Bitmap.Width; x++)
+                {
+                    c = image.Bitmap.GetPixel(x, y);
+                    rgb.G = c.G + N * 128 / 100;
+                    image.Bitmap.SetPixel(x, y, Color.FromArgb(c.R, rgb.R, c.B));
+                }
         }
 
         //цветовой баланс B
-        public static uint Change_B(uint point, int poz, int lenght)
+        public static void B(IPicture image, int poz, int lenght)
         {
-            PixelPoint pixel = new PixelPoint();
-
             int N = (100 / lenght) * poz; //кол-во процентов
+            PixelPoint rgb = new PixelPoint();
+            Color c;
 
-            pixel.R = (int)((point & 0x00FF0000) >> 16);
-            pixel.G = (int)((point & 0x0000FF00) >> 8);
-            pixel.B = (int)((point & 0x000000FF) + N * 128 / 100);
+            for (int y = 0; y < image.Bitmap.Height; y++)
+                for (int x = 0; x < image.Bitmap.Width; x++)
+                {
+                    c = image.Bitmap.GetPixel(x, y);
+                    rgb.B = c.B + N * 128 / 100;
+                    image.Bitmap.SetPixel(x, y, Color.FromArgb(c.R, c.G, rgb.R));
+                }
+        }
+        // Чернобелый фильтр 
+        public void ToGrayScale(IPicture image)
+        {
+            int rgb;
+            Color c;
 
-            point = 0xFF000000 | ((uint)pixel.R << 16) | ((uint)pixel.G << 8) | ((uint)pixel.B);
-
-            return point;
+            for (int y = 0; y < image.Bitmap.Height; y++)
+                for (int x = 0; x < image.Bitmap.Width; x++)
+                {
+                    c = image.Bitmap.GetPixel(x, y);
+                    rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
+                    image.Bitmap.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
+                }
         }
 
     }
