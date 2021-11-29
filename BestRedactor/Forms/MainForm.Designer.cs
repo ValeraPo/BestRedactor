@@ -50,7 +50,7 @@ namespace BestRedactor
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlPage = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox0 = new System.Windows.Forms.PictureBox();
             this.toolStripTools = new System.Windows.Forms.ToolStrip();
             this.tsBtn_color1 = new System.Windows.Forms.ToolStripButton();
             this.tsBtn_color2 = new System.Windows.Forms.ToolStripButton();
@@ -81,10 +81,14 @@ namespace BestRedactor
             this.toolStripStatusCurrentSizeLb = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.menuStrip1.SuspendLayout();
             this.tabControlPage.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox0)).BeginInit();
             this.toolStripTools.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -128,6 +132,7 @@ namespace BestRedactor
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.openToolStripMenuItem.Text = "Открыть";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -145,6 +150,7 @@ namespace BestRedactor
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(154, 22);
             this.toolStripMenuItem2.Text = "Сохранить как";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator2
             // 
@@ -167,7 +173,6 @@ namespace BestRedactor
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.exitToolStripMenuItem.Text = "Выход";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -215,6 +220,7 @@ namespace BestRedactor
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
             this.clearToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.clearToolStripMenuItem.Text = "Очистить";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // tabControlPage
             // 
@@ -228,7 +234,7 @@ namespace BestRedactor
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.pictureBox1);
+            this.tabPage1.Controls.Add(this.pictureBox0);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -237,14 +243,18 @@ namespace BestRedactor
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // pictureBox0
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(662, 279);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.pictureBox0.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox0.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox0.Name = "pictureBox0";
+            this.pictureBox0.Size = new System.Drawing.Size(662, 279);
+            this.pictureBox0.TabIndex = 0;
+            this.pictureBox0.TabStop = false;
+            this.pictureBox0.Click += new System.EventHandler(this.pictureBox_Click);
+            this.pictureBox0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBox0.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            this.pictureBox0.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
             // toolStripTools
             // 
@@ -262,10 +272,10 @@ namespace BestRedactor
             this.tsButtonFraming,
             this.tsBtnEraser,
             this.tsText});
-            this.toolStripTools.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.toolStripTools.Location = new System.Drawing.Point(0, 24);
+            this.toolStripTools.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
+            this.toolStripTools.Location = new System.Drawing.Point(5, 24);
             this.toolStripTools.Name = "toolStripTools";
-            this.toolStripTools.Size = new System.Drawing.Size(32, 287);
+            this.toolStripTools.Size = new System.Drawing.Size(32, 276);
             this.toolStripTools.TabIndex = 2;
             this.toolStripTools.Text = "tools";
             // 
@@ -301,6 +311,7 @@ namespace BestRedactor
             this.tsBtnBrush.Size = new System.Drawing.Size(20, 20);
             this.tsBtnBrush.Text = "кисть";
             this.tsBtnBrush.ToolTipText = "Кисть";
+            this.tsBtnBrush.Click += new System.EventHandler(this.tsBtnBrush_Click);
             // 
             // tsBtnPen
             // 
@@ -312,6 +323,7 @@ namespace BestRedactor
             this.tsBtnPen.Size = new System.Drawing.Size(20, 20);
             this.tsBtnPen.Text = "toolStripButton5";
             this.tsBtnPen.ToolTipText = "Карандаш";
+            this.tsBtnPen.Click += new System.EventHandler(this.tsBtnPen_Click);
             // 
             // tsSplitButtonShape
             // 
@@ -332,22 +344,25 @@ namespace BestRedactor
             // 
             this.tsBtnMenuItemLine.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnMenuItemLine.Image")));
             this.tsBtnMenuItemLine.Name = "tsBtnMenuItemLine";
-            this.tsBtnMenuItemLine.Size = new System.Drawing.Size(180, 22);
+            this.tsBtnMenuItemLine.Size = new System.Drawing.Size(161, 22);
             this.tsBtnMenuItemLine.Text = "линия";
+            this.tsBtnMenuItemLine.Click += new System.EventHandler(this.tsBtnMenuItemLine_Click);
             // 
             // tsBtnMenuItemEllipce
             // 
             this.tsBtnMenuItemEllipce.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnMenuItemEllipce.Image")));
             this.tsBtnMenuItemEllipce.Name = "tsBtnMenuItemEllipce";
-            this.tsBtnMenuItemEllipce.Size = new System.Drawing.Size(180, 22);
+            this.tsBtnMenuItemEllipce.Size = new System.Drawing.Size(161, 22);
             this.tsBtnMenuItemEllipce.Text = "эллипс";
+            this.tsBtnMenuItemEllipce.Click += new System.EventHandler(this.tsBtnMenuItemEllipce_Click);
             // 
             // tsBtnMenuItemRect
             // 
             this.tsBtnMenuItemRect.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnMenuItemRect.Image")));
             this.tsBtnMenuItemRect.Name = "tsBtnMenuItemRect";
-            this.tsBtnMenuItemRect.Size = new System.Drawing.Size(180, 22);
+            this.tsBtnMenuItemRect.Size = new System.Drawing.Size(161, 22);
             this.tsBtnMenuItemRect.Text = "прямоугольник";
+            this.tsBtnMenuItemRect.Click += new System.EventHandler(this.tsBtnMenuItemRect_Click);
             // 
             // tsDropDownFilters
             // 
@@ -407,6 +422,11 @@ namespace BestRedactor
             // 
             // drDBtnTSMenuItRotates
             // 
+            this.drDBtnTSMenuItRotates.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6,
+            this.toolStripMenuItem7,
+            this.toolStripTextBox1});
             this.drDBtnTSMenuItRotates.Name = "drDBtnTSMenuItRotates";
             this.drDBtnTSMenuItRotates.Size = new System.Drawing.Size(214, 22);
             this.drDBtnTSMenuItRotates.Text = "поворот";
@@ -423,13 +443,13 @@ namespace BestRedactor
             // MirrorVertically
             // 
             this.MirrorVertically.Name = "MirrorVertically";
-            this.MirrorVertically.Size = new System.Drawing.Size(180, 22);
+            this.MirrorVertically.Size = new System.Drawing.Size(161, 22);
             this.MirrorVertically.Text = "по вертикали";
             // 
             // поГоризонталиToolStripMenuItem
             // 
             this.поГоризонталиToolStripMenuItem.Name = "поГоризонталиToolStripMenuItem";
-            this.поГоризонталиToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.поГоризонталиToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.поГоризонталиToolStripMenuItem.Text = "по горизонтали";
             // 
             // tsButtonCursor
@@ -453,6 +473,7 @@ namespace BestRedactor
             this.tsBtnFill.Size = new System.Drawing.Size(20, 20);
             this.tsBtnFill.Text = "toolStripButton1";
             this.tsBtnFill.ToolTipText = "Заливка";
+            this.tsBtnFill.Click += new System.EventHandler(this.tsBtnFill_Click);
             // 
             // tsBtnPipette
             // 
@@ -460,7 +481,7 @@ namespace BestRedactor
             this.tsBtnPipette.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnPipette.Image")));
             this.tsBtnPipette.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnPipette.Name = "tsBtnPipette";
-            this.tsBtnPipette.Size = new System.Drawing.Size(30, 20);
+            this.tsBtnPipette.Size = new System.Drawing.Size(23, 20);
             this.tsBtnPipette.Text = "пипетка";
             this.tsBtnPipette.ToolTipText = "Пипетка";
             // 
@@ -470,7 +491,7 @@ namespace BestRedactor
             this.tsButtonFraming.Image = ((System.Drawing.Image)(resources.GetObject("tsButtonFraming.Image")));
             this.tsButtonFraming.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsButtonFraming.Name = "tsButtonFraming";
-            this.tsButtonFraming.Size = new System.Drawing.Size(30, 20);
+            this.tsButtonFraming.Size = new System.Drawing.Size(23, 20);
             this.tsButtonFraming.Text = "toolStripButton1";
             this.tsButtonFraming.ToolTipText = "Кадрирование";
             // 
@@ -483,6 +504,7 @@ namespace BestRedactor
             this.tsBtnEraser.Name = "tsBtnEraser";
             this.tsBtnEraser.Size = new System.Drawing.Size(20, 20);
             this.tsBtnEraser.Text = "toolStripButton1";
+            this.tsBtnEraser.Click += new System.EventHandler(this.tsBtnEraser_Click);
             // 
             // tsText
             // 
@@ -524,6 +546,32 @@ namespace BestRedactor
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(191, 17);
             this.toolStripStatusLabel2.Text = "здесь будет изменение масштаба";
             // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem5.Text = "90";
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem6.Text = "-90";
+            this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem7.Text = "180";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBox1.Text = "(произвольный угол)";
+            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -540,7 +588,7 @@ namespace BestRedactor
             this.menuStrip1.PerformLayout();
             this.tabControlPage.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox0)).EndInit();
             this.toolStripTools.ResumeLayout(false);
             this.toolStripTools.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -593,7 +641,7 @@ namespace BestRedactor
         private System.Windows.Forms.ToolStripButton tsBtnPipette;
         private System.Windows.Forms.ToolStripButton tsButtonFraming;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox0;
         private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItDeformations;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
@@ -603,6 +651,10 @@ namespace BestRedactor
         private System.Windows.Forms.ToolStripMenuItem поГоризонталиToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton tsBtnEraser;
         private System.Windows.Forms.ToolStripButton tsText;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
     }
 }
 
