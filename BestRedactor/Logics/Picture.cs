@@ -6,7 +6,7 @@ namespace BestRedactor.Logics
 {
     public class Picture : IPicture
     {
-        public Picture(Bitmap bitmap, string directory, string fileName, ImageFormat imageFormat)
+        public Picture(Bitmap bitmap, string directory, string fileName = "NoName", ImageFormat imageFormat = default)
         {
             Bitmap      = bitmap;
             Directory   = directory;
