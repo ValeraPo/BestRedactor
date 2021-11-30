@@ -75,6 +75,20 @@ namespace BestRedactor.Logics
                 }
             return image;
         }
+        // Инвертирова цвета
+        public IPicture IverseColor(IPicture image)
+        {
+            for (int y = 0; (y <= (image.Bitmap.Height - 1)); y++)
+            {
+                for (int x = 0; (x <= (image.Bitmap.Width - 1)); x++)
+                {
+                    Color inv = image.Bitmap.GetPixel(x, y);
+                    inv = Color.FromArgb(255, (255 - inv.R), (255 - inv.G), (255 - inv.B));
+                    image.Bitmap.SetPixel(x, y, inv);
+                }
+            }
+            return image;
+        }
 
     }
 }
