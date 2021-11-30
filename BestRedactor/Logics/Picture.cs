@@ -6,20 +6,15 @@ namespace BestRedactor.Logics
 {
     public class Picture : IPicture
     {
-        public Picture(Bitmap bitmap, string directory, string fileName = "NoName", ImageFormat imageFormat = default)
+        public Picture(Bitmap bitmap, string directory, string fileName, ImageFormat imageFormat)
         {
             Bitmap      = bitmap;
             Directory   = directory;
             FileName    = fileName;
             ImageFormat = imageFormat;
         }
-        public Picture(Bitmap bitmap)
-        {
-            Bitmap = bitmap;
-            Directory = "";
-            FileName = "NoName";
-            ImageFormat = default(ImageFormat);
-        }
+        public Picture(Bitmap bitmap):
+            this(bitmap, "","NoName", ImageFormat.Bmp){}
 
         public Bitmap      Bitmap {get; set;}
         public string      Directory {get; set;}

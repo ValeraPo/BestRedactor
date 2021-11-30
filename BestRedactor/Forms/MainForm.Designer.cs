@@ -29,6 +29,7 @@ namespace BestRedactor
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -283,7 +284,7 @@ namespace BestRedactor
             this.toolStripTools.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.toolStripTools.Location = new System.Drawing.Point(5, 24);
             this.toolStripTools.Name = "toolStripTools";
-            this.toolStripTools.Size = new System.Drawing.Size(32, 295);
+            this.toolStripTools.Size = new System.Drawing.Size(32, 276);
             this.toolStripTools.TabIndex = 2;
             this.toolStripTools.Text = "tools";
             // 
@@ -618,7 +619,7 @@ namespace BestRedactor
             // timerAutoSave
             // 
             this.timerAutoSave.Enabled = true;
-            this.timerAutoSave.Interval = 300;
+            this.timerAutoSave.Interval = 30000;
             this.timerAutoSave.Tick += new System.EventHandler(this.timerAutoSave_Tick);
             // 
             // MainForm
@@ -713,7 +714,7 @@ namespace BestRedactor
         private System.Windows.Forms.ToolStripButton toolStripButtonCursor;
         private System.Windows.Forms.ToolStripButton toolStripButtonFill;
         private System.Windows.Forms.ToolStripButton toolStripButtonPipette;
-        private System.Windows.Forms.ToolStripButton toolStripButtonFraming;
+        private System.Windows.Forms.ToolStripButton toolStripButtonFraming;        
         private System.Windows.Forms.Timer timerAutoSave;
     }
 }

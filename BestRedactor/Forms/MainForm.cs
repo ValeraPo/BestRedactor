@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BestRedactor.Interface;
 
 namespace BestRedactor
 {
@@ -269,6 +270,11 @@ namespace BestRedactor
             tsBtn_color1.BackColor = settings.LastUseColor;
         }
 
+        private void timerAutoSave_Tick(object sender, EventArgs e)
+        {
+            AutoSave.Backup(pictures);
+        }
+
         private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
         {
 
@@ -335,14 +341,14 @@ namespace BestRedactor
             tp.Location = new System.Drawing.Point(4, 24);
             tp.Name = "tabPage1";
             tp.Padding = new System.Windows.Forms.Padding(3);
-            tp.Size = new System.Drawing.Size(744, 373);
+            tp.Size = new System.Drawing.Size(tabPage1.Width, tabPage1.Height);
             tp.TabIndex = (int)settings.OpenedTabs;
             tp.Text = "tabPage1";
             tp.UseVisualStyleBackColor = true;
             //
             pb.Location = new System.Drawing.Point(42, 38);
             pb.Name = "pb1";
-            pb.Size = new System.Drawing.Size(621, 232);
+            pb.Size = new System.Drawing.Size(tabPage1.Width, tabPage1.Height);
             pb.TabIndex = (int)settings.OpenedTabs;
             pb.TabStop = false;
             pictures.Add(new Picture(new Bitmap(pb.Width, pb.Height)));
@@ -353,7 +359,7 @@ namespace BestRedactor
 
             tp.Controls.Add(pb);                    //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
-            settings.OpenedTabs++;
+            settings.OpenedTabs = settings.OpenedTabs + 1;
             
             //SetSize();
         }
@@ -362,6 +368,9 @@ namespace BestRedactor
         {
             gra = Graphics.FromImage(pictures[tabControlPage.SelectedIndex].Bitmap);
         }
+
+        
+
         #region Old
         ///// //////////////////////////// painting
 
@@ -438,14 +447,10 @@ namespace BestRedactor
 
         //private void pb2_MouseDown(object sender, MouseEventArgs e)
         //{
+        //}
 
-        }
 
-        private void timerAutoSave_Tick(object sender, EventArgs e)
-        {
-            List<Picture> openTabs = new(); //передать лист открытых вкладок
-            AutoSave.Backup(openTabs);
-        }
+
         // здесь прикрутить к меню open,save etc.
         //https://www.youtube.com/watch?v=dfeaEaO1mvw&list=PLS1QulWo1RIZrmdggzEKbhnfvCMHtT-sA&index=67
 
