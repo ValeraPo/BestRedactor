@@ -10,10 +10,8 @@ using BestRedactor.Interface;
 
 namespace BestRedactor.Logics
 {
-    class Filters
+    class Intensity
     {
-
-
         //якрость
         public static void Brightness(IPicture image, int poz, int lenght)
         {
