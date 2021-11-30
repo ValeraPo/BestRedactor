@@ -439,7 +439,15 @@ namespace BestRedactor
         //private void pb2_MouseDown(object sender, MouseEventArgs e)
         //{
 
-        //}
+        }
+
+        private void timerAutoSave_Tick(object sender, EventArgs e)
+        {
+            List<Picture> openTabs = new(); //передать лист открытых вкладок
+            AutoSave.Backup(openTabs);
+        }
+        // здесь прикрутить к меню open,save etc.
+        //https://www.youtube.com/watch?v=dfeaEaO1mvw&list=PLS1QulWo1RIZrmdggzEKbhnfvCMHtT-sA&index=67
 
         //private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         //{

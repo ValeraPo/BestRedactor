@@ -89,6 +89,8 @@ namespace BestRedactor
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.timerAutoSave = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.tabControlPage.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -606,6 +608,19 @@ namespace BestRedactor
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(191, 17);
             this.toolStripStatusLabel2.Text = "здесь будет изменение масштаба";
             // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Location = new System.Drawing.Point(782, 281);
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 80);
+            this.vScrollBar1.TabIndex = 4;
+            // 
+            // timerAutoSave
+            // 
+            this.timerAutoSave.Enabled = true;
+            this.timerAutoSave.Interval = 300;
+            this.timerAutoSave.Tick += new System.EventHandler(this.timerAutoSave_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -694,6 +709,12 @@ namespace BestRedactor
         private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItColors;
         private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItSharpness;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonCursor;
+        private System.Windows.Forms.ToolStripButton toolStripButtonFill;
+        private System.Windows.Forms.ToolStripButton toolStripButtonPipette;
+        private System.Windows.Forms.ToolStripButton toolStripButtonFraming;
+        private System.Windows.Forms.Timer timerAutoSave;
     }
 }
 
