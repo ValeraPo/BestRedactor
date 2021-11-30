@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -102,101 +103,82 @@ namespace BestRedactor.Logics
             }
         }
         // Повысить резкость/размыть 
-        public static uint[,] Filtration(IPicture image)
+        public static void Sharpness(IPicture image)
         {
-            PixelPoint rgb = new PixelPoint();
-            Color c;
-            double[,] matrix = new double[,] {{-1, -1, -1}, // sharpness
-                                                 {-1,  9, -1},
-                                                 {-1, -1, -1}};
-            for (int y = 1; y < image.Bitmap.Height-1; y++)
-                for (int x = 1; x < image.Bitmap.Width-1; x++)
-                {
-                    c = image.Bitmap.GetPixel(x, y);
-                    rgb.R = 0;
-                    rgb.G = 0;
-                    rgb.B = 0;
-                    for (int k = 0; k < 3; k++)
-                        for (int m = 0; m < 3; m++)
-                        {
-                            ColorOfCell = calculationOfColor(tmppixel[i - 1 + k, j - 1 + m], matrix[k, m]);
-                            ColorOfPixel.R += ColorOfCell.R;
-                            ColorOfPixel.G += ColorOfCell.G;
-                            ColorOfPixel.B += ColorOfCell.B;
-                        }
+            Bitmap sharpenImage = (Bitmap)image.Bitmap.Clone();
 
-                    image.Bitmap.SetPixel(x, y, Color.FromArgb(c.R, c.G, rgb.R));
-                }
-            int H = pixel.GetLength(0);
-            int W = pixel.GetLength(1);
-            int tmpH = H + 2, tmpW = W + 2;
-            uint[,] tmppixel = new uint[tmpH, tmpW];
-            uint[,] newpixel = new uint[H, W];
-            //заполнение временного расширенного изображения
-            //углы
-            tmppixel[0, 0] = pixel[0, 0];
-            tmppixel[0, tmpW - 1] = pixel[0, W - 1];
-            tmppixel[tmpH - 1, 0] = pixel[H - 1, 0];
-            tmppixel[tmpH - 1, tmpW - 1] = pixel[H - 1, W - 1];
-            //крайние левая и правая стороны
-            for (int i = 1; i < tmpH - 1; i++)
+            int width = image.Bitmap.Width;
+            int height = image.Bitmap.Height;
+
+            // Create sharpening filter.
+            double[,] filter = new double[,] { { -1, -1, -1, },
+                                              { -1, 9, -1 },
+                                              {-1, -1, -1, } };
+            
+            double factor = 1.0;
+            double bias = 0.0;
+
+            Color[,] result = new Color[image.Bitmap.Width, image.Bitmap.Height];
+
+            // Lock image bits for read/write.
+            BitmapData pbits = sharpenImage.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            // Declare an array to hold the bytes of the bitmap.
+            int bytes = pbits.Stride * height;
+            byte[] rgbValues = new byte[bytes];
+
+            // Copy the RGB values into the array.
+            System.Runtime.InteropServices.Marshal.Copy(pbits.Scan0, rgbValues, 0, bytes);
+
+            int rgb;
+            // Fill the color array with the new sharpened color values.
+            for (int x = 0; x < width; ++x)
             {
-                tmppixel[i, 0] = pixel[i - 1, 0];
-                tmppixel[i, tmpW - 1] = pixel[i - 1, W - 1];
-            }
-            //крайние верхняя и нижняя стороны
-            for (int j = 1; j < tmpW - 1; j++)
-            {
-                tmppixel[0, j] = pixel[0, j - 1];
-                tmppixel[tmpH - 1, j] = pixel[H - 1, j - 1];
-            }
-            //центр
-            for (int i = 0; i < H; i++)
-                for (int j = 0; j < W; j++)
-                    tmppixel[i + 1, j + 1] = pixel[i, j];
-            //применение ядра свертки
-            PixelPoint ColorOfPixel = new PixelPoint();
-            PixelPoint ColorOfCell = new PixelPoint();
-            for (int i = 1; i < tmpH + 1; i++)
-                for (int j = 1; j < tmpW + 1; j++)
+                for (int y = 0; y < height; ++y)
                 {
-                    ColorOfPixel.R = 0;
-                    ColorOfPixel.G = 0;
-                    ColorOfPixel.B = 0;
-                    for (int k = 0; k < 3; k++)
-                        for (int m = 0; m < 3; m++)
+                    double red = 0.0, green = 0.0, blue = 0.0;
+
+                    for (int filterX = 0; filterX < 3; filterX++)
+                    {
+                        for (int filterY = 0; filterY < 3; filterY++)
                         {
-                            ColorOfCell = calculationOfColor(tmppixel[i - 1 + k, j - 1 + m], matrix[k, m]);
-                            ColorOfPixel.R += ColorOfCell.R;
-                            ColorOfPixel.G += ColorOfCell.G;
-                            ColorOfPixel.B += ColorOfCell.B;
+                            int imageX = (x - 3 / 2 + filterX + width) % width;
+                            int imageY = (y - 3 / 2 + filterY + height) % height;
+
+                            rgb = imageY * pbits.Stride + 3 * imageX;
+
+                            red += rgbValues[rgb + 2] * filter[filterX, filterY];
+                            green += rgbValues[rgb + 1] * filter[filterX, filterY];
+                            blue += rgbValues[rgb + 0] * filter[filterX, filterY];
                         }
+                        int r = Math.Min(Math.Max((int)(factor * red + bias), 0), 255);
+                        int g = Math.Min(Math.Max((int)(factor * green + bias), 0), 255);
+                        int b = Math.Min(Math.Max((int)(factor * blue + bias), 0), 255);
 
-
-                    newpixel[i - 1, j - 1] = build(ColorOfPixel);
+                        result[x, y] = Color.FromArgb(r, g, b);
+                    }
                 }
+            }
 
-            return newpixel;
+            // Update the image with the sharpened pixels.
+            for (int x = 0; x < width; ++x)
+            {
+                for (int y = 0; y < height; ++y)
+                {
+                    rgb = y * pbits.Stride + 3 * x;
+
+                    rgbValues[rgb + 2] = result[x, y].R;
+                    rgbValues[rgb + 1] = result[x, y].G;
+                    rgbValues[rgb + 0] = result[x, y].B;
+                }
+            }
+
+            // Copy the RGB values back to the bitmap.
+            System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, pbits.Scan0, bytes);
+            // Release image bits.
+            sharpenImage.UnlockBits(pbits);
+            image.Bitmap = sharpenImage;
         }
-
-        //вычисление нового цвета
-        public static PixelPoint calculationOfColor(UInt32 pixel, double coefficient)
-        {
-            PixelPoint Color = new PixelPoint();
-            Color.R = (int)(coefficient * ((pixel & 0x00FF0000) >> 16));
-            Color.G = (int)(coefficient * ((pixel & 0x0000FF00) >> 8));
-            Color.B = (int)(coefficient * (pixel & 0x000000FF));
-            return Color;
-        }
-
-        //сборка каналов
-        public static UInt32 build(PixelPoint ColorOfPixel)
-        {
-            UInt32 Color;
-            Color = 0xFF000000 | ((UInt32)ColorOfPixel.R << 16) | ((UInt32)ColorOfPixel.G << 8) | ((UInt32)ColorOfPixel.B);
-            return Color;
-        }
-
 
         
     }

@@ -61,18 +61,5 @@ namespace BestRedactor.Logics
                 }
             
         }
-        // Повысить резкость
-        public static uint[,] UpSharpness(IPicture image)
-        {
-            uint[,] pixel = FromBitmapToPixel(image);
-            double[,] sharpness = new double[,] {{-1, -1, -1},
-                                                 {-1,  9, -1},
-                                                 {-1, -1, -1}};
-            return Precision.Filtration(pixel, sharpness);
-        }
-        
-        
-        
-
     }
 }
