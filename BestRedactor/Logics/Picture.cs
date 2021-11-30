@@ -18,7 +18,7 @@ namespace BestRedactor.Logics
             Bitmap = bitmap;
             Directory = "";
             FileName = "NoName";
-            ImageFormat = default;
+            ImageFormat = default(ImageFormat);
         }
 
         public Bitmap      Bitmap {get; set;}

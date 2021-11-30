@@ -28,19 +28,20 @@ namespace BestRedactor
             gra = Graphics.FromImage(pictures[tabControlPage.SelectedIndex].Bitmap);
             gra.Clear(Color.Transparent);
             pictureBox.Image = pictures[tabControlPage.SelectedIndex].Bitmap;
+            tsBtn_color1.BackColor = settings.LastUseColor;
         }
         Bitmap bm;
-        Settings settings = new();
+        static Settings settings = new();
         Graphics gra;
         bool isMouseDown = false;
         Point px, py;
-        float thickness = 1f;
+        static float thickness = 1f;
 
-        Pen pen = new Pen(Color.Black, 1);
+        Pen pen = new Pen(settings.LastUseColor, settings.LastUseSize);
         Pen erase = new Pen(Color.White, 10);
         List<Picture> pictures = new();
 
-        enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, };
+        enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, Brush };
         Tools currentTool = 0;
         int x, y, sX, sY, cX, cY;
         ColorDialog cd = new ColorDialog();
@@ -58,7 +59,7 @@ namespace BestRedactor
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            pictureBox = GetPictureBox();
+            
             if (isMouseDown)
             {
                 if (currentTool == Tools.Pencil)
@@ -75,7 +76,7 @@ namespace BestRedactor
                 }
 
             }
-            pictureBox.Refresh(); //move out from collection 
+            tabControlPage.SelectedTab.Refresh(); //move out from collection 
             x = e.X;
             y = e.Y;
             sX = e.X - cX;
@@ -122,13 +123,17 @@ namespace BestRedactor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                     bm = new Bitmap(ofd.FileName);
+                    bm = new Bitmap(ofd.FileName);
+                    //ddddd
+                    //pictureBox.Width = bm.Width;
+                    //pictureBox.Height = bm.Height;
                     pictureBox.Image = bm;         //from collection
                 }
                 catch
@@ -211,23 +216,25 @@ namespace BestRedactor
 
         private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e)
         {
-            FiltersForm ff = new FiltersForm();
+            FiltersForm ff = new FiltersForm(pictures[tabControlPage.SelectedIndex], this);
             ff.Show();
-            ff.pictureBox.Image = this.pictureBox.Image;
         }
 
         private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
         {
-            FiltersForm ff = new FiltersForm();
-            ff.Show();
-            ff.pictureBox.Image = this.pictureBox.Image;
+            FiltersForm ff = new FiltersForm(pictures[tabControlPage.SelectedIndex], this);
+            ff.Show();            
         }
 
         private void drDBtnTSMenuItBright_Click(object sender, EventArgs e)
         {
-            FiltersForm ff = new FiltersForm();
+            FiltersForm ff = new FiltersForm(pictures[tabControlPage.SelectedIndex], this);
             ff.Show();
-            ff.pictureBox.Image = this.pictureBox.Image;
+           
+        }
+        public void Refresh()
+        {
+            gra = Graphics.FromImage(pictures[tabControlPage.SelectedIndex].Bitmap);
         }
 
         private void drDBtnTSMenuItColors_Click(object sender, EventArgs e)
@@ -235,6 +242,31 @@ namespace BestRedactor
             ColorsForm cf = new ColorsForm();
             cf.Show();
             cf.pictureBox.Image = this.pictureBox.Image;
+        }
+        bool isClickedColor = false;
+
+        private void tsBtn_color1_DoubleClick(object sender, EventArgs e)
+        {
+            
+            cd.ShowDialog();
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                settings.LastUseColor = cd.Color;
+                pen = new Pen(settings.LastUseColor, settings.LastUseSize);
+            }
+        }
+
+        private void tsBtn_color1_Click(object sender, EventArgs e)
+        {
+           
+            //if (isClickedColor)
+
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                settings.LastUseColor = cd.Color;
+                pen = new Pen(settings.LastUseColor, settings.LastUseSize);
+            }
+            tsBtn_color1.BackColor = settings.LastUseColor;
         }
 
         private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)

@@ -88,6 +88,7 @@ namespace BestRedactor
             this.toolStripStatusCurrentSizeLb = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.menuStrip1.SuspendLayout();
             this.tabControlPage.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -234,8 +235,7 @@ namespace BestRedactor
             this.tabControlPage.SelectedIndex = 0;
             this.tabControlPage.Size = new System.Drawing.Size(676, 313);
             this.tabControlPage.TabIndex = 1;
-            
-                this.tabControlPage.SelectedIndexChanged += new System.EventHandler(this.tabControlPage_SelectedIndexChanged);
+            this.tabControlPage.SelectedIndexChanged += new System.EventHandler(this.tabControlPage_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -248,12 +248,13 @@ namespace BestRedactor
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // pictureBox0
+            // pictureBox
             // 
             this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox.Name = "pictureBox0";
+            this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(662, 279);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
@@ -292,8 +293,10 @@ namespace BestRedactor
             this.tsBtn_color1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtn_color1.Name = "tsBtn_color1";
             this.tsBtn_color1.Size = new System.Drawing.Size(20, 20);
-            this.tsBtn_color1.Text = "toolStripButton1";
+            this.tsBtn_color1.Text = "цвет 1";
             this.tsBtn_color1.ToolTipText = "цвет 1";
+            this.tsBtn_color1.Click += new System.EventHandler(this.tsBtn_color1_Click);
+            this.tsBtn_color1.DoubleClick += new System.EventHandler(this.tsBtn_color1_DoubleClick);
             // 
             // tsBtn_color2
             // 
@@ -619,6 +622,7 @@ namespace BestRedactor
             this.menuStrip1.PerformLayout();
             this.tabControlPage.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.toolStripTools.ResumeLayout(false);
             this.toolStripTools.PerformLayout();
@@ -689,6 +693,7 @@ namespace BestRedactor
         private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItBright;
         private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItColors;
         private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItSharpness;
+        private System.Windows.Forms.ColorDialog colorDialog1;
     }
 }
 
