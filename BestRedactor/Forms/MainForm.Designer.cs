@@ -62,12 +62,16 @@ namespace BestRedactor
             this.tsBtnMenuItemRect = new System.Windows.Forms.ToolStripMenuItem();
             this.tsDropDownFilters = new System.Windows.Forms.ToolStripDropDownButton();
             this.drDBtnTSMenuItDiscolor = new System.Windows.Forms.ToolStripMenuItem();
-            this.drDBtnTSMenuItIncreaseContrast = new System.Windows.Forms.ToolStripMenuItem();
+            this.drDBtnTSMenuItContrast = new System.Windows.Forms.ToolStripMenuItem();
             this.drDBtnTSMenuItBlur = new System.Windows.Forms.ToolStripMenuItem();
             this.drDBtnTSMenuItDeformations = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.drDBtnTSMenuItRotates = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.drDBtnTSMenuItMirror = new System.Windows.Forms.ToolStripMenuItem();
             this.MirrorVertically = new System.Windows.Forms.ToolStripMenuItem();
             this.поГоризонталиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,10 +85,9 @@ namespace BestRedactor
             this.toolStripStatusCurrentSizeLb = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.drDBtnTSMenuItBright = new System.Windows.Forms.ToolStripMenuItem();
+            this.drDBtnTSMenuItSharpness = new System.Windows.Forms.ToolStripMenuItem();
+            this.drDBtnTSMenuItColors = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControlPage.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -275,7 +278,7 @@ namespace BestRedactor
             this.toolStripTools.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.toolStripTools.Location = new System.Drawing.Point(5, 24);
             this.toolStripTools.Name = "toolStripTools";
-            this.toolStripTools.Size = new System.Drawing.Size(32, 276);
+            this.toolStripTools.Size = new System.Drawing.Size(32, 295);
             this.toolStripTools.TabIndex = 2;
             this.toolStripTools.Text = "tools";
             // 
@@ -370,7 +373,10 @@ namespace BestRedactor
             this.tsDropDownFilters.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsDropDownFilters.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.drDBtnTSMenuItDiscolor,
-            this.drDBtnTSMenuItIncreaseContrast,
+            this.drDBtnTSMenuItColors,
+            this.drDBtnTSMenuItSharpness,
+            this.drDBtnTSMenuItBright,
+            this.drDBtnTSMenuItContrast,
             this.drDBtnTSMenuItBlur,
             this.drDBtnTSMenuItDeformations,
             this.drDBtnTSMenuItRotates,
@@ -387,17 +393,19 @@ namespace BestRedactor
             this.drDBtnTSMenuItDiscolor.Size = new System.Drawing.Size(214, 22);
             this.drDBtnTSMenuItDiscolor.Text = "обесцветить";
             // 
-            // drDBtnTSMenuItIncreaseContrast
+            // drDBtnTSMenuItContrast
             // 
-            this.drDBtnTSMenuItIncreaseContrast.Name = "drDBtnTSMenuItIncreaseContrast";
-            this.drDBtnTSMenuItIncreaseContrast.Size = new System.Drawing.Size(214, 22);
-            this.drDBtnTSMenuItIncreaseContrast.Text = "повысить контраст";
+            this.drDBtnTSMenuItContrast.Name = "drDBtnTSMenuItContrast";
+            this.drDBtnTSMenuItContrast.Size = new System.Drawing.Size(214, 22);
+            this.drDBtnTSMenuItContrast.Text = "контраст";
+            this.drDBtnTSMenuItContrast.Click += new System.EventHandler(this.drDBtnTSMenuItIncreaseContrast_Click);
             // 
             // drDBtnTSMenuItBlur
             // 
             this.drDBtnTSMenuItBlur.Name = "drDBtnTSMenuItBlur";
             this.drDBtnTSMenuItBlur.Size = new System.Drawing.Size(214, 22);
             this.drDBtnTSMenuItBlur.Text = "размытие";
+            this.drDBtnTSMenuItBlur.Click += new System.EventHandler(this.drDBtnTSMenuItBlur_Click);
             // 
             // drDBtnTSMenuItDeformations
             // 
@@ -430,6 +438,32 @@ namespace BestRedactor
             this.drDBtnTSMenuItRotates.Name = "drDBtnTSMenuItRotates";
             this.drDBtnTSMenuItRotates.Size = new System.Drawing.Size(214, 22);
             this.drDBtnTSMenuItRotates.Text = "поворот";
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItem5.Text = "90";
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItem6.Text = "-90";
+            this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItem7.Text = "180";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBox1.Text = "(произвольный угол)";
+            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
             // 
             // drDBtnTSMenuItMirror
             // 
@@ -546,31 +580,25 @@ namespace BestRedactor
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(191, 17);
             this.toolStripStatusLabel2.Text = "здесь будет изменение масштаба";
             // 
-            // toolStripMenuItem5
+            // drDBtnTSMenuItBright
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem5.Text = "90";
+            this.drDBtnTSMenuItBright.Name = "drDBtnTSMenuItBright";
+            this.drDBtnTSMenuItBright.Size = new System.Drawing.Size(214, 22);
+            this.drDBtnTSMenuItBright.Text = "яркость";
+            this.drDBtnTSMenuItBright.Click += new System.EventHandler(this.drDBtnTSMenuItBright_Click);
             // 
-            // toolStripMenuItem6
+            // drDBtnTSMenuItSharpness
             // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem6.Text = "-90";
-            this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
+            this.drDBtnTSMenuItSharpness.Name = "drDBtnTSMenuItSharpness";
+            this.drDBtnTSMenuItSharpness.Size = new System.Drawing.Size(214, 22);
+            this.drDBtnTSMenuItSharpness.Text = "повысить резкость";
             // 
-            // toolStripMenuItem7
+            // drDBtnTSMenuItColors
             // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem7.Text = "180";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBox1.Text = "(произвольный угол)";
-            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            this.drDBtnTSMenuItColors.Name = "drDBtnTSMenuItColors";
+            this.drDBtnTSMenuItColors.Size = new System.Drawing.Size(214, 22);
+            this.drDBtnTSMenuItColors.Text = "цвета";
+            this.drDBtnTSMenuItColors.Click += new System.EventHandler(this.drDBtnTSMenuItColors_Click);
             // 
             // MainForm
             // 
@@ -630,7 +658,7 @@ namespace BestRedactor
         private System.Windows.Forms.ToolStripMenuItem tsBtnMenuItemRect;
         private System.Windows.Forms.ToolStripDropDownButton tsDropDownFilters;
         private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItDiscolor;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItIncreaseContrast;
+        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItContrast;
         private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItBlur;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusCurrentSizeLb;
@@ -655,6 +683,9 @@ namespace BestRedactor
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItBright;
+        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItColors;
+        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItSharpness;
     }
 }
 

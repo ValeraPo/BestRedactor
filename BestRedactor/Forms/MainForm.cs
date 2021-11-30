@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BestRedactor.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -198,6 +199,30 @@ namespace BestRedactor
         private void toolStripTextBox1_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e)
+        {
+            FiltersForm ff = new FiltersForm();
+            ff.Show();
+        }
+
+        private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
+        {
+            FiltersForm ff = new FiltersForm();
+            ff.Show();
+        }
+
+        private void drDBtnTSMenuItBright_Click(object sender, EventArgs e)
+        {
+            FiltersForm ff = new FiltersForm();
+            ff.Show();
+        }
+
+        private void drDBtnTSMenuItColors_Click(object sender, EventArgs e)
+        {
+            ColorsForm cf = new ColorsForm();
+            cf.Show();
         }
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
