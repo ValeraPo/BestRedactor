@@ -50,7 +50,7 @@ namespace BestRedactor
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlPage = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.pictureBox0 = new System.Windows.Forms.PictureBox();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.toolStripTools = new System.Windows.Forms.ToolStrip();
             this.tsBtn_color1 = new System.Windows.Forms.ToolStripButton();
             this.tsBtn_color2 = new System.Windows.Forms.ToolStripButton();
@@ -62,6 +62,9 @@ namespace BestRedactor
             this.tsBtnMenuItemRect = new System.Windows.Forms.ToolStripMenuItem();
             this.tsDropDownFilters = new System.Windows.Forms.ToolStripDropDownButton();
             this.drDBtnTSMenuItDiscolor = new System.Windows.Forms.ToolStripMenuItem();
+            this.drDBtnTSMenuItColors = new System.Windows.Forms.ToolStripMenuItem();
+            this.drDBtnTSMenuItSharpness = new System.Windows.Forms.ToolStripMenuItem();
+            this.drDBtnTSMenuItBright = new System.Windows.Forms.ToolStripMenuItem();
             this.drDBtnTSMenuItContrast = new System.Windows.Forms.ToolStripMenuItem();
             this.drDBtnTSMenuItBlur = new System.Windows.Forms.ToolStripMenuItem();
             this.drDBtnTSMenuItDeformations = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,13 +88,10 @@ namespace BestRedactor
             this.toolStripStatusCurrentSizeLb = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.drDBtnTSMenuItBright = new System.Windows.Forms.ToolStripMenuItem();
-            this.drDBtnTSMenuItSharpness = new System.Windows.Forms.ToolStripMenuItem();
-            this.drDBtnTSMenuItColors = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControlPage.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.toolStripTools.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -234,10 +234,12 @@ namespace BestRedactor
             this.tabControlPage.SelectedIndex = 0;
             this.tabControlPage.Size = new System.Drawing.Size(676, 313);
             this.tabControlPage.TabIndex = 1;
+            
+                this.tabControlPage.SelectedIndexChanged += new System.EventHandler(this.tabControlPage_SelectedIndexChanged);
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.pictureBox0);
+            this.tabPage1.Controls.Add(this.pictureBox);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -248,16 +250,16 @@ namespace BestRedactor
             // 
             // pictureBox0
             // 
-            this.pictureBox0.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox0.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox0.Name = "pictureBox0";
-            this.pictureBox0.Size = new System.Drawing.Size(662, 279);
-            this.pictureBox0.TabIndex = 0;
-            this.pictureBox0.TabStop = false;
-            this.pictureBox0.Click += new System.EventHandler(this.pictureBox_Click);
-            this.pictureBox0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
-            this.pictureBox0.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
-            this.pictureBox0.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox.Name = "pictureBox0";
+            this.pictureBox.Size = new System.Drawing.Size(662, 279);
+            this.pictureBox.TabIndex = 0;
+            this.pictureBox.TabStop = false;
+            this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
+            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
             // toolStripTools
             // 
@@ -392,6 +394,27 @@ namespace BestRedactor
             this.drDBtnTSMenuItDiscolor.Name = "drDBtnTSMenuItDiscolor";
             this.drDBtnTSMenuItDiscolor.Size = new System.Drawing.Size(214, 22);
             this.drDBtnTSMenuItDiscolor.Text = "обесцветить";
+            // 
+            // drDBtnTSMenuItColors
+            // 
+            this.drDBtnTSMenuItColors.Name = "drDBtnTSMenuItColors";
+            this.drDBtnTSMenuItColors.Size = new System.Drawing.Size(214, 22);
+            this.drDBtnTSMenuItColors.Text = "цвета";
+            this.drDBtnTSMenuItColors.Click += new System.EventHandler(this.drDBtnTSMenuItColors_Click);
+            // 
+            // drDBtnTSMenuItSharpness
+            // 
+            this.drDBtnTSMenuItSharpness.Name = "drDBtnTSMenuItSharpness";
+            this.drDBtnTSMenuItSharpness.Size = new System.Drawing.Size(214, 22);
+            this.drDBtnTSMenuItSharpness.Text = "повысить резкость";
+            this.drDBtnTSMenuItSharpness.Click += new System.EventHandler(this.drDBtnTSMenuItSharpness_Click);
+            // 
+            // drDBtnTSMenuItBright
+            // 
+            this.drDBtnTSMenuItBright.Name = "drDBtnTSMenuItBright";
+            this.drDBtnTSMenuItBright.Size = new System.Drawing.Size(214, 22);
+            this.drDBtnTSMenuItBright.Text = "яркость";
+            this.drDBtnTSMenuItBright.Click += new System.EventHandler(this.drDBtnTSMenuItBright_Click);
             // 
             // drDBtnTSMenuItContrast
             // 
@@ -580,26 +603,6 @@ namespace BestRedactor
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(191, 17);
             this.toolStripStatusLabel2.Text = "здесь будет изменение масштаба";
             // 
-            // drDBtnTSMenuItBright
-            // 
-            this.drDBtnTSMenuItBright.Name = "drDBtnTSMenuItBright";
-            this.drDBtnTSMenuItBright.Size = new System.Drawing.Size(214, 22);
-            this.drDBtnTSMenuItBright.Text = "яркость";
-            this.drDBtnTSMenuItBright.Click += new System.EventHandler(this.drDBtnTSMenuItBright_Click);
-            // 
-            // drDBtnTSMenuItSharpness
-            // 
-            this.drDBtnTSMenuItSharpness.Name = "drDBtnTSMenuItSharpness";
-            this.drDBtnTSMenuItSharpness.Size = new System.Drawing.Size(214, 22);
-            this.drDBtnTSMenuItSharpness.Text = "повысить резкость";
-            // 
-            // drDBtnTSMenuItColors
-            // 
-            this.drDBtnTSMenuItColors.Name = "drDBtnTSMenuItColors";
-            this.drDBtnTSMenuItColors.Size = new System.Drawing.Size(214, 22);
-            this.drDBtnTSMenuItColors.Text = "цвета";
-            this.drDBtnTSMenuItColors.Click += new System.EventHandler(this.drDBtnTSMenuItColors_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -616,7 +619,7 @@ namespace BestRedactor
             this.menuStrip1.PerformLayout();
             this.tabControlPage.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.toolStripTools.ResumeLayout(false);
             this.toolStripTools.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -669,7 +672,7 @@ namespace BestRedactor
         private System.Windows.Forms.ToolStripButton tsBtnPipette;
         private System.Windows.Forms.ToolStripButton tsButtonFraming;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.PictureBox pictureBox0;
+        public System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItDeformations;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;

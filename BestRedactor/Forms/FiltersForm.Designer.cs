@@ -62,6 +62,7 @@ namespace BestRedactor.Forms
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Отмена";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOk
             // 
@@ -71,6 +72,7 @@ namespace BestRedactor.Forms
             this.btnOk.TabIndex = 2;
             this.btnOk.Text = "Применить";
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // label
             // 
@@ -107,6 +109,7 @@ namespace BestRedactor.Forms
             this.pictureBox.Location = new System.Drawing.Point(0, 0);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(394, 267);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
@@ -135,7 +138,7 @@ namespace BestRedactor.Forms
         private System.Windows.Forms.Label label;
         private System.Windows.Forms.TrackBar trackBar;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.PictureBox pictureBox;
+        public System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
     }

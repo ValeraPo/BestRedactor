@@ -1,4 +1,6 @@
-﻿using BestRedactor.Forms;
+﻿using BestRedactor.Data;
+using BestRedactor.Forms;
+using BestRedactor.Logics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,18 +22,23 @@ namespace BestRedactor
 
             this.Width = 900;
             this.Height = 700;
-            bm = new Bitmap(pictureBox0.Width, pictureBox0.Height);
-            gra = Graphics.FromImage(bm);
+           
+            pictures.Add(new Picture(new Bitmap(pictureBox.Width, pictureBox.Height)));
+            settings.OpenedTabs = 1;
+            gra = Graphics.FromImage(pictures[tabControlPage.SelectedIndex].Bitmap);
             gra.Clear(Color.Transparent);
-            pictureBox0.Image = bm;
+            pictureBox.Image = pictures[tabControlPage.SelectedIndex].Bitmap;
         }
         Bitmap bm;
+        Settings settings = new();
         Graphics gra;
         bool isMouseDown = false;
         Point px, py;
-        int thickness = 1;
+        float thickness = 1f;
+
         Pen pen = new Pen(Color.Black, 1);
         Pen erase = new Pen(Color.White, 10);
+        List<Picture> pictures = new();
 
         enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, };
         Tools currentTool = 0;
@@ -51,6 +58,7 @@ namespace BestRedactor
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+            pictureBox = GetPictureBox();
             if (isMouseDown)
             {
                 if (currentTool == Tools.Pencil)
@@ -67,7 +75,7 @@ namespace BestRedactor
                 }
 
             }
-            pictureBox0.Refresh();  //move out from collection 
+            pictureBox.Refresh(); //move out from collection 
             x = e.X;
             y = e.Y;
             sX = e.X - cX;
@@ -97,17 +105,17 @@ namespace BestRedactor
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             gra.Clear(Color.White);
-            pictureBox0.Image = bm;             //from collections
+            pictureBox.Image = pictures[tabControlPage.SelectedIndex].Bitmap;             //from collections
             currentTool = Tools.Cursor;
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Image(*.jpg)|*.jpg|(*.*|*.*";
+            sfd.Filter = "Image(*.jpg)|*.jpg|(*.*|*.*)";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                Bitmap btm = bm.Clone(new Rectangle(0, 0, pictureBox0.Width, pictureBox0.Height), bm.PixelFormat);//from collections
+                Bitmap btm = bm.Clone(new Rectangle(0, 0, pictureBox.Width, pictureBox.Height), bm.PixelFormat);//from collections
                 btm.Save(sfd.FileName, ImageFormat.Jpeg);
             }
         }
@@ -120,8 +128,8 @@ namespace BestRedactor
             {
                 try
                 {
-                    bm = new Bitmap(ofd.FileName);
-                    pictureBox0.Image = bm;         //from collection
+                     bm = new Bitmap(ofd.FileName);
+                    pictureBox.Image = bm;         //from collection
                 }
                 catch
                 {
@@ -169,7 +177,7 @@ namespace BestRedactor
         {
             if (currentTool == Tools.Fill)
             {
-                Point point = SetPoint(pictureBox0, e.Location);        // collection
+                Point point = SetPoint(pictureBox, e.Location);        // collection
                 Fill(bm, point.X, point.Y, newColor);
             }
         }
@@ -178,7 +186,7 @@ namespace BestRedactor
         {
             if (currentTool == Tools.Pipette)
             {
-                Point pt = SetPoint(pictureBox0, pictureBox0.Location);   // косяк
+                Point pt = SetPoint(pictureBox, pictureBox.Location);   // косяк
                 tsBtnPipette.BackColor = ((Bitmap)tsBtnPipette.Image).GetPixel(pt.X, pt.Y);
                 newColor = tsBtnPipette.BackColor;
                 pen.Color = tsBtnPipette.BackColor;
@@ -205,24 +213,33 @@ namespace BestRedactor
         {
             FiltersForm ff = new FiltersForm();
             ff.Show();
+            ff.pictureBox.Image = this.pictureBox.Image;
         }
 
         private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
         {
             FiltersForm ff = new FiltersForm();
             ff.Show();
+            ff.pictureBox.Image = this.pictureBox.Image;
         }
 
         private void drDBtnTSMenuItBright_Click(object sender, EventArgs e)
         {
             FiltersForm ff = new FiltersForm();
             ff.Show();
+            ff.pictureBox.Image = this.pictureBox.Image;
         }
 
         private void drDBtnTSMenuItColors_Click(object sender, EventArgs e)
         {
             ColorsForm cf = new ColorsForm();
             cf.Show();
+            cf.pictureBox.Image = this.pictureBox.Image;
+        }
+
+        private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -268,12 +285,12 @@ namespace BestRedactor
 
             return pb;
         }
-        List<Bitmap> bitmaps = new List<Bitmap>();
+        //List<Bitmap> bitmaps = new List<Bitmap>();
         
-        void AddBitmaps(int height, int width)
-        {
-            bitmaps.Add(new Bitmap(height, width));
-        }
+        //void AddBitmaps(int height, int width)
+        //{
+        //    bitmaps.Add(new Bitmap(height, width));
+        //}
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -287,22 +304,31 @@ namespace BestRedactor
             tp.Name = "tabPage1";
             tp.Padding = new System.Windows.Forms.Padding(3);
             tp.Size = new System.Drawing.Size(744, 373);
-            tp.TabIndex = 0;
+            tp.TabIndex = (int)settings.OpenedTabs;
             tp.Text = "tabPage1";
             tp.UseVisualStyleBackColor = true;
             //
             pb.Location = new System.Drawing.Point(42, 38);
             pb.Name = "pb1";
             pb.Size = new System.Drawing.Size(621, 232);
-            pb.TabIndex = 0;
+            pb.TabIndex = (int)settings.OpenedTabs;
             pb.TabStop = false;
-            //pb.MouseDown += new System.Windows.Forms.MouseEventHandler(pb_MouseDown);
-            //pb.MouseMove += new System.Windows.Forms.MouseEventHandler(pb_MouseMove);
-            //pb.MouseUp += new System.Windows.Forms.MouseEventHandler(pb_MouseUp);
+            pictures.Add(new Picture(new Bitmap(pb.Width, pb.Height)));
+            pb.Image = pictures[(int)settings.OpenedTabs].Bitmap;
+            pb.MouseDown += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseDown);
+            pb.MouseMove += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseMove);
+            pb.MouseUp += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseUp);
 
             tp.Controls.Add(pb);                    //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
+            settings.OpenedTabs++;
+            
             //SetSize();
+        }
+        
+        private void tabControlPage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gra = Graphics.FromImage(pictures[tabControlPage.SelectedIndex].Bitmap);
         }
         #region Old
         ///// //////////////////////////// painting
@@ -340,9 +366,9 @@ namespace BestRedactor
         //}
         ////.........................
         //ArrayPoints arrayPoints = new ArrayPoints(2);
-        
+
         //Bitmap map = new Bitmap(100, 100);
-        
+
         //Graphics graphics;
         //Pen pen = new Pen(Color.Black, 3f);
         //void SetSize()

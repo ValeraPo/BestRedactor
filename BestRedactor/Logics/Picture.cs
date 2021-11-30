@@ -13,6 +13,13 @@ namespace BestRedactor.Logics
             FileName    = fileName;
             ImageFormat = imageFormat;
         }
+        public Picture(Bitmap bitmap)
+        {
+            Bitmap = bitmap;
+            Directory = "";
+            FileName = "NoName";
+            ImageFormat = default;
+        }
 
         public Bitmap      Bitmap {get; set;}
         public string      Directory {get; set;}

@@ -15,6 +15,19 @@ namespace BestRedactor.Forms
         public FiltersForm()
         {
             InitializeComponent();
+            
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            // код для обработки
+            //MainForm = this.pictureBox.Image;
+            
         }
     }
 }
