@@ -12,7 +12,7 @@ namespace BestRedactor.Logics
     class Precision
     {
         //Размыть 
-        public static void Blur(IPicture image, int poz, int lenght)
+        public static IPicture Blur(IPicture image, int poz, int lenght)
         {
             int kSize = (10 / lenght) *poz; //кол-во процентов
             if (kSize % 2 == 0) kSize++;
@@ -101,9 +101,10 @@ namespace BestRedactor.Logics
                     image.Bitmap.SetPixel(i, j, Color.FromArgb((int)iAvg[0], (int)iAvg[1], (int)iAvg[2], (int)iAvg[3]));
                 }
             }
+            return image;
         }
         // Повысить резкость/размыть 
-        public static void Sharpness(IPicture image)
+        public static IPicture Sharpness(IPicture image)
         {
             Bitmap sharpenImage = (Bitmap)image.Bitmap.Clone();
 
@@ -178,8 +179,9 @@ namespace BestRedactor.Logics
             // Release image bits.
             sharpenImage.UnlockBits(pbits);
             image.Bitmap = sharpenImage;
+            return image;
         }
 
-        
+
     }
 }

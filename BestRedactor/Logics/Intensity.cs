@@ -13,7 +13,7 @@ namespace BestRedactor.Logics
     class Intensity
     {
         //якрость
-        public static void Brightness(IPicture image, int poz, int lenght)
+        public static IPicture Brightness(IPicture image, int poz, int lenght)
         {
             int N = (100 / lenght) * poz; //кол-во процентов
             PixelPoint rgb = new PixelPoint();
@@ -28,10 +28,11 @@ namespace BestRedactor.Logics
                     rgb.B = (c.G + N * 128 / 100);
                     image.Bitmap.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
                 }
+            return image;
         }
 
         //контрастность
-        public static void Contrast(IPicture image, int poz, int lenght)
+        public static IPicture Contrast(IPicture image, int poz, int lenght)
         {
             int N = (100 / lenght) * poz; //кол-во процентов
             PixelPoint rgb = new PixelPoint();
@@ -57,7 +58,7 @@ namespace BestRedactor.Logics
                     }
                     image.Bitmap.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
                 }
-            
+            return image;
         }
     }
 }
