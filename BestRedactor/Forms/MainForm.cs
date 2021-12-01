@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using BestRedactor.Interface;
 using BestRedactor.Logics;
 
 namespace BestRedactor.Forms
@@ -102,37 +103,105 @@ namespace BestRedactor.Forms
             currentTool = Tools.Cursor;
         }
 
+        
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Image(*.jpg)|*.jpg|(*.*|*.*)";
-            if (sfd.ShowDialog() == DialogResult.OK)
+            var sfd = new SaveFileDialog();
+            sfd.Filter = @"Jpeg(*.jpeg)|*.jpeg|Gif(*.gif)|*.gif|Icon(*.icon)|*.icon|Png(*.png)|*.png|Bmp(*.bmp)|*.bmp|Emf(*.emf)|*.emf|Exif(*.exif)|*.exif|Tiff(*.tiff)|*.tiff|Wmf(*.wmf)|*.wmf|Memorybmp(*.memorybmp)|*.memorybpmp";
+            sfd.FilterIndex = pictures[tabControlPage.SelectedIndex].ImageFormat.ToString() switch
             {
-                Bitmap btm = bm.Clone(new Rectangle(0, 0, pictureBox.Width, pictureBox.Height), bm.PixelFormat);//from collections
-                btm.Save(sfd.FileName, ImageFormat.Jpeg);
+                "jpeg"      => 1,
+                "gif"       => 2,
+                "icon"      => 3,
+                "png"       => 4,
+                "bmp"       => 5,
+                "emf"       => 6,
+                "exif"      => 7,
+                "tiff"      => 8,
+                "wmf"       => 9,
+                "memorybmp" => 10,
+                _           => throw new AggregateException("Не поддерживаемый тип данных")
+            };
+            sfd.RestoreDirectory = true;
+
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
+            {
+                pictures[tabControlPage.SelectedIndex].ImageFormat = sfd.FilterIndex switch
+                {
+                    1  => ImageFormat.Jpeg,
+                    2  => ImageFormat.Gif,
+                    3  => ImageFormat.Icon,
+                    4  => ImageFormat.Png,
+                    5  => ImageFormat.Bmp,
+                    6  => ImageFormat.Emf,
+                    7  => ImageFormat.Exif,
+                    8  => ImageFormat.Tiff,
+                    9  => ImageFormat.Wmf,
+                    10 => ImageFormat.MemoryBmp,
+                    _  => throw new AggregateException("Недоступный тип файла")
+                };
+                FileManagerL.SaveAs(pictures[tabControlPage.SelectedIndex], sfd.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, @"Невозможно сохранить текущий файл!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
-            if (ofd.ShowDialog() == DialogResult.OK)
+            var ofd = new OpenFileDialog();
+            ofd.Filter = @"Image Files(*.bmp;*.jpeg;*.gif;*.png;*.icon;*.emf;*.exif;*.tiff;*.wmf;*.memorybpmp)|*.bmp;*.jpeg;*.gif;*.png;*.icon;*.emf;*.exif;*.tiff;*.wmf;*.memorybpmp";
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+            try
             {
-                try
-                {
-                    bm = new Bitmap(ofd.FileName);
-                    //ddddd
-                    //pictureBox.Width = bm.Width;
-                    //pictureBox.Height = bm.Height;
-                    pictureBox.Image = bm;         //from collection
-                }
-                catch
-                {
-                    MessageBox.Show("Невозможно открыть выбранный файл!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                var openTabs = Settings.OpenedTabs;
+                pictures.Add((Picture)FileManagerL.Load(ofd.FileName));
+                AddNewTabPages(pictures[openTabs]);
+                tabControlPage.SelectedIndex = openTabs;
+                Refresh();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, @"Невозможно открыть выбранный файл!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        //сделать окно по размер картинки
+        private void AddNewTabPages(IPicture picture)
+        {
+            TabPage tp = new TabPage(picture.FileName);
+
+            PictureBox pb = new PictureBox();
+            //pb.Dock = DockStyle.Fill;               
+
+            //this.tabPage1.Controls.Add(this.pb);
+            tp.Location                = new System.Drawing.Point(4, 24);
+            tp.Name                    = $"tabPage{Settings.OpenedTabs}";
+            tp.Padding                 = new System.Windows.Forms.Padding(3);
+            tp.Size                    = new System.Drawing.Size(picture.Bitmap.Width, picture.Bitmap.Height);
+            tp.TabIndex                = Settings.OpenedTabs;
+            tp.Text                    = picture.FileName;
+            tp.UseVisualStyleBackColor = true;
+            //
+            pb.Location = new System.Drawing.Point(42, 38);
+            pb.Name     = $"pb{Settings.OpenedTabs}";
+            pb.Size     = new System.Drawing.Size(picture.Bitmap.Width, picture.Bitmap.Height);
+            pb.SizeMode = PictureBoxSizeMode.Zoom;
+            pb.TabIndex = Settings.OpenedTabs;
+            pb.TabStop  = false;
+            pb.Image     = picture.Bitmap;
+            pb.MouseDown += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseDown);
+            pb.MouseMove += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseMove);
+            pb.MouseUp   += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseUp);
+
+            tp.Controls.Add(pb); //создание новой вкладки с объектом PictureBox
+            tabControlPage.TabPages.Add(tp);
+            Settings.OpenedTabs += 1;
         }
 
         private void tsBtnFill_Click(object sender, EventArgs e)
@@ -224,6 +293,7 @@ namespace BestRedactor.Forms
         }
         public void Refresh()
         {
+            tabControlPage.SelectedTab.Controls[0].Refresh();
             gra = Graphics.FromImage(pictures[tabControlPage.SelectedIndex].Bitmap);
         }
 
@@ -331,30 +401,32 @@ namespace BestRedactor.Forms
             tp.Name = "tabPage1";
             tp.Padding = new System.Windows.Forms.Padding(3);
             tp.Size = new System.Drawing.Size(tabPage1.Width, tabPage1.Height);
-            tp.TabIndex = (int)Settings.OpenedTabs;
+            tp.TabIndex = Settings.OpenedTabs;
             tp.Text = "tabPage1";
             tp.UseVisualStyleBackColor = true;
             //
             pb.Location = new System.Drawing.Point(42, 38);
             pb.Name = "pb1";
             pb.Size = new System.Drawing.Size(tabPage1.Width, tabPage1.Height);
-            pb.TabIndex = (int)Settings.OpenedTabs;
+            pb.TabIndex = Settings.OpenedTabs;
             pb.TabStop = false;
             pictures.Add(new Picture(new Bitmap(pb.Width, pb.Height)));
-            pb.Image = pictures[(int)Settings.OpenedTabs].Bitmap;
+            pb.Image = pictures[Settings.OpenedTabs].Bitmap;
             pb.MouseDown += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseDown);
             pb.MouseMove += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseMove);
             pb.MouseUp += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseUp);
 
             tp.Controls.Add(pb);                    //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
-            Settings.OpenedTabs = Settings.OpenedTabs + 1;
+            // tabControlPage.SelectedTab = tp;
+            Settings.OpenedTabs += 1;
             
             //SetSize();
         }
         
         private void tabControlPage_SelectedIndexChanged(object sender, EventArgs e)
         {
+            tabControlPage.SelectedTab.Controls[0].Refresh();
             gra = Graphics.FromImage(pictures[tabControlPage.SelectedIndex].Bitmap);
         }
 

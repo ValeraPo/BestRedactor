@@ -22,18 +22,22 @@ namespace BestRedactor.Data
                 throw new ArgumentNullException(nameof(picture.ImageFormat), @"Для сохранения должен быть указан тип");
 
             picture.Directory.DirectoryCreature();
-            var i = 1;
-            var path = $"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}";
-            while (File.Exists(path))
-            {
-                picture.FileName = $"{picture.FileName}({i})";
-                i++;
-            }
-
-            // if (File.Exists(path))
-            //     File.Delete(path);
-            
             picture.Bitmap.Save($"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}", picture.ImageFormat);
+        }
+        public static void SaveAs(IPicture picture)
+        {
+            picture.FileName.PathNotNull();
+            picture.Directory.PathNotNull();
+            if (picture.Bitmap == null)
+                throw new ArgumentNullException(nameof(picture.Bitmap), @"Для сохранения должно быть содержимое");
+            if (picture.ImageFormat == null)
+                throw new ArgumentNullException(nameof(picture.ImageFormat), @"Для сохранения должен быть указан тип");
+
+            picture.Directory.DirectoryCreature();
+            var path = $"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}";
+            if (File.Exists(path))
+                File.Delete(path);
+            picture.Bitmap.Save(path, picture.ImageFormat);
         }
 
 

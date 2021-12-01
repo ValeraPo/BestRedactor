@@ -18,18 +18,18 @@ namespace BestRedactor.Logics
                 Save();
             }
         }
-        public static uint   LastUseSize
+        public static float   LastUseSize
         {
-            get => (uint)Properties.Settings.Default["LastUseSize"];
+            get => (float)Properties.Settings.Default["LastUseSize"];
             set 
             {
                 Properties.Settings.Default["LastUseSize"] = value;
                 Save();
             }
         }
-        public static uint   OpenedTabs
+        public static int   OpenedTabs
         {
-            get => (uint)Properties.Settings.Default["OpenedTabs"];
+            get => (int)Properties.Settings.Default["OpenedTabs"];
             set
             {
                 Properties.Settings.Default["OpenedTabs"] = value;

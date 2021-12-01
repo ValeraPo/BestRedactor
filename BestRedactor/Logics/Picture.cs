@@ -14,7 +14,7 @@ namespace BestRedactor.Logics
             ImageFormat = imageFormat;
         }
         public Picture(Bitmap bitmap):
-            this(bitmap, "","NoName", ImageFormat.Bmp){}
+            this(bitmap, @"%userprofile%\Pictures","NoName", ImageFormat.Bmp){}
 
         public Bitmap      Bitmap {get; set;}
         public string      Directory {get; set;}
