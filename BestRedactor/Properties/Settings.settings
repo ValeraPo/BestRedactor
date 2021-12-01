@@ -11,13 +11,13 @@
     <Setting Name="LastUseColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Red</Value>
     </Setting>
-    <Setting Name="LastUseSize" Type="System.UInt32" Scope="User">
+    <Setting Name="LastUseSize" Type="System.Single" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="PathBackup" Type="System.String" Scope="User">
       <Value Profile="(Default)">~Backup.json</Value>
     </Setting>
-    <Setting Name="OpenedTabs" Type="System.UInt32" Scope="User">
+    <Setting Name="OpenedTabs" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>

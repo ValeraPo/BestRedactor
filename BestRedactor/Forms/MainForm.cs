@@ -1,19 +1,11 @@
-﻿using BestRedactor.Data;
-using BestRedactor.Forms;
-using BestRedactor.Logics;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using BestRedactor.Interface;
+using BestRedactor.Logics;
 
-namespace BestRedactor
+namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
     {
@@ -25,20 +17,19 @@ namespace BestRedactor
             this.Height = 700;
            
             pictures.Add(new Picture(new Bitmap(pictureBox.Width, pictureBox.Height)));
-            settings.OpenedTabs = 1;
+            Settings.OpenedTabs = 1;
             gra = Graphics.FromImage(pictures[tabControlPage.SelectedIndex].Bitmap);
             gra.Clear(Color.Transparent);
             pictureBox.Image = pictures[tabControlPage.SelectedIndex].Bitmap;
-            tsBtn_color1.BackColor = settings.LastUseColor;
+            tsBtn_color1.BackColor = Settings.LastUseColor;
         }
         Bitmap bm;
-        static Settings settings = new();
         Graphics gra;
         bool isMouseDown = false;
         Point px, py;
         static float thickness = 1f;
 
-        Pen pen = new Pen(settings.LastUseColor, settings.LastUseSize);
+        Pen pen = new Pen(Settings.LastUseColor, Settings.LastUseSize);
         Pen erase = new Pen(Color.White, 10);
         List<Picture> pictures = new();
 
@@ -186,18 +177,16 @@ namespace BestRedactor
                 Point point = SetPoint(pictureBox, e.Location);        // collection
                 Fill(bm, point.X, point.Y, newColor);
             }
-        }
 
-        private void pictureBox_Click(object sender, EventArgs e)
-        {
             if (currentTool == Tools.Pipette)
             {
-                Point pt = SetPoint(pictureBox, pictureBox.Location);   // косяк
-                tsBtnPipette.BackColor = ((Bitmap)tsBtnPipette.Image).GetPixel(pt.X, pt.Y);
-                newColor = tsBtnPipette.BackColor;
-                pen.Color = tsBtnPipette.BackColor;
+                Settings.LastUseColor = pictures[tabControlPage.SelectedIndex].Bitmap.GetPixel(e.X, e.Y);
+                newColor               = Settings.LastUseColor;
+                pen.Color              = Settings.LastUseColor;
+                tsBtn_color1.BackColor = Settings.LastUseColor;
             }
         }
+        
         static Point SetPoint(PictureBox pb, Point pt)
         {
             float pX = 1f * pb.Image.Width / pb.Width;
@@ -252,8 +241,8 @@ namespace BestRedactor
             cd.ShowDialog();
             if (cd.ShowDialog() == DialogResult.OK)
             {
-                settings.LastUseColor = cd.Color;
-                pen = new Pen(settings.LastUseColor, settings.LastUseSize);
+                Settings.LastUseColor = cd.Color;
+                pen = new Pen(Settings.LastUseColor, Settings.LastUseSize);
             }
         }
 
@@ -264,10 +253,10 @@ namespace BestRedactor
 
             if (cd.ShowDialog() == DialogResult.OK)
             {
-                settings.LastUseColor = cd.Color;
-                pen = new Pen(settings.LastUseColor, settings.LastUseSize);
+                Settings.LastUseColor = cd.Color;
+                pen.Color = Settings.LastUseColor;
             }
-            tsBtn_color1.BackColor = settings.LastUseColor;
+            tsBtn_color1.BackColor = Settings.LastUseColor;
         }
 
         private void timerAutoSave_Tick(object sender, EventArgs e)
@@ -342,24 +331,24 @@ namespace BestRedactor
             tp.Name = "tabPage1";
             tp.Padding = new System.Windows.Forms.Padding(3);
             tp.Size = new System.Drawing.Size(tabPage1.Width, tabPage1.Height);
-            tp.TabIndex = (int)settings.OpenedTabs;
+            tp.TabIndex = (int)Settings.OpenedTabs;
             tp.Text = "tabPage1";
             tp.UseVisualStyleBackColor = true;
             //
             pb.Location = new System.Drawing.Point(42, 38);
             pb.Name = "pb1";
             pb.Size = new System.Drawing.Size(tabPage1.Width, tabPage1.Height);
-            pb.TabIndex = (int)settings.OpenedTabs;
+            pb.TabIndex = (int)Settings.OpenedTabs;
             pb.TabStop = false;
             pictures.Add(new Picture(new Bitmap(pb.Width, pb.Height)));
-            pb.Image = pictures[(int)settings.OpenedTabs].Bitmap;
+            pb.Image = pictures[(int)Settings.OpenedTabs].Bitmap;
             pb.MouseDown += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseDown);
             pb.MouseMove += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseMove);
             pb.MouseUp += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseUp);
 
             tp.Controls.Add(pb);                    //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
-            settings.OpenedTabs = settings.OpenedTabs + 1;
+            Settings.OpenedTabs = Settings.OpenedTabs + 1;
             
             //SetSize();
         }

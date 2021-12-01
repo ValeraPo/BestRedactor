@@ -2,7 +2,6 @@
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using BestRedactor.Interface;
 using System.Drawing;
 using BestRedactor.Logics;
@@ -13,7 +12,7 @@ namespace BestRedactor.Data.AutoSave
     {
         public static void Backup(IEnumerable<IPicture> collection)
         {
-            var path = BestRedactor.Properties.Settings.Default["PathBackup"].ToString();
+            var path = Settings.PathBackup;
             path.PathNotNull();
             if (File.Exists(path)) //снятие атрибутов у временного файла
             {
@@ -25,7 +24,7 @@ namespace BestRedactor.Data.AutoSave
                         File.Delete($"~{saveSettingsOld.Name[i]}.{saveSettingsOld.ImageFormats[i].ToString().ToLower()}");
             }
 
-            var openedTabs = (uint)Properties.Settings.Default["OpenedTabs"];
+            var openedTabs = Settings.OpenedTabs;
             var saveSettings = new AutoSaveSettings //создание экземпляра для сохранение параметров Picture
                                {
                                    OpenTabs     = openedTabs,
@@ -65,7 +64,7 @@ namespace BestRedactor.Data.AutoSave
 
         public static IEnumerable<IPicture> LoadsSession()
         {
-            var path = Properties.Settings.Default["PathBackup"].ToString(); //путь до файла с параметрами
+            var path = Settings.PathBackup; //путь до файла с параметрами
             path.PathNotNull();
 
             var saveSettings = JsonSerializer.Deserialize<AutoSaveSettings>(File.ReadAllText(path!)); //десоциализация параметров
