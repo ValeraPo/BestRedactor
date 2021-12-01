@@ -89,6 +89,37 @@ namespace BestRedactor.Logics
             }
             return image;
         }
+        // Сепия
+        public IPicture Sepia(IPicture image)
+        {
+            float p = 10;
+            int step = (int) Math.Floor(255 / p);
+            PixelPoint rgb = new PixelPoint();
+            float cr = 0, cg = 0, cb = 0;
+            int i = 0,
+                j = 0,
+                h = image.Bitmap.Height,
+                w = image.Bitmap.Width;
 
+            for (i = 0; i < w; i++)
+            {
+                for (j = 0; j < h; j++)
+                {
+                    Color temp = image.Bitmap.GetPixel(i, j);
+                    rgb.R = temp.R;
+                    rgb.G = temp.G;
+                    rgb.B = temp.B;
+                    float tcr = cr, tcg = cg, tcb = cb;
+                    rgb.R = (int) ((tcr * 0.393f) + (tcg * 0.769f) + (tcb * 0.189f));
+                    rgb.G = (int) ((tcr * 0.349f) + (tcg * 0.686f) + (tcb * 0.168f));
+                    rgb.B = (int) ((tcr * 0.272f) + (tcg * 0.534f) + (tcb * 0.131f));
+
+                    image.Bitmap.SetPixel(i, j, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
+                }
+
+            }
+            return image;
+
+        }
     }
 }

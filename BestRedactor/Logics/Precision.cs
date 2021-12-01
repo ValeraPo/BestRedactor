@@ -181,6 +181,39 @@ namespace BestRedactor.Logics
             image.Bitmap = sharpenImage;
             return image;
         }
+        
+        // Добавить шум
+        public IPicture Noise(IPicture image)
+        {
+            float p = 10;
+            int adjust = (int)(p * 2.55f);
+            Random rand = new Random(adjust);
+            int temprand = 0;
+            PixelPoint rgb = new PixelPoint();
+
+            int i = 0, j = 0,
+                h = image.Bitmap.Height,
+                w = image.Bitmap.Width;
+
+            for (i = 0; i < w; i++)
+            {
+                for (j = 0; j < h; j++)
+                {
+                    Color temp = image.Bitmap.GetPixel(i, j);
+                    rgb.R = temp.R; rgb.G = temp.G; rgb.B = temp.B; 
+
+                    temprand = rand.Next(adjust * -1, adjust);
+
+                    rgb.R += temprand;
+                    rgb.G += temprand;
+                    rgb.B += temprand;
+
+                    image.Bitmap.SetPixel(i, j, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
+                }
+            }
+
+            return image;
+        }
 
 
     }
