@@ -51,9 +51,26 @@ namespace BestRedactor.Forms
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.timerAutoSave = new System.Windows.Forms.Timer(this.components);
+            this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.TopToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.tabControlPage = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.btnZoomPlus = new System.Windows.Forms.Button();
+            this.btnZoomMinus = new System.Windows.Forms.Button();
+            this.lblCursorPos = new System.Windows.Forms.Label();
+            this.lblPictureSize = new System.Windows.Forms.Label();
+            this.lblZoom = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.toolStripTools = new System.Windows.Forms.ToolStrip();
             this.tsBtn_color1 = new System.Windows.Forms.ToolStripButton();
             this.tsBtn_color2 = new System.Windows.Forms.ToolStripButton();
@@ -87,29 +104,28 @@ namespace BestRedactor.Forms
             this.tsButtonFraming = new System.Windows.Forms.ToolStripButton();
             this.tsBtnEraser = new System.Windows.Forms.ToolStripButton();
             this.tsText = new System.Windows.Forms.ToolStripButton();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusCurrentSizeLb = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.timerAutoSave = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.tabControlPage.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.toolStripTools.SuspendLayout();
-            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
+            this.menuStrip1.AutoSize = false;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(712, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(730, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -231,16 +247,64 @@ namespace BestRedactor.Forms
             this.clearToolStripMenuItem.Text = "Очистить";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Location = new System.Drawing.Point(782, 281);
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 80);
+            this.vScrollBar1.TabIndex = 4;
+            // 
+            // timerAutoSave
+            // 
+            this.timerAutoSave.Enabled = true;
+            this.timerAutoSave.Interval = 30000;
+            this.timerAutoSave.Tick += new System.EventHandler(this.timerAutoSave_Tick);
+            // 
+            // BottomToolStripPanel
+            // 
+            this.BottomToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.BottomToolStripPanel.Name = "BottomToolStripPanel";
+            this.BottomToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.BottomToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.BottomToolStripPanel.Size = new System.Drawing.Size(0, 32);
+            // 
+            // TopToolStripPanel
+            // 
+            this.TopToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.TopToolStripPanel.Name = "TopToolStripPanel";
+            this.TopToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.TopToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.TopToolStripPanel.Size = new System.Drawing.Size(0, 32);
+            // 
+            // RightToolStripPanel
+            // 
+            this.RightToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.RightToolStripPanel.Name = "RightToolStripPanel";
+            this.RightToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.RightToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.RightToolStripPanel.Size = new System.Drawing.Size(32, 0);
+            // 
+            // LeftToolStripPanel
+            // 
+            this.LeftToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.LeftToolStripPanel.Name = "LeftToolStripPanel";
+            this.LeftToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.LeftToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.LeftToolStripPanel.Size = new System.Drawing.Size(32, 0);
+            // 
+            // ContentPanel
+            // 
+            this.ContentPanel.Size = new System.Drawing.Size(729, 345);
+            // 
             // tabControlPage
             // 
             this.tabControlPage.Controls.Add(this.tabPage1);
             this.tabControlPage.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.tabControlPage.Location = new System.Drawing.Point(36, 24);
+            this.tabControlPage.Location = new System.Drawing.Point(0, 25);
             this.tabControlPage.Name = "tabControlPage";
             this.tabControlPage.SelectedIndex = 0;
-            this.tabControlPage.Size = new System.Drawing.Size(676, 313);
-            this.tabControlPage.TabIndex = 1;
-            this.tabControlPage.SelectedIndexChanged += new System.EventHandler(this.tabControlPage_SelectedIndexChanged);
+            this.tabControlPage.Size = new System.Drawing.Size(695, 371);
+            this.tabControlPage.TabIndex = 2;
             // 
             // tabPage1
             // 
@@ -248,7 +312,7 @@ namespace BestRedactor.Forms
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(668, 285);
+            this.tabPage1.Size = new System.Drawing.Size(687, 343);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -258,17 +322,121 @@ namespace BestRedactor.Forms
             this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox.Location = new System.Drawing.Point(3, 3);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(662, 279);
+            this.pictureBox.Size = new System.Drawing.Size(681, 337);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
+            this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
-            this.pictureBox.MouseClick += new MouseEventHandler(this.pictureBox_MouseClick);
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar1.AutoSize = false;
+            this.trackBar1.Location = new System.Drawing.Point(599, 1);
+            this.trackBar1.Maximum = 300;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(100, 20);
+            this.trackBar1.SmallChange = 5;
+            this.trackBar1.TabIndex = 0;
+            this.trackBar1.TickFrequency = 5;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar1.Value = 100;
+            // 
+            // btnZoomPlus
+            // 
+            this.btnZoomPlus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnZoomPlus.Location = new System.Drawing.Point(705, 1);
+            this.btnZoomPlus.Name = "btnZoomPlus";
+            this.btnZoomPlus.Size = new System.Drawing.Size(18, 18);
+            this.btnZoomPlus.TabIndex = 1;
+            this.btnZoomPlus.Text = "button1";
+            this.btnZoomPlus.UseVisualStyleBackColor = true;
+            // 
+            // btnZoomMinus
+            // 
+            this.btnZoomMinus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnZoomMinus.Location = new System.Drawing.Point(575, 2);
+            this.btnZoomMinus.Name = "btnZoomMinus";
+            this.btnZoomMinus.Size = new System.Drawing.Size(18, 18);
+            this.btnZoomMinus.TabIndex = 4;
+            this.btnZoomMinus.Text = "button1";
+            this.btnZoomMinus.UseVisualStyleBackColor = true;
+            // 
+            // lblCursorPos
+            // 
+            this.lblCursorPos.AutoSize = true;
+            this.lblCursorPos.Location = new System.Drawing.Point(5, 4);
+            this.lblCursorPos.Name = "lblCursorPos";
+            this.lblCursorPos.Size = new System.Drawing.Size(86, 15);
+            this.lblCursorPos.TabIndex = 5;
+            this.lblCursorPos.Text = "cursor position";
+            // 
+            // lblPictureSize
+            // 
+            this.lblPictureSize.AutoSize = true;
+            this.lblPictureSize.Location = new System.Drawing.Point(132, 4);
+            this.lblPictureSize.Name = "lblPictureSize";
+            this.lblPictureSize.Size = new System.Drawing.Size(101, 15);
+            this.lblPictureSize.TabIndex = 6;
+            this.lblPictureSize.Text = "current resolution";
+            // 
+            // lblZoom
+            // 
+            this.lblZoom.AutoSize = true;
+            this.lblZoom.Location = new System.Drawing.Point(531, 2);
+            this.lblZoom.Name = "lblZoom";
+            this.lblZoom.Size = new System.Drawing.Size(37, 15);
+            this.lblZoom.TabIndex = 7;
+            this.lblZoom.Text = "zoom";
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.lblZoom);
+            this.panel1.Controls.Add(this.lblPictureSize);
+            this.panel1.Controls.Add(this.lblCursorPos);
+            this.panel1.Controls.Add(this.btnZoomMinus);
+            this.panel1.Controls.Add(this.btnZoomPlus);
+            this.panel1.Controls.Add(this.trackBar1);
+            this.panel1.Location = new System.Drawing.Point(0, 397);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(730, 24);
+            this.panel1.TabIndex = 3;
+            // 
+            // toolStripContainer1
+            // 
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.panel2);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(697, 345);
+            // 
+            // toolStripContainer1.LeftToolStripPanel
+            // 
+            this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.toolStripTools);
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 27);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.Size = new System.Drawing.Size(729, 370);
+            this.toolStripContainer1.TabIndex = 5;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.tabControlPage);
+            this.panel2.Location = new System.Drawing.Point(3, -25);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(694, 390);
+            this.panel2.TabIndex = 0;
             // 
             // toolStripTools
             // 
+            this.toolStripTools.AllowDrop = true;
+            this.toolStripTools.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.toolStripTools.AutoSize = false;
             this.toolStripTools.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStripTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsBtn_color1,
@@ -283,11 +451,11 @@ namespace BestRedactor.Forms
             this.tsButtonFraming,
             this.tsBtnEraser,
             this.tsText});
-            this.toolStripTools.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
-            this.toolStripTools.Location = new System.Drawing.Point(5, 24);
+            this.toolStripTools.Location = new System.Drawing.Point(0, 6);
             this.toolStripTools.Name = "toolStripTools";
-            this.toolStripTools.Size = new System.Drawing.Size(32, 276);
-            this.toolStripTools.TabIndex = 2;
+            this.toolStripTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStripTools.Size = new System.Drawing.Size(32, 306);
+            this.toolStripTools.TabIndex = 4;
             this.toolStripTools.Text = "tools";
             // 
             // tsBtn_color1
@@ -481,7 +649,6 @@ namespace BestRedactor.Forms
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
             this.toolStripMenuItem6.Size = new System.Drawing.Size(160, 22);
             this.toolStripMenuItem6.Text = "-90";
-            this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
             // 
             // toolStripMenuItem7
             // 
@@ -494,7 +661,6 @@ namespace BestRedactor.Forms
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBox1.Text = "(произвольный угол)";
-            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
             // 
             // drDBtnTSMenuItMirror
             // 
@@ -538,7 +704,6 @@ namespace BestRedactor.Forms
             this.tsBtnFill.Size = new System.Drawing.Size(20, 20);
             this.tsBtnFill.Text = "toolStripButton1";
             this.tsBtnFill.ToolTipText = "Заливка";
-            this.tsBtnFill.Click += new System.EventHandler(this.tsBtnFill_Click);
             // 
             // tsBtnPipette
             // 
@@ -546,7 +711,7 @@ namespace BestRedactor.Forms
             this.tsBtnPipette.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnPipette.Image")));
             this.tsBtnPipette.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnPipette.Name = "tsBtnPipette";
-            this.tsBtnPipette.Size = new System.Drawing.Size(23, 20);
+            this.tsBtnPipette.Size = new System.Drawing.Size(30, 20);
             this.tsBtnPipette.Text = "пипетка";
             this.tsBtnPipette.ToolTipText = "Пипетка";
             // 
@@ -556,7 +721,7 @@ namespace BestRedactor.Forms
             this.tsButtonFraming.Image = ((System.Drawing.Image)(resources.GetObject("tsButtonFraming.Image")));
             this.tsButtonFraming.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsButtonFraming.Name = "tsButtonFraming";
-            this.tsButtonFraming.Size = new System.Drawing.Size(23, 20);
+            this.tsButtonFraming.Size = new System.Drawing.Size(30, 20);
             this.tsButtonFraming.Text = "toolStripButton1";
             this.tsButtonFraming.ToolTipText = "Кадрирование";
             // 
@@ -569,7 +734,6 @@ namespace BestRedactor.Forms
             this.tsBtnEraser.Name = "tsBtnEraser";
             this.tsBtnEraser.Size = new System.Drawing.Size(20, 20);
             this.tsBtnEraser.Text = "toolStripButton1";
-            this.tsBtnEraser.Click += new System.EventHandler(this.tsBtnEraser_Click);
             // 
             // tsText
             // 
@@ -581,73 +745,37 @@ namespace BestRedactor.Forms
             this.tsText.Size = new System.Drawing.Size(20, 20);
             this.tsText.Text = "текст";
             // 
-            // statusStrip
-            // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusCurrentSizeLb,
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip.Location = new System.Drawing.Point(0, 340);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(712, 22);
-            this.statusStrip.TabIndex = 3;
-            this.statusStrip.Text = "statusStrip1";
-            // 
-            // toolStripStatusCurrentSizeLb
-            // 
-            this.toolStripStatusCurrentSizeLb.Name = "toolStripStatusCurrentSizeLb";
-            this.toolStripStatusCurrentSizeLb.Size = new System.Drawing.Size(111, 17);
-            this.toolStripStatusCurrentSizeLb.Text = "полжение курсора";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(110, 17);
-            this.toolStripStatusLabel1.Text = "размер в пикселях";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(191, 17);
-            this.toolStripStatusLabel2.Text = "здесь будет изменение масштаба";
-            // 
-            // vScrollBar1
-            // 
-            this.vScrollBar1.Location = new System.Drawing.Point(782, 281);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 80);
-            this.vScrollBar1.TabIndex = 4;
-            // 
-            // timerAutoSave
-            // 
-            this.timerAutoSave.Enabled = true;
-            this.timerAutoSave.Interval = 30000;
-            this.timerAutoSave.Tick += new System.EventHandler(this.timerAutoSave_Tick);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(712, 362);
-            this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.toolStripTools);
-            this.Controls.Add(this.tabControlPage);
+            this.AutoScroll = true;
+            this.AutoScrollMinSize = new System.Drawing.Size(600, 420);
+            this.ClientSize = new System.Drawing.Size(730, 421);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.toolStripContainer1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
+            this.Text = "The Best Redactor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabControlPage.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.LeftToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.ResumeLayout(false);
+            this.toolStripContainer1.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.toolStripTools.ResumeLayout(false);
             this.toolStripTools.PerformLayout();
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -668,49 +796,9 @@ namespace BestRedactor.Forms
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControlPage;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStripTools;
-        private System.Windows.Forms.ToolStripButton tsBtn_color1;
-        private System.Windows.Forms.ToolStripButton tsBtn_color2;
-        private System.Windows.Forms.ToolStripButton tsBtnBrush;
-        private System.Windows.Forms.ToolStripButton tsBtnPen;
-        private System.Windows.Forms.ToolStripSplitButton tsSplitButtonShape;
-        private System.Windows.Forms.ToolStripMenuItem tsBtnMenuItemLine;
-        private System.Windows.Forms.ToolStripMenuItem tsBtnMenuItemEllipce;
-        private System.Windows.Forms.ToolStripMenuItem tsBtnMenuItemRect;
-        private System.Windows.Forms.ToolStripDropDownButton tsDropDownFilters;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItDiscolor;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItContrast;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItBlur;
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusCurrentSizeLb;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ToolStripButton tsButtonCursor;
-        private System.Windows.Forms.ToolStripButton tsBtnFill;
-        private System.Windows.Forms.ToolStripButton tsBtnPipette;
-        private System.Windows.Forms.ToolStripButton tsButtonFraming;
-        private System.Windows.Forms.TabPage tabPage1;
-        public System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItDeformations;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItRotates;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItMirror;
-        private System.Windows.Forms.ToolStripMenuItem MirrorVertically;
-        private System.Windows.Forms.ToolStripMenuItem поГоризонталиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton tsBtnEraser;
-        private System.Windows.Forms.ToolStripButton tsText;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItBright;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItColors;
-        private System.Windows.Forms.ToolStripMenuItem drDBtnTSMenuItSharpness;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.ToolStripButton toolStripButtonCursor;
@@ -718,6 +806,56 @@ namespace BestRedactor.Forms
         private System.Windows.Forms.ToolStripButton toolStripButtonPipette;
         private System.Windows.Forms.ToolStripButton toolStripButtonFraming;        
         private System.Windows.Forms.Timer timerAutoSave;
+        private ToolStripPanel BottomToolStripPanel;
+        private ToolStripPanel TopToolStripPanel;
+        private ToolStripPanel RightToolStripPanel;
+        private ToolStripPanel LeftToolStripPanel;
+        private ToolStripContentPanel ContentPanel;
+        private TabControl tabControlPage;
+        private TabPage tabPage1;
+        public PictureBox pictureBox;
+        private TrackBar trackBar1;
+        private Button btnZoomPlus;
+        private Button btnZoomMinus;
+        private Label lblCursorPos;
+        private Label lblPictureSize;
+        private Label lblZoom;
+        private Panel panel1;
+        private ToolStripContainer toolStripContainer1;
+        private Panel panel2;
+        private ToolStrip toolStripTools;
+        private ToolStripButton tsBtn_color1;
+        private ToolStripButton tsBtn_color2;
+        private ToolStripButton tsBtnBrush;
+        private ToolStripButton tsBtnPen;
+        private ToolStripSplitButton tsSplitButtonShape;
+        private ToolStripMenuItem tsBtnMenuItemLine;
+        private ToolStripMenuItem tsBtnMenuItemEllipce;
+        private ToolStripMenuItem tsBtnMenuItemRect;
+        private ToolStripDropDownButton tsDropDownFilters;
+        private ToolStripMenuItem drDBtnTSMenuItDiscolor;
+        private ToolStripMenuItem drDBtnTSMenuItColors;
+        private ToolStripMenuItem drDBtnTSMenuItSharpness;
+        private ToolStripMenuItem drDBtnTSMenuItBright;
+        private ToolStripMenuItem drDBtnTSMenuItContrast;
+        private ToolStripMenuItem drDBtnTSMenuItBlur;
+        private ToolStripMenuItem drDBtnTSMenuItDeformations;
+        private ToolStripMenuItem toolStripMenuItem3;
+        private ToolStripMenuItem toolStripMenuItem4;
+        private ToolStripMenuItem drDBtnTSMenuItRotates;
+        private ToolStripMenuItem toolStripMenuItem5;
+        private ToolStripMenuItem toolStripMenuItem6;
+        private ToolStripMenuItem toolStripMenuItem7;
+        private ToolStripTextBox toolStripTextBox1;
+        private ToolStripMenuItem drDBtnTSMenuItMirror;
+        private ToolStripMenuItem MirrorVertically;
+        private ToolStripMenuItem поГоризонталиToolStripMenuItem;
+        private ToolStripButton tsButtonCursor;
+        private ToolStripButton tsBtnFill;
+        private ToolStripButton tsBtnPipette;
+        private ToolStripButton tsButtonFraming;
+        private ToolStripButton tsBtnEraser;
+        private ToolStripButton tsText;
     }
 }
 

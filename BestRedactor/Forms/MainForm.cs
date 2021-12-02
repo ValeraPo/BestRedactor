@@ -315,7 +315,16 @@ namespace BestRedactor.Forms
                 pen = new Pen(Settings.LastUseColor, Settings.LastUseSize);
             }
         }
-
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+            if (currentTool == Tools.Pipette)
+            {
+                Point pt = SetPoint(pictureBox, pictureBox.Location);   // косяк
+                tsBtnPipette.BackColor = ((Bitmap)tsBtnPipette.Image).GetPixel(pt.X, pt.Y);
+                newColor = tsBtnPipette.BackColor;
+                pen.Color = tsBtnPipette.BackColor;
+            }
+        }
         private void tsBtn_color1_Click(object sender, EventArgs e)
         {
            
