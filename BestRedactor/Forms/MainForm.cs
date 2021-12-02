@@ -14,8 +14,8 @@ namespace BestRedactor.Forms
         {
             InitializeComponent();
 
-            this.Width = 900;
-            this.Height = 700;
+            Width = 900;
+            Height = 700;
            
             pictures.Add(new Picture(new Bitmap(pictureBox.Width, pictureBox.Height)));
             Settings.OpenedTabs = 1;
@@ -33,23 +33,23 @@ namespace BestRedactor.Forms
         Pen pen = new Pen(Settings.LastUseColor, Settings.LastUseSize);
         Pen erase = new Pen(Color.White, 10);
         List<Picture> pictures = new();
+        bool isClickedColor = false;
 
-        enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, Brush };
+        private enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, Brush };
         Tools currentTool = 0;
         int x, y, sX, sY, cX, cY;
         ColorDialog cd = new ColorDialog();
         Color newColor;
 
-        private void tsBtnBrush_Click(object sender, EventArgs e)
-        {
-            currentTool = Tools.Pencil;
-        }
-
-        private void tsBtnPen_Click(object sender, EventArgs e)
-        {
-            currentTool = Tools.Pencil;
-        }
-
+        private void tsBtnBrush_Click(object sender, EventArgs e) => currentTool = Tools.Pencil;
+        private void tsBtnPen_Click(object sender, EventArgs e) => currentTool = Tools.Pencil;
+        private void tsBtnEraser_Click(object sender, EventArgs e) => currentTool = Tools.Erase;
+        private void tsBtnMenuItemEllipce_Click(object sender, EventArgs e) => currentTool = Tools.Ellipce;
+        private void tsBtnMenuItemLine_Click(object sender, EventArgs e) => currentTool = Tools.Line;
+        private void tsBtnMenuItemRect_Click(object sender, EventArgs e) => currentTool = Tools.Rectangle;
+        private void tsBtnFill_Click(object sender, EventArgs e) => currentTool = Tools.Fill;
+        
+        
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             
@@ -75,27 +75,6 @@ namespace BestRedactor.Forms
             sX = e.X - cX;
             sY = e.Y - cY;
         }
-
-        private void tsBtnEraser_Click(object sender, EventArgs e)
-        {
-            currentTool = Tools.Erase;
-        }
-
-        private void tsBtnMenuItemEllipce_Click(object sender, EventArgs e)
-        {
-            currentTool = Tools.Ellipce;
-        }
-
-        private void tsBtnMenuItemLine_Click(object sender, EventArgs e)
-        {
-            currentTool = Tools.Line;
-        }
-
-        private void tsBtnMenuItemRect_Click(object sender, EventArgs e)
-        {
-            currentTool = Tools.Rectangle;
-        }
-
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             gra.Clear(Color.White);
@@ -103,12 +82,29 @@ namespace BestRedactor.Forms
             currentTool = Tools.Cursor;
         }
 
-        
+
+        private void timerAutoSave_Tick(object sender, EventArgs e) => AutoSave.Backup(pictures);
+        private void toolStripMenuItem1_Click(object sender, EventArgs e) => FileManagerL.Save(pictures[tabControlPage.SelectedIndex]);
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var openTabs = Settings.OpenedTabs;
+                pictures.Add((Picture)FileManagerL.LoadFromClipboard());
+                AddNewTabPages(pictures[openTabs]);
+                tabControlPage.SelectedIndex = openTabs;
+                Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, @"Невозможно открыть файл из буфера обмена!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             var sfd = new SaveFileDialog();
             sfd.Filter = @"Jpeg(*.jpeg)|*.jpeg|Gif(*.gif)|*.gif|Icon(*.icon)|*.icon|Png(*.png)|*.png|Bmp(*.bmp)|*.bmp|Emf(*.emf)|*.emf|Exif(*.exif)|*.exif|Tiff(*.tiff)|*.tiff|Wmf(*.wmf)|*.wmf|Memorybmp(*.memorybmp)|*.memorybpmp";
-            sfd.FilterIndex = pictures[tabControlPage.SelectedIndex].ImageFormat.ToString() switch
+            sfd.FilterIndex = pictures[tabControlPage.SelectedIndex].ImageFormat.ToString().ToLower() switch
             {
                 "jpeg"      => 1,
                 "gif"       => 2,
@@ -150,7 +146,6 @@ namespace BestRedactor.Forms
                 MessageBox.Show(ex.Message, @"Невозможно сохранить текущий файл!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
@@ -180,34 +175,32 @@ namespace BestRedactor.Forms
             //pb.Dock = DockStyle.Fill;               
 
             //this.tabPage1.Controls.Add(this.pb);
-            tp.Location                = new System.Drawing.Point(4, 24);
+            tp.Location                = new Point(0, 0);
             tp.Name                    = $"tabPage{Settings.OpenedTabs}";
-            tp.Padding                 = new System.Windows.Forms.Padding(3);
-            tp.Size                    = new System.Drawing.Size(picture.Bitmap.Width, picture.Bitmap.Height);
+            tp.Padding                 = new Padding(3);
+            tp.Size                    = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
             tp.TabIndex                = Settings.OpenedTabs;
             tp.Text                    = picture.FileName;
             tp.UseVisualStyleBackColor = true;
             //
-            pb.Location = new System.Drawing.Point(42, 38);
+            pb.Location = new Point(0, 0);
             pb.Name     = $"pb{Settings.OpenedTabs}";
-            pb.Size     = new System.Drawing.Size(picture.Bitmap.Width, picture.Bitmap.Height);
+            pb.Size     = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
             pb.SizeMode = PictureBoxSizeMode.Zoom;
             pb.TabIndex = Settings.OpenedTabs;
             pb.TabStop  = false;
             pb.Image     = picture.Bitmap;
-            pb.MouseDown += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseDown);
-            pb.MouseMove += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseMove);
-            pb.MouseUp   += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseUp);
+            pb.MouseDown += pictureBox_MouseDown;
+            pb.MouseMove += pictureBox_MouseMove;
+            pb.MouseUp   += pictureBox_MouseUp;
 
             tp.Controls.Add(pb); //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
             Settings.OpenedTabs += 1;
         }
+        
 
-        private void tsBtnFill_Click(object sender, EventArgs e)
-        {
-            currentTool = Tools.Fill;
-        }
+        
         // метод для поиска старого цвета до заливки формы новым цветом
         void validate(Bitmap bm, Stack<Point> sp, int x, int y, Color old_color, Color newColor)
         {
@@ -239,6 +232,7 @@ namespace BestRedactor.Forms
             }
         }
 
+        
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
             if (currentTool == Tools.Fill)
@@ -256,39 +250,29 @@ namespace BestRedactor.Forms
             }
         }
         
+
         static Point SetPoint(PictureBox pb, Point pt)
         {
             float pX = 1f * pb.Image.Width / pb.Width;
             float pY = 1f * pb.Image.Width / pb.Width;
             return new Point((int)(pt.X * pX), (int)(pt.Y * pY));
         }
-
-        private void toolStripMenuItem6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripTextBox1_Click(object sender, EventArgs e)
-        {
-            
-        }
+        
 
         private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e)
         {
             FiltersForm ff = new FiltersForm(pictures[tabControlPage.SelectedIndex], this);
-            ff.Show();
+            ff.ShowDialog();
         }
-
         private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
         {
             FiltersForm ff = new FiltersForm(pictures[tabControlPage.SelectedIndex], this);
-            ff.Show();            
+            ff.ShowDialog();            
         }
-
         private void drDBtnTSMenuItBright_Click(object sender, EventArgs e)
         {
             FiltersForm ff = new FiltersForm(pictures[tabControlPage.SelectedIndex], this);
-            ff.Show();
+            ff.ShowDialog();
            
         }
         public void Refresh()
@@ -296,14 +280,15 @@ namespace BestRedactor.Forms
             tabControlPage.SelectedTab.Controls[0].Refresh();
             gra = Graphics.FromImage(pictures[tabControlPage.SelectedIndex].Bitmap);
         }
+        
 
         private void drDBtnTSMenuItColors_Click(object sender, EventArgs e)
         {
-            ColorsForm cf = new ColorsForm();
-            cf.Show();
-            cf.pictureBox.Image = this.pictureBox.Image;
+            ColorsForm cf = new ColorsForm(pictures[tabControlPage.SelectedIndex], this);
+            cf.ShowDialog();
+            cf.pictureBox.Image = pictureBox.Image;
         }
-        bool isClickedColor = false;
+        
 
         private void tsBtn_color1_DoubleClick(object sender, EventArgs e)
         {
@@ -338,16 +323,14 @@ namespace BestRedactor.Forms
             tsBtn_color1.BackColor = Settings.LastUseColor;
         }
 
-        private void timerAutoSave_Tick(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e) 
         {
-            AutoSave.Backup(pictures);
+            Close();
         }
-
         private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
         {
 
         }
-
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             isMouseDown = false;
@@ -404,35 +387,34 @@ namespace BestRedactor.Forms
 
             PictureBox pb = new PictureBox();       
             //pb.Dock = DockStyle.Fill;               
+            pictures.Add(new Picture(new Bitmap(pb.Width, pb.Height)));
 
             //this.tabPage1.Controls.Add(this.pb);
-            tp.Location = new System.Drawing.Point(4, 24);
+            tp.Location = new Point(0, 0);
             tp.Name = "tabPage1";
-            tp.Padding = new System.Windows.Forms.Padding(3);
-            tp.Size = new System.Drawing.Size(tabPage1.Width, tabPage1.Height);
+            tp.Padding = new Padding(3);
+            tp.Size = new Size(tabPage1.Width, tabPage1.Height);
             tp.TabIndex = Settings.OpenedTabs;
-            tp.Text = "tabPage1";
+            tp.Text = pictures[Settings.OpenedTabs].FileName;
             tp.UseVisualStyleBackColor = true;
             //
-            pb.Location = new System.Drawing.Point(42, 38);
+            pb.Location = new Point(0, 0);
             pb.Name = "pb1";
-            pb.Size = new System.Drawing.Size(tabPage1.Width, tabPage1.Height);
+            pb.Size = new Size(tabPage1.Width, tabPage1.Height);
             pb.TabIndex = Settings.OpenedTabs;
             pb.TabStop = false;
-            pictures.Add(new Picture(new Bitmap(pb.Width, pb.Height)));
             pb.Image = pictures[Settings.OpenedTabs].Bitmap;
-            pb.MouseDown += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseDown);
-            pb.MouseMove += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseMove);
-            pb.MouseUp += new System.Windows.Forms.MouseEventHandler(pictureBox_MouseUp);
+            pb.MouseDown += pictureBox_MouseDown;
+            pb.MouseMove += pictureBox_MouseMove;
+            pb.MouseUp += pictureBox_MouseUp;
 
             tp.Controls.Add(pb);                    //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
-            // tabControlPage.SelectedTab = tp;
+            tabControlPage.SelectedTab = tp;
             Settings.OpenedTabs += 1;
             
             //SetSize();
         }
-        
         private void tabControlPage_SelectedIndexChanged(object sender, EventArgs e)
         {
             tabControlPage.SelectedTab.Controls[0].Refresh();

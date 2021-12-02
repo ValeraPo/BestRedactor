@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -22,7 +23,10 @@ namespace BestRedactor.Data
                 throw new ArgumentNullException(nameof(picture.ImageFormat), @"Для сохранения должен быть указан тип");
 
             picture.Directory.DirectoryCreature();
-            picture.Bitmap.Save($"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}", picture.ImageFormat);
+            var path = $"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}";
+            if (File.Exists(path))
+                File.Delete(path);
+            picture.Bitmap.Save(path, picture.ImageFormat);
         }
         public static void SaveAs(IPicture picture)
         {
@@ -72,7 +76,8 @@ namespace BestRedactor.Data
             if (!Clipboard.ContainsImage())
                 throw new InvalidDataException("В буфере обмена не содержится картинка");
 
-            return new Picture(new Bitmap(Clipboard.GetImage()!), "", "Clipboard", ImageFormat.Png);
+            return new Picture(new Bitmap(Clipboard.GetImage()!), @"%userprofile%\Pictures",
+                "Clipboard", ImageFormat.Png);
         }
     }
 }
