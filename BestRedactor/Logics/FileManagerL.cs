@@ -10,9 +10,6 @@ namespace BestRedactor.Logics
 
         public static IPicture Load(string path) => FileManager.Load(path);
         
-        // На всякий случай второй способ
-        //public static IPicture Load(IPicture picture) => FileManager.Load(picture.FileName);
-
         public static IPicture LoadFromClipboard() => FileManager.LoadFromClipboard();
     }
 }
