@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using BestRedactor.Data;
 using BestRedactor.Interface;
-using BestRedactor.Data.AutoSave;
 
 namespace BestRedactor.Logics
 {
@@ -19,7 +19,11 @@ namespace BestRedactor.Logics
 
             FileManager.SaveAs(picture);
         }
-        
+        public static void SaveAll(IEnumerable<IPicture> pictures)
+        {
+            foreach (var elem in pictures)
+                FileManager.Save(elem);
+        } 
 
         public static IPicture Load(string path) => FileManager.Load(path);
         public static IPicture LoadFromClipboard() => FileManager.LoadFromClipboard();

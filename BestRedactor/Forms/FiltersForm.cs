@@ -27,7 +27,7 @@ namespace BestRedactor.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -35,7 +35,7 @@ namespace BestRedactor.Forms
             // код для обработки
             //MainForm = this.pictureBox.Image;
             _main.Refresh();
-            this.Close();
+            Close();
         }
     }
 }
