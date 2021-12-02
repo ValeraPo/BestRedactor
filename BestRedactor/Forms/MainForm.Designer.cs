@@ -104,6 +104,7 @@ namespace BestRedactor.Forms
             this.tsButtonFraming = new System.Windows.Forms.ToolStripButton();
             this.tsBtnEraser = new System.Windows.Forms.ToolStripButton();
             this.tsText = new System.Windows.Forms.ToolStripButton();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControlPage.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -136,6 +137,7 @@ namespace BestRedactor.Forms
             this.openToolStripMenuItem,
             this.toolStripSeparator1,
             this.toolStripMenuItem1,
+            this.toolStripMenuItem8,
             this.toolStripMenuItem2,
             this.toolStripSeparator2,
             this.closeToolStripMenuItem,
@@ -148,55 +150,55 @@ namespace BestRedactor.Forms
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "Создать";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Открыть";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem1.Text = "Сохранить";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(154, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "Сохранить как";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.closeToolStripMenuItem.Text = "Закрыть";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Выход";
             // 
             // editToolStripMenuItem
@@ -215,35 +217,35 @@ namespace BestRedactor.Forms
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copyToolStripMenuItem.Text = "Копировать";
             // 
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pasteToolStripMenuItem.Text = "Вставить";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(136, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteToolStripMenuItem.Text = "Удалить";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(136, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearToolStripMenuItem.Text = "Очистить";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -305,10 +307,13 @@ namespace BestRedactor.Forms
             this.tabControlPage.SelectedIndex = 0;
             this.tabControlPage.Size = new System.Drawing.Size(695, 371);
             this.tabControlPage.TabIndex = 2;
+            this.tabControlPage.SelectedIndexChanged += new System.EventHandler(this.tabControlPage_SelectedIndexChanged);
             // 
             // tabPage1
             // 
+            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tabPage1.Controls.Add(this.pictureBox);
+            this.tabPage1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -322,7 +327,7 @@ namespace BestRedactor.Forms
             this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox.Location = new System.Drawing.Point(3, 3);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(681, 337);
+            this.pictureBox.Size = new System.Drawing.Size(677, 333);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
@@ -335,20 +340,22 @@ namespace BestRedactor.Forms
             // 
             this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar1.AutoSize = false;
-            this.trackBar1.Location = new System.Drawing.Point(599, 1);
-            this.trackBar1.Maximum = 300;
+            this.trackBar1.LargeChange = 50;
+            this.trackBar1.Location = new System.Drawing.Point(600, 1);
+            this.trackBar1.Maximum = 800;
+            this.trackBar1.Minimum = 20;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(100, 20);
-            this.trackBar1.SmallChange = 5;
+            this.trackBar1.SmallChange = 20;
             this.trackBar1.TabIndex = 0;
-            this.trackBar1.TickFrequency = 5;
+            this.trackBar1.TickFrequency = 20;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar1.Value = 100;
             // 
             // btnZoomPlus
             // 
             this.btnZoomPlus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnZoomPlus.Location = new System.Drawing.Point(705, 1);
+            this.btnZoomPlus.Location = new System.Drawing.Point(706, 1);
             this.btnZoomPlus.Name = "btnZoomPlus";
             this.btnZoomPlus.Size = new System.Drawing.Size(18, 18);
             this.btnZoomPlus.TabIndex = 1;
@@ -358,7 +365,7 @@ namespace BestRedactor.Forms
             // btnZoomMinus
             // 
             this.btnZoomMinus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnZoomMinus.Location = new System.Drawing.Point(575, 2);
+            this.btnZoomMinus.Location = new System.Drawing.Point(576, 2);
             this.btnZoomMinus.Name = "btnZoomMinus";
             this.btnZoomMinus.Size = new System.Drawing.Size(18, 18);
             this.btnZoomMinus.TabIndex = 4;
@@ -367,6 +374,7 @@ namespace BestRedactor.Forms
             // 
             // lblCursorPos
             // 
+            this.lblCursorPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblCursorPos.AutoSize = true;
             this.lblCursorPos.Location = new System.Drawing.Point(5, 4);
             this.lblCursorPos.Name = "lblCursorPos";
@@ -376,6 +384,7 @@ namespace BestRedactor.Forms
             // 
             // lblPictureSize
             // 
+            this.lblPictureSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblPictureSize.AutoSize = true;
             this.lblPictureSize.Location = new System.Drawing.Point(132, 4);
             this.lblPictureSize.Name = "lblPictureSize";
@@ -385,6 +394,7 @@ namespace BestRedactor.Forms
             // 
             // lblZoom
             // 
+            this.lblZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblZoom.AutoSize = true;
             this.lblZoom.Location = new System.Drawing.Point(531, 2);
             this.lblZoom.Name = "lblZoom";
@@ -394,17 +404,16 @@ namespace BestRedactor.Forms
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.panel1.Controls.Add(this.lblZoom);
             this.panel1.Controls.Add(this.lblPictureSize);
             this.panel1.Controls.Add(this.lblCursorPos);
             this.panel1.Controls.Add(this.btnZoomMinus);
             this.panel1.Controls.Add(this.btnZoomPlus);
             this.panel1.Controls.Add(this.trackBar1);
-            this.panel1.Location = new System.Drawing.Point(0, 397);
+            this.panel1.Location = new System.Drawing.Point(0, 399);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(730, 24);
+            this.panel1.Size = new System.Drawing.Size(731, 24);
             this.panel1.TabIndex = 3;
             // 
             // toolStripContainer1
@@ -745,17 +754,23 @@ namespace BestRedactor.Forms
             this.tsText.Size = new System.Drawing.Size(20, 20);
             this.tsText.Text = "текст";
             // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem8.Text = "Сохранить всё";
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
-            this.AutoScrollMinSize = new System.Drawing.Size(600, 420);
             this.ClientSize = new System.Drawing.Size(730, 421);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.toolStripContainer1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximumSize = new System.Drawing.Size(1920, 1080);
+            this.MinimumSize = new System.Drawing.Size(420, 420);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "The Best Redactor";
@@ -856,6 +871,7 @@ namespace BestRedactor.Forms
         private ToolStripButton tsButtonFraming;
         private ToolStripButton tsBtnEraser;
         private ToolStripButton tsText;
+        private ToolStripMenuItem toolStripMenuItem8;
     }
 }
 
