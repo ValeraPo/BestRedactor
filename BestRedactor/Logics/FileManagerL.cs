@@ -15,7 +15,7 @@ namespace BestRedactor.Logics
             var regex = new Regex(@"\w*\.\w*$", RegexOptions.IgnoreCase); //разделение путя файла на папку и имя с типом
             var fileNameAndType = regex.Match(fileName).ToString(); //имя и тип
             picture.Directory = regex.Replace(fileName, ""); //папка
-            regex = new Regex(@"\.\w*");
+            regex = new Regex(@"\.\S*");
             picture.FileName = regex.Replace(fileNameAndType, ""); //имя файфла
 
             FileManager.SaveAs(picture);
@@ -27,7 +27,6 @@ namespace BestRedactor.Logics
         } 
 
         public static IPicture Load(string path) => FileManager.Load(path);
-        
         public static IPicture LoadFromClipboard() => FileManager.LoadFromClipboard();
     }
 }

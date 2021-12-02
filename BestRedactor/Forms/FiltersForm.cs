@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BestRedactor.Interface;
 using BestRedactor.Logics;
@@ -17,7 +10,7 @@ namespace BestRedactor.Forms
         public FiltersForm(IPicture picture, MainForm mainForm)
         {
             InitializeComponent();
-            pictureBox.Image = picture.Bitmap;
+            pictureBox.Image = Logics.Resize.Resizing(picture, 0.3);
             this.Text = $"{pictureBox.Image.Width} || {pictureBox.Image.Height} || {picture.Bitmap.Width} || {picture.Bitmap.Height}";
             _picture = (Picture)picture;
             _main = mainForm;

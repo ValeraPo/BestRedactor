@@ -62,6 +62,7 @@ namespace BestRedactor.Data
                 "gif"       => ImageFormat.Gif,
                 "icon"      => ImageFormat.Icon,
                 "jpeg"      => ImageFormat.Jpeg,
+                "jpg"       => ImageFormat.Jpeg,
                 "png"       => ImageFormat.Png,
                 "tiff"      => ImageFormat.Tiff,
                 "wmf"       => ImageFormat.Wmf,
