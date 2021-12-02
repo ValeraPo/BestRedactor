@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using BestRedactor.Data;
 using BestRedactor.Interface;
+using BestRedactor.Data.AutoSave;
 
 namespace BestRedactor.Logics
 {
@@ -26,6 +27,7 @@ namespace BestRedactor.Logics
         } 
 
         public static IPicture Load(string path) => FileManager.Load(path);
+        
         public static IPicture LoadFromClipboard() => FileManager.LoadFromClipboard();
     }
 }
