@@ -10,84 +10,59 @@ namespace BestRedactor.Logics
 {
     public class ColorBalance
     {
-        //цветовой баланс R
-        public static Bitmap R(Bitmap image, int poz)
+        // Цветовой баланс
+        public static Bitmap RgbBalance(Bitmap image, int r, int g, int b)
         {
-            int N = poz - 99; //кол-во процентов
+            r -= 99;
+            g -= 99;
+            b -= 99;
             PixelPoint rgb = new PixelPoint();
+            Bitmap total = (Bitmap)image.Clone();
+
             Color c;
 
-            for (int y = 0; y < image.Height; y++)
-                for (int x = 0; x < image.Width; x++)
-                {
-                    c = image.GetPixel(x, y);
-                    rgb.R = c.R + N * 128 / 100;
-                    image.SetPixel(x, y, Color.FromArgb(rgb.R, c.G, c.B));
-                }
-            return image;
-        }
-
-        //цветовой баланс G
-        public static Bitmap G(Bitmap image, int poz)
-        {
-            int N = poz - 99; //кол-во процентов
-            PixelPoint rgb = new PixelPoint();
-            Color c;
-
-            for (int y = 0; y < image.Height; y++)
-                for (int x = 0; x < image.Width; x++)
-                {
-                    c = image.GetPixel(x, y);
-                    rgb.G = c.G + N * 128 / 100;
-                    image.SetPixel(x, y, Color.FromArgb(c.R, rgb.R, c.B));
-                }
-            return image;
-        }
-
-        //цветовой баланс B
-        public static Bitmap B(Bitmap image, int poz)
-        {
-            int N = poz - 99; //кол-во процентов
-            PixelPoint rgb = new PixelPoint();
-            Color c;
-
-            for (int y = 0; y < image.Height; y++)
-                for (int x = 0; x < image.Width; x++)
-                {
-                    c = image.GetPixel(x, y);
-                    rgb.B = c.B + N * 128 / 100;
-                    image.SetPixel(x, y, Color.FromArgb(c.R, c.G, rgb.R));
-                }
-            return image;
+            for (int y = 0; y < total.Height; y++)
+            for (int x = 0; x < total.Width; x++)
+            {
+                c = total.GetPixel(x, y);
+                rgb.R = c.R + r * 128 / 100;
+                rgb.G = c.G + g * 128 / 100;
+                rgb.B = c.B + b * 128 / 100;
+                total.SetPixel(x, y, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
+            }
+            return total;
         }
         // Чернобелый фильтр 
         public static Bitmap ToGrayScale(Bitmap image)
         {
             int rgb;
             Color c;
+            Bitmap total = (Bitmap)image.Clone();
 
-            for (int y = 0; y < image.Height; y++)
-                for (int x = 0; x < image.Width; x++)
+            for (int y = 0; y < total.Height; y++)
+                for (int x = 0; x < total.Width; x++)
                 {
-                    c = image.GetPixel(x, y);
+                    c = total.GetPixel(x, y);
                     rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
-                    image.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
+                    total.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
                 }
-            return image;
+            return total;
         }
         // Инвертирова цвета
         public static Bitmap IverseColor(Bitmap image)
         {
-            for (int y = 0; (y <= (image.Height - 1)); y++)
+            Bitmap total = (Bitmap)image.Clone();
+
+            for (int y = 0; (y <= (total.Height - 1)); y++)
             {
-                for (int x = 0; (x <= (image.Width - 1)); x++)
+                for (int x = 0; (x <= (total.Width - 1)); x++)
                 {
-                    Color inv = image.GetPixel(x, y);
+                    Color inv = total.GetPixel(x, y);
                     inv = Color.FromArgb(255, (255 - inv.R), (255 - inv.G), (255 - inv.B));
-                    image.SetPixel(x, y, inv);
+                    total.SetPixel(x, y, inv);
                 }
             }
-            return image;
+            return total;
         }
         // Сепия
         public static Bitmap Sepia(Bitmap image)
@@ -95,17 +70,18 @@ namespace BestRedactor.Logics
             float p = 10;
             int step = (int) Math.Floor(255 / p);
             PixelPoint rgb = new PixelPoint();
+            Bitmap total = (Bitmap)image.Clone();
             float cr = 0, cg = 0, cb = 0;
             int i = 0,
                 j = 0,
-                h = image.Height,
-                w = image.Width;
+                h = total.Height,
+                w = total.Width;
 
             for (i = 0; i < w; i++)
             {
                 for (j = 0; j < h; j++)
                 {
-                    Color temp = image.GetPixel(i, j);
+                    Color temp = total.GetPixel(i, j);
                     rgb.R = temp.R;
                     rgb.G = temp.G;
                     rgb.B = temp.B;
@@ -114,10 +90,10 @@ namespace BestRedactor.Logics
                     rgb.G = (int) ((tcr * 0.349f) + (tcg * 0.686f) + (tcb * 0.168f));
                     rgb.B = (int) ((tcr * 0.272f) + (tcg * 0.534f) + (tcb * 0.131f));
 
-                    image.SetPixel(i, j, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
+                    total.SetPixel(i, j, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
                 }
             }
-            return image;
+            return total;
         }
     }
 }

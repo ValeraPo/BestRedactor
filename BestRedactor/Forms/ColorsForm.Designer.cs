@@ -180,6 +180,7 @@ namespace BestRedactor.Forms
             this.btnOk.TabIndex = 2;
             this.btnOk.Text = "Применить";
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += btnOk_Click;
             // 
             // trackBarBlue
             // 

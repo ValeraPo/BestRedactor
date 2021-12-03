@@ -14,12 +14,11 @@ namespace BestRedactor.Logics
         //Размыть 
         public static Bitmap Blur(Bitmap image)
         {
-            int kSize = 10; //кол-во процентов
-            if (kSize % 2 == 0) kSize++;
+            int kSize = 11; //кол-во процентов
             Bitmap Hblur = (Bitmap)image.Clone();
             float Avg = (float)1 / kSize;
 
-            for (int j = 0; j < image.Height; j++)
+            for (int j = 0; j < Hblur.Height; j++)
             {
 
                 float[] hSum = new float[] { 0f, 0f, 0f, 0f };
@@ -27,7 +26,7 @@ namespace BestRedactor.Logics
 
                 for (int x = 0; x < kSize; x++)
                 {
-                    Color tmpColor = image.GetPixel(x, j);
+                    Color tmpColor = Hblur.GetPixel(x, j);
                     hSum[0] += tmpColor.A;
                     hSum[1] += tmpColor.R;
                     hSum[2] += tmpColor.G;
@@ -37,16 +36,16 @@ namespace BestRedactor.Logics
                 iAvg[1] = hSum[1] * Avg;
                 iAvg[2] = hSum[2] * Avg;
                 iAvg[3] = hSum[3] * Avg;
-                for (int i = 0; i < image.Width; i++)
+                for (int i = 0; i < Hblur.Width; i++)
                 {
-                    if (i - kSize / 2 >= 0 && i + 1 + kSize / 2 < image.Width)
+                    if (i - kSize / 2 >= 0 && i + 1 + kSize / 2 < Hblur.Width)
                     {
-                        Color tmp_pColor = image.GetPixel(i - kSize / 2, j);
+                        Color tmp_pColor = Hblur.GetPixel(i - kSize / 2, j);
                         hSum[0] -= tmp_pColor.A;
                         hSum[1] -= tmp_pColor.R;
                         hSum[2] -= tmp_pColor.G;
                         hSum[3] -= tmp_pColor.B;
-                        Color tmp_nColor = image.GetPixel(i + 1 + kSize / 2, j);
+                        Color tmp_nColor = Hblur.GetPixel(i + 1 + kSize / 2, j);
                         hSum[0] += tmp_nColor.A;
                         hSum[1] += tmp_nColor.R;
                         hSum[2] += tmp_nColor.G;
@@ -60,7 +59,7 @@ namespace BestRedactor.Logics
                     Hblur.SetPixel(i, j, Color.FromArgb((int)iAvg[0], (int)iAvg[1], (int)iAvg[2], (int)iAvg[3]));
                 }
             }
-            Bitmap total = (Bitmap)Hblur.Clone();
+            Bitmap total = (Bitmap)image.Clone();
             for (int i = 0; i < Hblur.Width; i++)
             {
                 float[] tSum = new float[] { 0f, 0f, 0f, 0f };
@@ -98,18 +97,20 @@ namespace BestRedactor.Logics
                         iAvg[2] = tSum[2] * Avg;
                         iAvg[3] = tSum[3] * Avg;
                     }
-                    image.SetPixel(i, j, Color.FromArgb((int)iAvg[0], (int)iAvg[1], (int)iAvg[2], (int)iAvg[3]));
+                    total.SetPixel(i, j, Color.FromArgb((int)iAvg[0], (int)iAvg[1], (int)iAvg[2], (int)iAvg[3]));
                 }
             }
-            return image;
+
+            //image = total;
+            return total;
         }
         // Повысить резкость 
         public static Bitmap Sharpness(Bitmap image)
         {
             Bitmap sharpenImage = (Bitmap)image.Clone();
 
-            int width = image.Width;
-            int height = image.Height;
+            int width = sharpenImage.Width;
+            int height = sharpenImage.Height;
 
             // Create sharpening filter.
             double[,] filter = new double[,] { { -1, -1, -1, },
@@ -119,7 +120,7 @@ namespace BestRedactor.Logics
             double factor = 1.0;
             double bias = 0.0;
 
-            Color[,] result = new Color[image.Width, image.Height];
+            Color[,] result = new Color[sharpenImage.Width, sharpenImage.Height];
 
             // Lock image bits for read/write.
             BitmapData pbits = sharpenImage.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
@@ -178,28 +179,28 @@ namespace BestRedactor.Logics
             System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, pbits.Scan0, bytes);
             // Release image bits.
             sharpenImage.UnlockBits(pbits);
-            image= sharpenImage;
-            return image;
+            return sharpenImage;
         }
         
         // Добавить шум
         public static Bitmap Noise(Bitmap image)
         {
             float p = 10;
+            Bitmap total = (Bitmap)image.Clone();
             int adjust = (int)(p * 2.55f);
             Random rand = new Random(adjust);
             int temprand = 0;
             PixelPoint rgb = new PixelPoint();
 
             int i = 0, j = 0,
-                h = image.Height,
-                w = image.Width;
+                h = total.Height,
+                w = total.Width;
 
             for (i = 0; i < w; i++)
             {
                 for (j = 0; j < h; j++)
                 {
-                    Color temp = image.GetPixel(i, j);
+                    Color temp = total.GetPixel(i, j);
                     rgb.R = temp.R; rgb.G = temp.G; rgb.B = temp.B; 
 
                     temprand = rand.Next(adjust * -1, adjust);
@@ -208,10 +209,10 @@ namespace BestRedactor.Logics
                     rgb.G += temprand;
                     rgb.B += temprand;
 
-                    image.SetPixel(i, j, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
+                    total.SetPixel(i, j, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
                 }
             }
-            return image;
+            return total;
         }
     }
 }

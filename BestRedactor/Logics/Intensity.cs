@@ -16,19 +16,22 @@ namespace BestRedactor.Logics
         public static Bitmap Brightness(Bitmap image, int poz)
         {
             int N = poz - 99; //кол-во процентов
+            Bitmap total = (Bitmap)image.Clone();
             PixelPoint rgb = new PixelPoint();
             Color c;
 
-            for (int y = 0; y < image.Height; y++)
-                for (int x = 0; x < image.Width; x++)
+            for (int y = 0; y < total.Height; y++)
+                for (int x = 0; x < total.Width; x++)
                 {
-                    c = image.GetPixel(x, y);
+                    c = total.GetPixel(x, y);
                     rgb.R = (c.R + N * 128 / 100);
                     rgb.G = (c.G + N * 128 / 100);
                     rgb.B = (c.B + N * 128 / 100);
-                    image.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
+                    total.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
                 }
-            return image;
+            
+            
+            return total;
         }
 
         //контрастность
@@ -36,12 +39,14 @@ namespace BestRedactor.Logics
         {
             int N = poz - 99; //кол-во процентов
             PixelPoint rgb = new PixelPoint();
+            Bitmap total = (Bitmap)image.Clone();
+
             Color c;
 
-            for (int y = 0; y < image.Height; y++)
-                for (int x = 0; x < image.Width; x++)
+            for (int y = 0; y < total.Height; y++)
+                for (int x = 0; x < total.Width; x++)
                 {
-                    c = image.GetPixel(x, y);
+                    c = total.GetPixel(x, y);
                     if (N >= 0)
                     {
                         if (N == 100) N = 99;
@@ -56,9 +61,9 @@ namespace BestRedactor.Logics
                         rgb.B = (c.B * (100 + N) - 128 * N) / 100;
                         
                     }
-                    image.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
+                    total.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
                 }
-            return image;
+            return total;
         }
     }
 }

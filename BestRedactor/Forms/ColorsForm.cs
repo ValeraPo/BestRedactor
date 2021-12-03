@@ -29,26 +29,26 @@ namespace BestRedactor.Forms
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            //Общим метод для цветокора
+            pictureBox.Image = ColorBalance.RgbBalance(_picture.Bitmap, trackBarRed.Value, trackBarGreen.Value, trackBarBlue.Value);
             _main.Refresh();
             Close();
         }
 
         private void trackBarRed_Scroll(object sender, EventArgs e)
         {
-            pictureBox.Image = ColorBalance.R(_preView, trackBarRed.Value);
+            pictureBox.Image = ColorBalance.RgbBalance(_preView, trackBarRed.Value, trackBarGreen.Value, trackBarBlue.Value);
             pictureBox.Refresh();
         }
 
         private void trackBarGreen_Scroll(object sender, EventArgs e)
         {
-            pictureBox.Image = ColorBalance.G(_preView, trackBarRed.Value);
+            pictureBox.Image = ColorBalance.RgbBalance(_preView, trackBarRed.Value, trackBarGreen.Value, trackBarBlue.Value);
             pictureBox.Refresh();
         }
 
         private void trackBarBlue_Scroll(object sender, EventArgs e)
         {
-            pictureBox.Image = ColorBalance.B(_preView, trackBarRed.Value);
+            pictureBox.Image = ColorBalance.RgbBalance(_preView, trackBarRed.Value, trackBarGreen.Value, trackBarBlue.Value);
             pictureBox.Refresh();
         }
     }

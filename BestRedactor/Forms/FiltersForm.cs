@@ -44,14 +44,15 @@ namespace BestRedactor.Forms
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            _fd(_picture.Bitmap, trackBar.Value);
-            _main.RefreshAndPbImage();
+            _picture.Bitmap = _fd(_picture.Bitmap, trackBar.Value);
+            _main.Refresh();
             Close();
         }
 
         private void trackBar_Scroll(object sender, EventArgs e)
         {
             pictureBox.Image = _fd(_preView, trackBar.Value);
+            pictureBox.Refresh();
         }
     }
 }

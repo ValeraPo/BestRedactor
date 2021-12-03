@@ -5,7 +5,6 @@ namespace BestRedactor.Logics
 {
     public static class Resize
     {
-        // Обратите внимание что данный метод возвращает битмап, и никак не меняет исходное изображение
         public static Bitmap Resizing(Bitmap image, double coefficient)
         {
             Bitmap resized = new Bitmap(image,
