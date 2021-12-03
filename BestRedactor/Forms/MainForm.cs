@@ -30,6 +30,8 @@ namespace BestRedactor.Forms
         private          ColorDialog   _cd       = new();
         private          bool          _isClickedColor; //добавить к логике выбора цвета
         private          int           _x, _y, _sX, _sY, _cX, _cY;
+        private          Picture       _picture => _pictures[tabControlPage.SelectedIndex];
+        private          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[0];
 
 
         private enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, Brush };
@@ -39,15 +41,14 @@ namespace BestRedactor.Forms
         public Filters _selectedFilter;
 
 
-        private void tsBtnBrush_Click(object sender, EventArgs e) => _currentTool = Tools.Pencil;
-        private void tsBtnPen_Click(object sender, EventArgs e) => _currentTool = Tools.Pencil;
-        private void tsBtnEraser_Click(object sender, EventArgs e) => _currentTool = Tools.Erase;
+        private void tsBtnBrush_Click(object sender, EventArgs e) =>           _currentTool = Tools.Pencil;
+        private void tsBtnPen_Click(object sender, EventArgs e) =>             _currentTool = Tools.Pencil;
+        private void tsBtnEraser_Click(object sender, EventArgs e) =>          _currentTool = Tools.Erase;
         private void tsBtnMenuItemEllipce_Click(object sender, EventArgs e) => _currentTool = Tools.Ellipce;
-        private void tsBtnMenuItemLine_Click(object sender, EventArgs e) => _currentTool = Tools.Line;
-        private void tsBtnMenuItemRect_Click(object sender, EventArgs e) => _currentTool = Tools.Rectangle;
-        private void tsBtnFill_Click(object sender, EventArgs e) => _currentTool = Tools.Fill;
-        private void tsBtnPipette_Click(object sender, EventArgs e) => _currentTool = Tools.Pipette;
-
+        private void tsBtnMenuItemLine_Click(object sender, EventArgs e) =>    _currentTool = Tools.Line;
+        private void tsBtnMenuItemRect_Click(object sender, EventArgs e) =>    _currentTool = Tools.Rectangle;
+        private void tsBtnFill_Click(object sender, EventArgs e) =>            _currentTool = Tools.Fill;
+        private void tsBtnPipette_Click(object sender, EventArgs e) =>         _currentTool = Tools.Pipette;
 
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
@@ -58,7 +59,7 @@ namespace BestRedactor.Forms
 
 
         private void timerAutoSave_Tick(object sender, EventArgs e) => AutoSave.Backup(_pictures);
-        private void toolStripMenuItem1_Click(object sender, EventArgs e) => FileManagerL.Save(_pictures[tabControlPage.SelectedIndex]);
+        private void toolStripMenuItem1_Click(object sender, EventArgs e) => FileManagerL.Save(_picture);
         private void SaveAll(object sander, EventArgs e) => FileManagerL.SaveAll(_pictures);
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -79,7 +80,7 @@ namespace BestRedactor.Forms
         {
             var sfd = new SaveFileDialog();
             sfd.Filter = @"Jpeg(*.jpeg)|*.jpeg|Jpg(*.jpg)|*.jpg|Gif(*.gif)|*.gif|Icon(*.icon)|*.icon|Png(*.png)|*.png|Bmp(*.bmp)|*.bmp|Emf(*.emf)|*.emf|Exif(*.exif)|*.exif|Tiff(*.tiff)|*.tiff|Wmf(*.wmf)|*.wmf|Memorybmp(*.memorybmp)|*.memorybpmp";
-            sfd.FilterIndex = _pictures[tabControlPage.SelectedIndex].ImageFormat.ToString().ToLower() switch
+            sfd.FilterIndex = _picture.ImageFormat.ToString().ToLower() switch
             {
                 "jpeg"      => 1,
                 "gif"       => 3,
@@ -100,7 +101,7 @@ namespace BestRedactor.Forms
 
             try
             {
-                _pictures[tabControlPage.SelectedIndex].ImageFormat = sfd.FilterIndex switch
+                _picture.ImageFormat = sfd.FilterIndex switch
                 {
                     1  => ImageFormat.Jpeg,
                     2  => ImageFormat.Jpeg,
@@ -115,7 +116,7 @@ namespace BestRedactor.Forms
                     11 => ImageFormat.MemoryBmp,
                     _  => throw new AggregateException("Недоступный тип файла")
                 };
-                FileManagerL.SaveAs(_pictures[tabControlPage.SelectedIndex], sfd.FileName);
+                FileManagerL.SaveAs(_picture, sfd.FileName);
             }
             catch (Exception ex)
             {
@@ -134,7 +135,7 @@ namespace BestRedactor.Forms
                 _pictures.Add((Picture)FileManagerL.Load(ofd.FileName));
                 AddNewTabPages(_pictures[Settings.OpenedTabs]);
                 Refresh();
-                lblPictureSize.Text = $"{GetPictureBox().Image.Width} x {GetPictureBox().Image.Height}";
+                lblPictureSize.Text = $"{_pb.Image.Width} x {_pb.Image.Height}";
             }
             catch (Exception ex)
             {
@@ -155,6 +156,7 @@ namespace BestRedactor.Forms
             tp.TabIndex                = Settings.OpenedTabs;
             tp.UseVisualStyleBackColor = true;
             //
+            pb.SizeMode   =  PictureBoxSizeMode.Zoom;
             pb.Location   =  new Point(0, 0);
             pb.Name       =  $"pb{Settings.OpenedTabs}";
             pb.Size       =  new Size(picture.Bitmap.Width, picture.Bitmap.Height);
@@ -170,8 +172,7 @@ namespace BestRedactor.Forms
             tp.Controls.Add(pb); //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
             tabControlPage.SelectedTab = tp;
-            tabControlPage.Size = new Size(_pictures[tabControlPage.SelectedIndex].Bitmap.Width + 12,
-                _pictures[tabControlPage.SelectedIndex].Bitmap.Height + 32);
+            tabControlPage.Size = new Size(_picture.Bitmap.Width + 12, _picture.Bitmap.Height + 32);
             Settings.OpenedTabs += 1;
 
             lblPictureSize.Text = $"{picture.Bitmap.Width} x {picture.Bitmap.Height}";
@@ -210,26 +211,34 @@ namespace BestRedactor.Forms
 
 
 
-        private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) => new FiltersForm(_pictures[tabControlPage.SelectedIndex], this, Filters.Contrast).ShowDialog();
+        private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) => new FiltersForm(_picture, this, Filters.Contrast).ShowDialog();
         private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
         {
             
-            new FiltersForm(_pictures[tabControlPage.SelectedIndex], this, Filters.Blur).ShowDialog();
+            new FiltersForm(_picture, this, Filters.Blur).ShowDialog();
             
         }
-        private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) => new FiltersForm(_pictures[tabControlPage.SelectedIndex], this, Filters.Brightness).ShowDialog();
+        private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) => new FiltersForm(_picture, this, Filters.Brightness).ShowDialog();
+        public void RefreshAndSize()
+        {
+            _pb.Size = new Size(_picture.Bitmap.Width,
+                _picture.Bitmap.Height);
+            tabControlPage.SelectedTab.Size = _pb.Size;
+            Refresh();
+        }
         public void Refresh()
         {
-            tabControlPage.Size = new Size(_pictures[tabControlPage.SelectedIndex].Bitmap.Width + 12,
-                _pictures[tabControlPage.SelectedIndex].Bitmap.Height + 32);
-            tabControlPage.SelectedTab.Controls[0].Refresh();
-            _gra = Graphics.FromImage(_pictures[tabControlPage.SelectedIndex].Bitmap);
+            tabControlPage.Size = new Size(_picture.Bitmap.Width + 12,
+                _picture.Bitmap.Height + 32);
+            tabControlPage.Refresh();
+            _pb.Refresh();
+            _gra = Graphics.FromImage(_picture.Bitmap);
         }
         
 
         private void drDBtnTSMenuItColors_Click(object sender, EventArgs e)
         {
-            ColorsForm cf = new ColorsForm(_pictures[tabControlPage.SelectedIndex], this);
+            ColorsForm cf = new ColorsForm(_picture, this);
             cf.ShowDialog();
             cf.pictureBox.Image = pictureBox.Image;
         }
@@ -257,17 +266,17 @@ namespace BestRedactor.Forms
         
         private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
         {
-            Logics.Precision.Sharpness(_pictures[tabControlPage.SelectedIndex]);
+            Logics.Precision.Sharpness(_picture);
         }
 
         
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
             if (_currentTool == Tools.Fill)
-                Fill(_pictures[tabControlPage.SelectedIndex].Bitmap, e.X, e.Y, Settings.LastUseColor);
+                Fill(_picture.Bitmap, e.X, e.Y, Settings.LastUseColor);
             if (_currentTool != Tools.Pipette)
                 return;
-            Settings.LastUseColor  = _pictures[tabControlPage.SelectedIndex].Bitmap.GetPixel(e.X, e.Y);
+            Settings.LastUseColor  = _picture.Bitmap.GetPixel(e.X, e.Y);
             _pen.Color             = Settings.LastUseColor;
             tsBtn_color1.BackColor = Settings.LastUseColor;
         }
@@ -276,7 +285,7 @@ namespace BestRedactor.Forms
         {
             if (trackBarZoom.Value > 49)
             {
-                GetPictureBox().Image = ZoomImage(GetPictureBox().Image, trackBarZoom.Value);
+                _pb.Image = ZoomImage(_pb.Image, trackBarZoom.Value);
                 lblZoom.Text = $"{trackBarZoom.Value} %";
             }
             else
@@ -286,19 +295,19 @@ namespace BestRedactor.Forms
         {
             
                 Bitmap scaledImage;
-                /// Ширина и высота результирующего изображения
+                // Ширина и высота результирующего изображения
                 float w = orig.Width * percent / 100;
                 float h = orig.Height * percent / 100;
                 scaledImage = new Bitmap((int)w, (int)h);
-                /// DPI результирующего изображения
+                // DPI результирующего изображения
                 scaledImage.SetResolution(orig.HorizontalResolution, orig.VerticalResolution);
-                /// Часть исходного изображения, для которой меняем масштаб.
-                /// В данном случае — всё изображение
+                // Часть исходного изображения, для которой меняем масштаб.
+                // В данном случае — всё изображение
                 Rectangle src = new Rectangle(0, 0, orig.Width, orig.Height);
-                /// Часть изображения, которую будем рисовать
-                /// В данном случае — всё изображение
+                // Часть изображения, которую будем рисовать
+                // В данном случае — всё изображение
                 RectangleF dest = new RectangleF(0, 0, w, h);
-                /// Прорисовка с изменённым масштабом
+                // Прорисовка с изменённым масштабом
                 using (Graphics g = Graphics.FromImage(scaledImage))
                 {
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
@@ -307,18 +316,7 @@ namespace BestRedactor.Forms
                 return scaledImage;
             
         }
-        private PictureBox GetPictureBox()
-        {
-            PictureBox pb = null;
-            TabPage tp = tabControlPage.SelectedTab;
-
-            if (tp != null)
-            {
-                pb = tp.Controls[0] as PictureBox;
-            }
-
-            return pb;
-        }
+        
 
         private void btnZoomMinus_Click(object sender, EventArgs e)
         {
@@ -334,50 +332,50 @@ namespace BestRedactor.Forms
 
         private void drDBtnTSMenuItDiscolor_Click(object sender, EventArgs e)
         {
-            Logics.ColorBalance.ToGrayScale(_pictures[tabControlPage.SelectedIndex]);
+            Logics.ColorBalance.ToGrayScale(_picture);
         }
 
         private void toolStripMenuInversion_Click(object sender, EventArgs e)
         {
-            Logics.ColorBalance.IverseColor(_pictures[tabControlPage.SelectedIndex]);
+            Logics.ColorBalance.IverseColor(_picture);
         }
 
         private void toolStripMenuSepia_Click(object sender, EventArgs e)
         {
-            Logics.ColorBalance.Sepia(_pictures[tabControlPage.SelectedIndex]); //не фурычит
+            Logics.ColorBalance.Sepia(_picture); //не фурычит
         }
 
         private void toolStripMenuNoize_Click(object sender, EventArgs e)
         {
-            Logics.Precision.Noise(_pictures[tabControlPage.SelectedIndex]);    //не фурычит
+            Logics.Precision.Noise(_picture);    //не фурычит
         }
 
         private void MirrorVertically_Click(object sender, EventArgs e)
         {
-            Logics.Rotation.VerticalReflection(_pictures[tabControlPage.SelectedIndex]);
+            Logics.Rotation.VerticalReflection(_picture);
         }
 
         private void ToolStripMenuHoris_Click(object sender, EventArgs e)
         {
-            Logics.Rotation.HorizontalReflection(_pictures[tabControlPage.SelectedIndex]);
+            Logics.Rotation.HorizontalReflection(_picture);
         }
 
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
-            Logics.Rotation.PictureRotationBy(_pictures[tabControlPage.SelectedIndex], 90);
-            Refresh();
+            _pb.Image = Rotation.PictureRotationBy(_picture, 90).Bitmap;
+            RefreshAndSize();
         }
 
         private void toolStripMenuRotBy270_Click(object sender, EventArgs e)
         {
-            Logics.Rotation.PictureRotationBy(_pictures[tabControlPage.SelectedIndex], 270);
-            Refresh();
+            _pb.Image = Rotation.PictureRotationBy(_picture, 270).Bitmap;
+            RefreshAndSize();
         }
 
         private void toolStripMenuRotBy180_Click(object sender, EventArgs e)
         {
-            _pictures[tabControlPage.SelectedIndex] = (Picture)Rotation.PictureRotationBy(_pictures[tabControlPage.SelectedIndex], 45);
-            Refresh();
+            _pb.Image = Rotation.PictureRotationBy(_picture, 45).Bitmap;
+            RefreshAndSize();
         }
 
         
@@ -431,7 +429,7 @@ namespace BestRedactor.Forms
 
             }
 
-            tabControlPage.SelectedTab.Controls[0].Refresh(); //move out from collection 
+            _pb.Refresh(); //move out from collection 
             _x  = e.X;
             _y  = e.Y;
             _sX = e.X - _cX;
