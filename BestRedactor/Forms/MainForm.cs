@@ -260,14 +260,6 @@ namespace BestRedactor.Forms
 
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) => Close();
-        
-        private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
-        {
-            Precision.Sharpness(_picture.Bitmap);
-            Refresh();
-        }
-
-        
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
             if (_currentTool == Tools.Fill)
@@ -279,6 +271,7 @@ namespace BestRedactor.Forms
             tsBtn_color1.BackColor = Settings.LastUseColor;
         }
         
+
         private void trackBarZoom_Scroll(object sender, EventArgs e)
         {
             if (trackBarZoom.Value > 49)
@@ -324,12 +317,17 @@ namespace BestRedactor.Forms
             trackBarZoom_Scroll(null, null);
             trackBarZoom.Value += 25;
         }
-        
 
+
+        private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
+        {
+            _picture.Bitmap = Precision.Sharpness(_picture.Bitmap);
+            RefreshAndPbImage();
+        }
         private void drDBtnTSMenuItDiscolor_Click(object sender, EventArgs e)
         {
-            ColorBalance.ToGrayScale(_picture.Bitmap);
-            Refresh();
+            _picture.Bitmap = ColorBalance.ToGrayScale(_picture.Bitmap);
+            RefreshAndPbImage();
         }
         private void toolStripMenuInversion_Click(object sender, EventArgs e)
         {

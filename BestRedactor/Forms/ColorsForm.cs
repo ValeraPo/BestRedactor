@@ -36,18 +36,21 @@ namespace BestRedactor.Forms
 
         private void trackBarRed_Scroll(object sender, EventArgs e)
         {
+            R.Text = $@"{trackBarRed.Value - 100}";
             pictureBox.Image = ColorBalance.RgbBalance(_preView, trackBarRed.Value, trackBarGreen.Value, trackBarBlue.Value);
             pictureBox.Refresh();
         }
 
         private void trackBarGreen_Scroll(object sender, EventArgs e)
         {
+            G.Text = $@"{trackBarGreen.Value - 100}";
             pictureBox.Image = ColorBalance.RgbBalance(_preView, trackBarRed.Value, trackBarGreen.Value, trackBarBlue.Value);
             pictureBox.Refresh();
         }
 
         private void trackBarBlue_Scroll(object sender, EventArgs e)
         {
+            B.Text = $@"{trackBarBlue.Value - 100}";
             pictureBox.Image = ColorBalance.RgbBalance(_preView, trackBarRed.Value, trackBarGreen.Value, trackBarBlue.Value);
             pictureBox.Refresh();
         }
