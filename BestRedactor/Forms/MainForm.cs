@@ -213,7 +213,11 @@ namespace BestRedactor.Forms
 
 
         private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) => new FiltersForm(_picture, this, Filters.Contrast).ShowDialog();
-        private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e) => Precision.Blur(_picture.Bitmap);
+        private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
+        {
+            _picture.Bitmap = Precision.Blur(_picture.Bitmap);
+            RefreshAndPbImage();
+        }
         private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) => new FiltersForm(_picture, this, Filters.Brightness).ShowDialog();
         private void drDBtnTSMenuItColors_Click(object sender, EventArgs e) => new ColorsForm(_picture, this).ShowDialog();
         public void RefreshAndSize()
@@ -310,68 +314,58 @@ namespace BestRedactor.Forms
                 return scaledImage;
             
         }
-        
-
         private void btnZoomMinus_Click(object sender, EventArgs e)
         {
             trackBarZoom_Scroll(null, null);
             trackBarZoom.Value -= 25;
         }
-
         private void btnZoomPlus_Click(object sender, EventArgs e)
         {
             trackBarZoom_Scroll(null, null);
             trackBarZoom.Value += 25;
         }
+        
 
         private void drDBtnTSMenuItDiscolor_Click(object sender, EventArgs e)
         {
             ColorBalance.ToGrayScale(_picture.Bitmap);
             Refresh();
         }
-
         private void toolStripMenuInversion_Click(object sender, EventArgs e)
         {
-            ColorBalance.IverseColor(_picture.Bitmap);
-            Refresh();
+            _picture.Bitmap = ColorBalance.IverseColor(_picture.Bitmap);
+            RefreshAndPbImage();
         }
-
         private void toolStripMenuSepia_Click(object sender, EventArgs e)
         {
-            ColorBalance.Sepia(_picture.Bitmap); //не фурычит
-            Refresh();
+            _picture.Bitmap = ColorBalance.Sepia(_picture.Bitmap); 
+            RefreshAndPbImage();
         }
-
         private void toolStripMenuNoize_Click(object sender, EventArgs e)
         {
-            Precision.Noise(_picture.Bitmap);    //не фурычит
-            Refresh();
+            _picture.Bitmap = Precision.Noise(_picture.Bitmap);    
+            RefreshAndPbImage();
         }
-
         private void MirrorVertically_Click(object sender, EventArgs e)
         {
             _pb.Image = Rotation.VerticalReflection(_picture.Bitmap);
             Refresh();
         }
-
         private void ToolStripMenuHoris_Click(object sender, EventArgs e)
         {
             _pb.Image = Rotation.HorizontalReflection(_picture.Bitmap);
             Refresh();
         }
-
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
             _pb.Image = Rotation.PictureRotationBy(_picture.Bitmap, 90);
             RefreshAndSize();
         }
-
         private void toolStripMenuRotBy270_Click(object sender, EventArgs e)
         {
             _pb.Image = Rotation.PictureRotationBy(_picture.Bitmap, 270);
             RefreshAndSize();
         }
-
         private void toolStripMenuRotBy180_Click(object sender, EventArgs e)
         {
             _pb.Image = Rotation.PictureRotationBy(_picture.Bitmap, 180);
