@@ -79,8 +79,14 @@ namespace BestRedactor.Forms
             this.tsBtnPen = new System.Windows.Forms.ToolStripButton();
             this.tsSplitButtonShape = new System.Windows.Forms.ToolStripSplitButton();
             this.tsBtnMenuItemLine = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnMenuItemCircle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnMenuItemEllipce = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnMenuItemRect = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuSquare = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnMenuItemCircleFill = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnMenuItemEllipceFill = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnMenuItemRectFill = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuSquareFill = new System.Windows.Forms.ToolStripMenuItem();
             this.tsDropDownFilters = new System.Windows.Forms.ToolStripDropDownButton();
             this.drDBtnTSMenuItDiscolor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuInversion = new System.Windows.Forms.ToolStripMenuItem();
@@ -526,8 +532,14 @@ namespace BestRedactor.Forms
             this.tsSplitButtonShape.DropDownButtonWidth = 5;
             this.tsSplitButtonShape.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsBtnMenuItemLine,
+            this.tsBtnMenuItemCircle,
             this.tsBtnMenuItemEllipce,
-            this.tsBtnMenuItemRect});
+            this.toolStripMenuSquare,
+            this.tsBtnMenuItemRect,
+            this.tsBtnMenuItemCircleFill,
+            this.tsBtnMenuItemEllipceFill,
+            this.toolStripMenuSquareFill,
+            this.tsBtnMenuItemRectFill});
             this.tsSplitButtonShape.Image = ((System.Drawing.Image)(resources.GetObject("tsSplitButtonShape.Image")));
             this.tsSplitButtonShape.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsSplitButtonShape.Name = "tsSplitButtonShape";
@@ -538,25 +550,67 @@ namespace BestRedactor.Forms
             // 
             this.tsBtnMenuItemLine.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnMenuItemLine.Image")));
             this.tsBtnMenuItemLine.Name = "tsBtnMenuItemLine";
-            this.tsBtnMenuItemLine.Size = new System.Drawing.Size(161, 22);
+            this.tsBtnMenuItemLine.Size = new System.Drawing.Size(236, 22);
             this.tsBtnMenuItemLine.Text = "линия";
             this.tsBtnMenuItemLine.Click += new System.EventHandler(this.tsBtnMenuItemLine_Click);
+            // 
+            // tsBtnMenuItemCircle
+            // 
+            this.tsBtnMenuItemCircle.Name = "tsBtnMenuItemCircle";
+            this.tsBtnMenuItemCircle.Size = new System.Drawing.Size(236, 22);
+            this.tsBtnMenuItemCircle.Text = "Круг";
+            this.tsBtnMenuItemCircle.Click += new System.EventHandler(this.tsBtnMenuItemCircle_Click);
             // 
             // tsBtnMenuItemEllipce
             // 
             this.tsBtnMenuItemEllipce.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnMenuItemEllipce.Image")));
             this.tsBtnMenuItemEllipce.Name = "tsBtnMenuItemEllipce";
-            this.tsBtnMenuItemEllipce.Size = new System.Drawing.Size(161, 22);
-            this.tsBtnMenuItemEllipce.Text = "эллипс";
+            this.tsBtnMenuItemEllipce.Size = new System.Drawing.Size(236, 22);
+            this.tsBtnMenuItemEllipce.Text = "Эллипс";
             this.tsBtnMenuItemEllipce.Click += new System.EventHandler(this.tsBtnMenuItemEllipce_Click);
             // 
             // tsBtnMenuItemRect
             // 
             this.tsBtnMenuItemRect.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnMenuItemRect.Image")));
             this.tsBtnMenuItemRect.Name = "tsBtnMenuItemRect";
-            this.tsBtnMenuItemRect.Size = new System.Drawing.Size(161, 22);
+            this.tsBtnMenuItemRect.Size = new System.Drawing.Size(236, 22);
             this.tsBtnMenuItemRect.Text = "прямоугольник";
             this.tsBtnMenuItemRect.Click += new System.EventHandler(this.tsBtnMenuItemRect_Click);
+            // 
+            // toolStripMenuSquare
+            // 
+            this.toolStripMenuSquare.Name = "toolStripMenuSquare";
+            this.toolStripMenuSquare.Size = new System.Drawing.Size(236, 22);
+            this.toolStripMenuSquare.Text = "Квадрат";
+            this.toolStripMenuSquare.Click += new System.EventHandler(this.toolStripMenuSquare_Click);
+            // 
+            // tsBtnMenuItemCircleFill
+            // 
+            this.tsBtnMenuItemCircleFill.Name = "tsBtnMenuItemCircleFill";
+            this.tsBtnMenuItemCircleFill.Size = new System.Drawing.Size(212, 22);
+            this.tsBtnMenuItemCircleFill.Text = "Залитый круг";
+            this.tsBtnMenuItemCircleFill.Click += new System.EventHandler(this.tsBtnMenuItemCircleFill_Click);
+            // 
+            // tsBtnMenuItemEllipceFill
+            // 
+            this.tsBtnMenuItemEllipceFill.Name = "tsBtnMenuItemEllipceFill";
+            this.tsBtnMenuItemEllipceFill.Size = new System.Drawing.Size(212, 22);
+            this.tsBtnMenuItemEllipceFill.Text = "Залитый эликс";
+            this.tsBtnMenuItemEllipceFill.Click += new System.EventHandler(this.tsBtnMenuItemEllipceFill_Click);
+            // 
+            // tsBtnMenuItemRectFill
+            // 
+            this.tsBtnMenuItemRectFill.Name = "tsBtnMenuItemRectFill";
+            this.tsBtnMenuItemRectFill.Size = new System.Drawing.Size(212, 22);
+            this.tsBtnMenuItemRectFill.Text = "Залитый прямоугольник";
+            this.tsBtnMenuItemRectFill.Click += new System.EventHandler(this.tsBtnMenuItemRectFill_Click);
+            // 
+            // toolStripMenuSquareFill
+            // 
+            this.toolStripMenuSquareFill.Name = "toolStripMenuSquareFill";
+            this.toolStripMenuSquareFill.Size = new System.Drawing.Size(236, 22);
+            this.toolStripMenuSquareFill.Text = "Залитый квадрат";
+            this.toolStripMenuSquareFill.Click += new System.EventHandler(this.toolStripMenuSquareFill_Click);
             // 
             // tsDropDownFilters
             // 
@@ -679,21 +733,21 @@ namespace BestRedactor.Forms
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(160, 22);
             this.toolStripMenuItem5.Text = "90";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
             // toolStripMenuRotBy270
             // 
             this.toolStripMenuRotBy270.Name = "toolStripMenuRotBy270";
-            this.toolStripMenuRotBy270.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuRotBy270.Size = new System.Drawing.Size(160, 22);
             this.toolStripMenuRotBy270.Text = "-90";
             this.toolStripMenuRotBy270.Click += new System.EventHandler(this.toolStripMenuRotBy270_Click);
             // 
             // toolStripMenuRotBy180
             // 
             this.toolStripMenuRotBy180.Name = "toolStripMenuRotBy180";
-            this.toolStripMenuRotBy180.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuRotBy180.Size = new System.Drawing.Size(160, 22);
             this.toolStripMenuRotBy180.Text = "180";
             this.toolStripMenuRotBy180.Click += new System.EventHandler(this.toolStripMenuRotBy180_Click);
             // 
@@ -950,6 +1004,12 @@ namespace BestRedactor.Forms
         private ToolStripMenuItem toolStripMenuInversion;
         private ToolStripMenuItem toolStripMenuSepia;
         private ToolStripMenuItem toolStripMenuNoize;
+        private ToolStripMenuItem tsBtnMenuItemEllipceFill;
+        private ToolStripMenuItem tsBtnMenuItemRectFill;
+        private ToolStripMenuItem tsBtnMenuItemCircle;
+        private ToolStripMenuItem toolStripMenuSquare;
+        private ToolStripMenuItem tsBtnMenuItemCircleFill;
+        private ToolStripMenuItem toolStripMenuSquareFill;
     }
 }
 
