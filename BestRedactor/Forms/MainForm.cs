@@ -222,6 +222,11 @@ namespace BestRedactor.Forms
             tabControlPage.SelectedTab.Size = _pb.Size;
             Refresh();
         }
+        public void RefreshAndPbImage()
+        {
+            _pb.Image = _picture.Bitmap;
+            Refresh();
+        }
         public void Refresh()
         {
             tabControlPage.Size = new Size(_picture.Bitmap.Width + 12, _picture.Bitmap.Height + 32);
