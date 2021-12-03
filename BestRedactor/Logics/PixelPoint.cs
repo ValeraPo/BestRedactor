@@ -19,7 +19,8 @@ namespace BestRedactor.Logics
             set
             {
                 if (value > 255) _r = 255;
-                if (value < 0) _r = 0;
+                else if (value < 0) _r = 0;
+                else _r = value;
             }
         }
         public int G
@@ -28,7 +29,8 @@ namespace BestRedactor.Logics
             set
             {
                 if (value > 255) _g = 255;
-                if (value < 0) _g = 0;
+                else if (value < 0) _g = 0;
+                else _g = value;
             }
         }
         public int B
@@ -37,7 +39,8 @@ namespace BestRedactor.Logics
             set
             {
                 if (value > 255) _b = 255;
-                if (value < 0) _b = 0;
+                else if (value < 0) _b = 0;
+                else _b = value;
             }
         }
     }
