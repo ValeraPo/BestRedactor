@@ -61,7 +61,7 @@ namespace BestRedactor.Logics
             return image;
         }
         // Чернобелый фильтр 
-        public IPicture ToGrayScale(IPicture image)
+        public static void ToGrayScale(IPicture image)
         {
             int rgb;
             Color c;
@@ -73,10 +73,10 @@ namespace BestRedactor.Logics
                     rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
                     image.Bitmap.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
                 }
-            return image;
+            //return image;
         }
         // Инвертирова цвета
-        public IPicture IverseColor(IPicture image)
+        public static void IverseColor(IPicture image)
         {
             for (int y = 0; (y <= (image.Bitmap.Height - 1)); y++)
             {
@@ -87,10 +87,10 @@ namespace BestRedactor.Logics
                     image.Bitmap.SetPixel(x, y, inv);
                 }
             }
-            return image;
+            //return image;
         }
         // Сепия
-        public IPicture Sepia(IPicture image)
+        public static IPicture Sepia(IPicture image)
         {
             float p = 10;
             int step = (int) Math.Floor(255 / p);

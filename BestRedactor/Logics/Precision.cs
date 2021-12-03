@@ -183,7 +183,7 @@ namespace BestRedactor.Logics
         }
         
         // Добавить шум
-        public IPicture Noise(IPicture image)
+        public static IPicture Noise(IPicture image)
         {
             float p = 10;
             int adjust = (int)(p * 2.55f);

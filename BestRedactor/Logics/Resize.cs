@@ -13,5 +13,6 @@ namespace BestRedactor.Logics
                 (int)(image.Bitmap.Height*coefficient)));
             return resized;
         }
+
     }
 }

@@ -31,20 +31,23 @@ namespace BestRedactor.Forms
         {
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.trackBar2 = new System.Windows.Forms.TrackBar();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.B = new System.Windows.Forms.Label();
+            this.G = new System.Windows.Forms.Label();
+            this.R = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.trackBarRed = new System.Windows.Forms.TrackBar();
+            this.trackBarGreen = new System.Windows.Forms.TrackBar();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
-            this.trackBar = new System.Windows.Forms.TrackBar();
+            this.trackBarBlue = new System.Windows.Forms.TrackBar();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarRed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarGreen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarBlue)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,41 +62,100 @@ namespace BestRedactor.Forms
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.B);
+            this.panel1.Controls.Add(this.G);
+            this.panel1.Controls.Add(this.R);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.trackBar2);
-            this.panel1.Controls.Add(this.trackBar1);
+            this.panel1.Controls.Add(this.trackBarRed);
+            this.panel1.Controls.Add(this.trackBarGreen);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Controls.Add(this.btnOk);
-            this.panel1.Controls.Add(this.trackBar);
+            this.panel1.Controls.Add(this.trackBarBlue);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 241);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(393, 229);
             this.panel1.TabIndex = 2;
             // 
-            // trackBar2
+            // B
             // 
-            this.trackBar2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.trackBar2.Location = new System.Drawing.Point(3, 40);
-            this.trackBar2.Maximum = 200;
-            this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(388, 45);
-            this.trackBar2.TabIndex = 5;
-            this.trackBar2.TickFrequency = 5;
-            this.trackBar2.Value = 100;
+            this.B.AutoSize = true;
+            this.B.Location = new System.Drawing.Point(189, 124);
+            this.B.Name = "B";
+            this.B.Size = new System.Drawing.Size(13, 15);
+            this.B.TabIndex = 11;
+            this.B.Text = "0";
             // 
-            // trackBar1
+            // G
             // 
-            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.trackBar1.Location = new System.Drawing.Point(3, 94);
-            this.trackBar1.Maximum = 200;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(388, 45);
-            this.trackBar1.TabIndex = 4;
-            this.trackBar1.TickFrequency = 5;
-            this.trackBar1.Value = 100;
+            this.G.AutoSize = true;
+            this.G.Location = new System.Drawing.Point(189, 76);
+            this.G.Name = "G";
+            this.G.Size = new System.Drawing.Size(13, 15);
+            this.G.TabIndex = 10;
+            this.G.Text = "0";
+            // 
+            // R
+            // 
+            this.R.AutoSize = true;
+            this.R.Location = new System.Drawing.Point(189, 19);
+            this.R.Name = "R";
+            this.R.Size = new System.Drawing.Size(13, 15);
+            this.R.TabIndex = 9;
+            this.R.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 127);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(43, 15);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Синий";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 70);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 15);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Зелёный";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(56, 15);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Красный";
+            // 
+            // trackBarRed
+            // 
+            this.trackBarRed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.trackBarRed.Location = new System.Drawing.Point(3, 40);
+            this.trackBarRed.Maximum = 200;
+            this.trackBarRed.Name = "trackBarRed";
+            this.trackBarRed.Size = new System.Drawing.Size(388, 45);
+            this.trackBarRed.TabIndex = 5;
+            this.trackBarRed.TickFrequency = 5;
+            this.trackBarRed.Value = 100;
+            this.trackBarRed.Scroll += new System.EventHandler(this.trackBarRed_Scroll);
+            // 
+            // trackBarGreen
+            // 
+            this.trackBarGreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.trackBarGreen.Location = new System.Drawing.Point(3, 94);
+            this.trackBarGreen.Maximum = 200;
+            this.trackBarGreen.Name = "trackBarGreen";
+            this.trackBarGreen.Size = new System.Drawing.Size(388, 45);
+            this.trackBarGreen.TabIndex = 4;
+            this.trackBarGreen.TickFrequency = 5;
+            this.trackBarGreen.Value = 100;
+            this.trackBarGreen.Scroll += new System.EventHandler(this.trackBarGreen_Scroll);
             // 
             // btnCancel
             // 
@@ -116,16 +178,17 @@ namespace BestRedactor.Forms
             this.btnOk.Text = "Применить";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
-            // trackBar
+            // trackBarBlue
             // 
-            this.trackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.trackBar.Location = new System.Drawing.Point(3, 145);
-            this.trackBar.Maximum = 200;
-            this.trackBar.Name = "trackBar";
-            this.trackBar.Size = new System.Drawing.Size(388, 45);
-            this.trackBar.TabIndex = 0;
-            this.trackBar.TickFrequency = 5;
-            this.trackBar.Value = 100;
+            this.trackBarBlue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.trackBarBlue.Location = new System.Drawing.Point(3, 145);
+            this.trackBarBlue.Maximum = 200;
+            this.trackBarBlue.Name = "trackBarBlue";
+            this.trackBarBlue.Size = new System.Drawing.Size(388, 45);
+            this.trackBarBlue.TabIndex = 0;
+            this.trackBarBlue.TickFrequency = 5;
+            this.trackBarBlue.Value = 100;
+            this.trackBarBlue.Scroll += new System.EventHandler(this.trackBarBlue_Scroll);
             // 
             // panel2
             // 
@@ -135,33 +198,6 @@ namespace BestRedactor.Forms
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(393, 291);
             this.panel2.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 15);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Красный";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 70);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 15);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Зелёный";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 127);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 15);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Синий";
             // 
             // ColorsForm
             // 
@@ -175,9 +211,9 @@ namespace BestRedactor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarRed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarGreen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarBlue)).EndInit();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -189,12 +225,15 @@ namespace BestRedactor.Forms
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.TrackBar trackBar;
+        private System.Windows.Forms.TrackBar trackBarBlue;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TrackBar trackBar2;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBarRed;
+        private System.Windows.Forms.TrackBar trackBarGreen;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label B;
+        private System.Windows.Forms.Label G;
+        private System.Windows.Forms.Label R;
     }
 }

@@ -24,10 +24,13 @@ namespace BestRedactor.Forms
         private Pen _pen = new(Settings.LastUseColor, Settings.LastUseSize);
         private readonly Pen _erase = new(Color.Transparent, 10);
         private List<Picture> _pictures = new();
-        private bool _isClickedColor;
+        private bool _isClickedColor;                                   //добавить к логике выбора цвета
+
 
         private enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, Brush };
         private Tools _currentTool = 0;
+        public enum Filters { None, Blur, Brightness, Contrast }
+        public Filters _selectedFilter;
         private int _x, _y, _sX, _sY, _cX, _cY;
         private ColorDialog _cd = new();
         
@@ -40,9 +43,9 @@ namespace BestRedactor.Forms
         private void tsBtnMenuItemRect_Click(object sender, EventArgs e) => _currentTool = Tools.Rectangle;
         private void tsBtnFill_Click(object sender, EventArgs e) => _currentTool = Tools.Fill;
         private void tsBtnPipette_Click(object sender, EventArgs e) => _currentTool = Tools.Pipette;
-        
-        
-       
+
+
+
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _gra.Clear(Color.Transparent);
@@ -74,17 +77,17 @@ namespace BestRedactor.Forms
             sfd.Filter = @"Jpeg(*.jpeg)|*.jpeg|Jpg(*.jpg)|*.jpg|Gif(*.gif)|*.gif|Icon(*.icon)|*.icon|Png(*.png)|*.png|Bmp(*.bmp)|*.bmp|Emf(*.emf)|*.emf|Exif(*.exif)|*.exif|Tiff(*.tiff)|*.tiff|Wmf(*.wmf)|*.wmf|Memorybmp(*.memorybmp)|*.memorybpmp";
             sfd.FilterIndex = _pictures[tabControlPage.SelectedIndex].ImageFormat.ToString().ToLower() switch
             {
-                "jpeg"      => 1,
-                "gif"       => 3,
-                "icon"      => 4,
-                "png"       => 5,
-                "bmp"       => 6,
-                "emf"       => 7,
-                "exif"      => 8,
-                "tiff"      => 9,
-                "wmf"       => 10,
+                "jpeg" => 1,
+                "gif" => 3,
+                "icon" => 4,
+                "png" => 5,
+                "bmp" => 6,
+                "emf" => 7,
+                "exif" => 8,
+                "tiff" => 9,
+                "wmf" => 10,
                 "memorybmp" => 11,
-                _           => throw new AggregateException("Не поддерживаемый тип данных")
+                _ => throw new AggregateException("Не поддерживаемый тип данных")
             };
             sfd.RestoreDirectory = true;
 
@@ -95,18 +98,18 @@ namespace BestRedactor.Forms
             {
                 _pictures[tabControlPage.SelectedIndex].ImageFormat = sfd.FilterIndex switch
                 {
-                    1  => ImageFormat.Jpeg,
-                    2  => ImageFormat.Jpeg,
-                    3  => ImageFormat.Gif,
-                    4  => ImageFormat.Icon,
-                    5  => ImageFormat.Png,
-                    6  => ImageFormat.Bmp,
-                    7  => ImageFormat.Emf,
-                    8  => ImageFormat.Exif,
-                    9  => ImageFormat.Tiff,
+                    1 => ImageFormat.Jpeg,
+                    2 => ImageFormat.Jpeg,
+                    3 => ImageFormat.Gif,
+                    4 => ImageFormat.Icon,
+                    5 => ImageFormat.Png,
+                    6 => ImageFormat.Bmp,
+                    7 => ImageFormat.Emf,
+                    8 => ImageFormat.Exif,
+                    9 => ImageFormat.Tiff,
                     10 => ImageFormat.Wmf,
                     11 => ImageFormat.MemoryBmp,
-                    _  => throw new AggregateException("Недоступный тип файла")
+                    _ => throw new AggregateException("Недоступный тип файла")
                 };
                 FileManagerL.SaveAs(_pictures[tabControlPage.SelectedIndex], sfd.FileName);
             }
@@ -117,7 +120,7 @@ namespace BestRedactor.Forms
         }
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             var ofd = new OpenFileDialog();
             ofd.Filter = @"Image Files(*.bmp;*.jpeg;*.jpg;*.gif;*.png;*.icon;*.emf;*.exif;*.tiff;*.wmf;*.memorybpmp)|*.bmp;*.jpeg;*.jpg;*.gif;*.png;*.icon;*.emf;*.exif;*.tiff;*.wmf;*.memorybpmp";
             if (ofd.ShowDialog() != DialogResult.OK)
@@ -127,6 +130,7 @@ namespace BestRedactor.Forms
                 _pictures.Add((Picture)FileManagerL.Load(ofd.FileName));
                 AddNewTabPages(_pictures[Settings.OpenedTabs]);
                 Refresh();
+                lblPictureSize.Text = $"{GetPictureBox().Image.Width} x {GetPictureBox().Image.Height}";
             }
             catch (Exception ex)
             {
@@ -138,26 +142,26 @@ namespace BestRedactor.Forms
             TabPage tp = new TabPage(picture.FileName);
             PictureBox pb = new PictureBox();
 
-            tp.BorderStyle             = BorderStyle.Fixed3D;
-            tp.Location                = new Point(0, 0);
-            tp.ForeColor               = SystemColors.ControlText;
-            tp.Name                    = $"tabPage{Settings.OpenedTabs}";
-            tp.Padding                 = new Padding(3);
-            tp.Size                    = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
-            tp.TabIndex                = Settings.OpenedTabs;
+            tp.BorderStyle = BorderStyle.Fixed3D;
+            tp.Location = new Point(0, 0);
+            tp.ForeColor = SystemColors.ControlText;
+            tp.Name = $"tabPage{Settings.OpenedTabs}";
+            tp.Padding = new Padding(3);
+            tp.Size = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
+            tp.TabIndex = Settings.OpenedTabs;
             tp.UseVisualStyleBackColor = true;
             //
-            pb.Location   =  new Point(0, 0);
-            pb.Name       =  $"pb{Settings.OpenedTabs}";
-            pb.Size       =  new Size(picture.Bitmap.Width, picture.Bitmap.Height);
-            pb.TabIndex   =  Settings.OpenedTabs;
-            pb.TabStop    =  false;
-            pb.Image      =  picture.Bitmap;
+            pb.Location = new Point(0, 0);
+            pb.Name = $"pb{Settings.OpenedTabs}";
+            pb.Size = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
+            pb.TabIndex = Settings.OpenedTabs;
+            pb.TabStop = false;
+            pb.Image = picture.Bitmap;
             pb.MouseClick += pictureBox_MouseClick;
-            pb.MouseDown  += pictureBox_MouseDown;
-            pb.MouseMove  += pictureBox_MouseMove;
-            pb.MouseUp    += pictureBox_MouseUp;
-            pb.Paint      += PbPaint;
+            pb.MouseDown += pictureBox_MouseDown;
+            pb.MouseMove += pictureBox_MouseMove;
+            pb.MouseUp += pictureBox_MouseUp;
+            pb.Paint += PbPaint;
 
             tp.Controls.Add(pb); //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
@@ -165,10 +169,12 @@ namespace BestRedactor.Forms
             tabControlPage.Size = new Size(_pictures[tabControlPage.SelectedIndex].Bitmap.Width + 12,
                 _pictures[tabControlPage.SelectedIndex].Bitmap.Height + 32);
             Settings.OpenedTabs += 1;
-        }
-        
 
-        
+            lblPictureSize.Text = $"{picture.Bitmap.Width} x {picture.Bitmap.Height}";
+        }
+
+
+
         // метод для поиска старого цвета до заливки формы новым цветом
         private void Validate(Bitmap bm, Stack<Point> sp, int x, int y, Color oldColor, Color newColor)
         {
@@ -198,10 +204,15 @@ namespace BestRedactor.Forms
             }
         }
 
-        
-        
+
+
         private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) => new FiltersForm(_pictures[tabControlPage.SelectedIndex], this).ShowDialog();
-        private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e) => new FiltersForm(_pictures[tabControlPage.SelectedIndex], this).ShowDialog();
+        private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
+        {
+            _selectedFilter = Filters.Blur;
+            new FiltersForm(_pictures[tabControlPage.SelectedIndex], this).ShowDialog();
+            _selectedFilter = 0;
+        }
         private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) => new FiltersForm(_pictures[tabControlPage.SelectedIndex], this).ShowDialog();
         public void Refresh()
         {
@@ -237,13 +248,10 @@ namespace BestRedactor.Forms
 
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) => Close();
-        private void lblCursorPos_Click(object sender, EventArgs e)
-        {
-
-        }
+        
         private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
         {
-
+            Logics.Precision.Sharpness(_pictures[tabControlPage.SelectedIndex]);
         }
 
         
@@ -257,6 +265,117 @@ namespace BestRedactor.Forms
             _pen.Color             = Settings.LastUseColor;
             tsBtn_color1.BackColor = Settings.LastUseColor;
         }
+        
+        private void trackBarZoom_Scroll(object sender, EventArgs e)
+        {
+            if (trackBarZoom.Value > 49)
+            {
+                GetPictureBox().Image = ZoomImage(GetPictureBox().Image, trackBarZoom.Value);
+                lblZoom.Text = $"{trackBarZoom.Value} %";
+            }
+            else
+                return;
+        }
+        Image ZoomImage(Image orig, float percent)
+        {
+            
+                Bitmap scaledImage;
+                /// Ширина и высота результирующего изображения
+                float w = orig.Width * percent / 100;
+                float h = orig.Height * percent / 100;
+                scaledImage = new Bitmap((int)w, (int)h);
+                /// DPI результирующего изображения
+                scaledImage.SetResolution(orig.HorizontalResolution, orig.VerticalResolution);
+                /// Часть исходного изображения, для которой меняем масштаб.
+                /// В данном случае — всё изображение
+                Rectangle src = new Rectangle(0, 0, orig.Width, orig.Height);
+                /// Часть изображения, которую будем рисовать
+                /// В данном случае — всё изображение
+                RectangleF dest = new RectangleF(0, 0, w, h);
+                /// Прорисовка с изменённым масштабом
+                using (Graphics g = Graphics.FromImage(scaledImage))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(orig, dest, src, GraphicsUnit.Pixel);
+                }
+                return scaledImage;
+            
+        }
+        private PictureBox GetPictureBox()
+        {
+            PictureBox pb = null;
+            TabPage tp = tabControlPage.SelectedTab;
+
+            if (tp != null)
+            {
+                pb = tp.Controls[0] as PictureBox;
+            }
+
+            return pb;
+        }
+
+        private void btnZoomMinus_Click(object sender, EventArgs e)
+        {
+            trackBarZoom_Scroll(null, null);
+            trackBarZoom.Value -= 25;
+        }
+
+        private void btnZoomPlus_Click(object sender, EventArgs e)
+        {
+            trackBarZoom_Scroll(null, null);
+            trackBarZoom.Value += 25;
+        }
+
+        private void drDBtnTSMenuItDiscolor_Click(object sender, EventArgs e)
+        {
+            Logics.ColorBalance.ToGrayScale(_pictures[tabControlPage.SelectedIndex]);
+        }
+
+        private void toolStripMenuInversion_Click(object sender, EventArgs e)
+        {
+            Logics.ColorBalance.IverseColor(_pictures[tabControlPage.SelectedIndex]);
+        }
+
+        private void toolStripMenuSepia_Click(object sender, EventArgs e)
+        {
+            Logics.ColorBalance.Sepia(_pictures[tabControlPage.SelectedIndex]); //не фурычит
+        }
+
+        private void toolStripMenuNoize_Click(object sender, EventArgs e)
+        {
+            Logics.Precision.Noise(_pictures[tabControlPage.SelectedIndex]);    //не фурычит
+        }
+
+        private void MirrorVertically_Click(object sender, EventArgs e)
+        {
+            Logics.Rotation.VerticalReflection(_pictures[tabControlPage.SelectedIndex]);
+        }
+
+        private void ToolStripMenuHoris_Click(object sender, EventArgs e)
+        {
+            Logics.Rotation.HorizontalReflection(_pictures[tabControlPage.SelectedIndex]);
+        }
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            Logics.Rotation.PictureRotationBy(_pictures[tabControlPage.SelectedIndex], 90);
+            Refresh();
+        }
+
+        private void toolStripMenuRotBy270_Click(object sender, EventArgs e)
+        {
+            Logics.Rotation.PictureRotationBy(_pictures[tabControlPage.SelectedIndex], 270);
+            Refresh();
+        }
+
+        private void toolStripMenuRotBy180_Click(object sender, EventArgs e)
+        {
+            Logics.Rotation.PictureRotationBy(_pictures[tabControlPage.SelectedIndex], 180);
+            Refresh();
+        }
+
+        
+
         private void PbPaint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
@@ -311,6 +430,7 @@ namespace BestRedactor.Forms
             _y  = e.Y;
             _sX = e.X - _cX;
             _sY = e.Y - _cY;
+            lblCursorPos.Text = $"{e.Location.X},{e.Location.Y}";   //отображение позиции курсора
         }
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {

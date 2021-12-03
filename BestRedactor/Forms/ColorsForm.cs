@@ -10,7 +10,7 @@ namespace BestRedactor.Forms
         public ColorsForm(IPicture picture, MainForm mainForm)
         {
             InitializeComponent();
-            pictureBox.Image = picture.Bitmap;
+            pictureBox.Image = Logics.Resize.Resizing(picture, (picture.Bitmap.Width > 1024 || picture.Bitmap.Height > 768) ? 0.3 : 1);
             Text = $"{pictureBox.Image.Width}X{pictureBox.Image.Height} || {picture.Bitmap.Width}X{picture.Bitmap.Height}";
             _picture = (Picture)picture;
             _main    = mainForm;
@@ -25,10 +25,24 @@ namespace BestRedactor.Forms
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            // код для обработки
-            //MainForm = this.pictureBox.Image;
+            
             _main.Refresh();
             Close();
+        }
+
+        private void trackBarRed_Scroll(object sender, EventArgs e)
+        {
+            Logics.ColorBalance.R(_picture, trackBarRed.Value, 200);
+        }
+
+        private void trackBarGreen_Scroll(object sender, EventArgs e)
+        {
+            Logics.ColorBalance.G(_picture, trackBarRed.Value, 200);
+        }
+
+        private void trackBarBlue_Scroll(object sender, EventArgs e)
+        {
+            Logics.ColorBalance.B(_picture, trackBarRed.Value, 200);
         }
     }
 }
