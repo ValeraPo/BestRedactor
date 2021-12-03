@@ -24,8 +24,8 @@ namespace BestRedactor.Logics
                 {
                     c = image.GetPixel(x, y);
                     rgb.R = (c.R + N * 128 / 100);
-                    rgb.G = (c.B + N * 128 / 100);
-                    rgb.B = (c.G + N * 128 / 100);
+                    rgb.G = (c.G + N * 128 / 100);
+                    rgb.B = (c.B + N * 128 / 100);
                     image.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
                 }
             return image;
@@ -46,14 +46,14 @@ namespace BestRedactor.Logics
                     {
                         if (N == 100) N = 99;
                         rgb.R = (c.R * 100 - 128 * N) / (100 - N);
-                        rgb.G = (c.B * 100 - 128 * N) / (100 - N);
-                        rgb.B = (c.G * 100 - 128 * N) / (100 - N);
+                        rgb.G = (c.G * 100 - 128 * N) / (100 - N);
+                        rgb.B = (c.B * 100 - 128 * N) / (100 - N);
                     }
                     else
                     {
                         rgb.R = (c.R * (100 + N) - 128 * N) / 100;
-                        rgb.G = (c.B * (100 + N) - 128 * N) / 100;
-                        rgb.B = (c.G * (100 + N) - 128 * N) / 100;
+                        rgb.G = (c.G * (100 + N) - 128 * N) / 100;
+                        rgb.B = (c.B * (100 + N) - 128 * N) / 100;
                         
                     }
                     image.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
