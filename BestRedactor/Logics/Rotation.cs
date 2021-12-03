@@ -43,7 +43,7 @@ namespace BestRedactor.Logics
             return picture;
         }
 
-        private static Bitmap BitmapRotationBy(Image bmp, int angle)
+        private static Bitmap BitmapRotationBy(Bitmap bmp, int angle)
         {
             var w       = bmp.Width;
             var h       = bmp.Height;

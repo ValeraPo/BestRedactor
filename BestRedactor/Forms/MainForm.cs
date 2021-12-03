@@ -210,16 +210,18 @@ namespace BestRedactor.Forms
 
 
 
-        private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) => new FiltersForm(_pictures[tabControlPage.SelectedIndex], this).ShowDialog();
+        private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) => new FiltersForm(_pictures[tabControlPage.SelectedIndex], this, Filters.Contrast).ShowDialog();
         private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
         {
-            _selectedFilter = Filters.Blur;
-            new FiltersForm(_pictures[tabControlPage.SelectedIndex], this).ShowDialog();
-            _selectedFilter = 0;
+            
+            new FiltersForm(_pictures[tabControlPage.SelectedIndex], this, Filters.Blur).ShowDialog();
+            
         }
-        private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) => new FiltersForm(_pictures[tabControlPage.SelectedIndex], this).ShowDialog();
+        private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) => new FiltersForm(_pictures[tabControlPage.SelectedIndex], this, Filters.Brightness).ShowDialog();
         public void Refresh()
         {
+            tabControlPage.Size = new Size(_pictures[tabControlPage.SelectedIndex].Bitmap.Width + 12,
+                _pictures[tabControlPage.SelectedIndex].Bitmap.Height + 32);
             tabControlPage.SelectedTab.Controls[0].Refresh();
             _gra = Graphics.FromImage(_pictures[tabControlPage.SelectedIndex].Bitmap);
         }
@@ -374,7 +376,7 @@ namespace BestRedactor.Forms
 
         private void toolStripMenuRotBy180_Click(object sender, EventArgs e)
         {
-            Logics.Rotation.PictureRotationBy(_pictures[tabControlPage.SelectedIndex], 180);
+            _pictures[tabControlPage.SelectedIndex] = (Picture)Rotation.PictureRotationBy(_pictures[tabControlPage.SelectedIndex], 45);
             Refresh();
         }
 
@@ -484,10 +486,7 @@ namespace BestRedactor.Forms
         }
         private void tabControlPage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tabControlPage.Size = new Size(_pictures[tabControlPage.SelectedIndex].Bitmap.Width + 12,
-                _pictures[tabControlPage.SelectedIndex].Bitmap.Height + 32);
-            tabControlPage.SelectedTab.Controls[0].Refresh();
-            _gra = Graphics.FromImage(_pictures[tabControlPage.SelectedIndex].Bitmap);
+            Refresh();
         }
     }
 }

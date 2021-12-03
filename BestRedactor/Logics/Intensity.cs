@@ -34,7 +34,7 @@ namespace BestRedactor.Logics
         //контрастность
         public static IPicture Contrast(IPicture image, int poz, int lenght)
         {
-            int N = (100 / lenght) * poz; //кол-во процентов
+            int N = 20;//(100 / lenght) * (poz - 101); //кол-во процентов
             PixelPoint rgb = new PixelPoint();
             Color c;
 
