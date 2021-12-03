@@ -47,7 +47,7 @@ namespace BestRedactor.Data
         public static IPicture Load(string path)
         {
             path.PathNotNull();
-            var regex = new Regex(@"\w*\.\w*$", RegexOptions.IgnoreCase); //разделение путя файла на папку и имя с типом
+            var regex = new Regex(@"[^\\]*\.\w*$", RegexOptions.IgnoreCase); //разделение путя файла на папку и имя с типом
             var fileNameAndType = regex.Match(path).ToString();           //имя и тип
             var dir             = regex.Replace(path, "");                //папка
             

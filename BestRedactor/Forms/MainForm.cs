@@ -19,15 +19,18 @@ namespace BestRedactor.Forms
             tsBtn_color1.BackColor = Settings.LastUseColor;
             _pen.StartCap          = LineCap.Round;
             _pen.EndCap            = LineCap.Round;
+            _erase.StartCap        = LineCap.Round;
+            _erase.EndCap          = LineCap.Round;
+            Settings.FailClose     = true;
         }
 
         private          Graphics      _gra;
         private          bool          _isMouseDown;
         private          Point         _px, _py;
         private          Pen           _pen      = new(Settings.LastUseColor, Settings.LastUseSize);
-        private readonly Pen           _erase    = new(Color.Transparent, 10);
+        private readonly Pen           _erase    = new(Color.White, 10);
         private          List<Picture> _pictures = new();
-        private          ColorDialog   _cd       = new();
+        private readonly ColorDialog   _cd       = new();
         private          bool          _isClickedColor; //добавить к логике выбора цвета
         private          int           _x, _y, _sX, _sY, _cX, _cY;
         private          Tools         _currentTool = 0;
@@ -43,6 +46,7 @@ namespace BestRedactor.Forms
         private void tsBtnMenuItemLine_Click(object sender, EventArgs e) =>        _currentTool = Tools.Line;
         private void tsBtnMenuItemRect_Click(object sender, EventArgs e) =>        _currentTool = Tools.Rectangle;
         private void tsBtnFill_Click(object sender, EventArgs e) =>                _currentTool = Tools.Fill;
+        private void tsButtonCursor_Click(object sender, EventArgs e) =>           _currentTool = Tools.Cursor;
         private void tsBtnPipette_Click(object sender, EventArgs e) =>             _currentTool = Tools.Pipette;
         private void tsBtnMenuItemCircle_Click(object sender, EventArgs e) =>      _currentTool = Tools.Circle;
         private void tsBtnMenuItemCircleFill_Click(object sender, EventArgs e) =>  _currentTool = Tools.CircleFill;
@@ -136,7 +140,7 @@ namespace BestRedactor.Forms
                 _pictures.Add((Picture)FileManagerL.Load(ofd.FileName));
                 AddNewTabPages(_pictures[Settings.OpenedTabs]);
                 Refresh();
-                lblPictureSize.Text = $"{_pb.Image.Width} x {_pb.Image.Height}";
+                lblPictureSize.Text = $@"{_pb.Image.Width} x {_pb.Image.Height}";
             }
             catch (Exception ex)
             {
@@ -145,8 +149,8 @@ namespace BestRedactor.Forms
         }
         private void AddNewTabPages(IPicture picture)
         {
-            TabPage    tp = new TabPage(picture.FileName);
-            PictureBox pb = new PictureBox();
+            var    tp = new TabPage(picture.FileName);
+            var pb = new PictureBox();
 
             tp.BorderStyle             = BorderStyle.Fixed3D;
             tp.Location                = new Point(0, 0);
@@ -176,13 +180,13 @@ namespace BestRedactor.Forms
             tabControlPage.Size = new Size(_picture.Bitmap.Width + 12, _picture.Bitmap.Height + 32);
             Settings.OpenedTabs += 1;
 
-            lblPictureSize.Text = $"{picture.Bitmap.Width} x {picture.Bitmap.Height}";
+            lblPictureSize.Text = $@"{picture.Bitmap.Width} x {picture.Bitmap.Height}";
         }
 
 
 
         // метод для поиска старого цвета до заливки формы новым цветом
-        private void Validate(Bitmap bm, Stack<Point> sp, int x, int y, Color oldColor, Color newColor)
+        private static void Validate(Bitmap bm, Stack<Point> sp, int x, int y, Color oldColor, Color newColor)
         {
             var cx = bm.GetPixel(x, y);
             if (cx != oldColor)
@@ -190,7 +194,7 @@ namespace BestRedactor.Forms
             sp.Push(new Point(x, y));
             bm.SetPixel(x, y, newColor);
         }
-        public void Fill(Bitmap bm, int x, int y, Color newCol)
+        public static void Fill(Bitmap bm, int x, int y, Color newCol)
         {
             var oldCol = bm.GetPixel(x, y);
             var pixel = new Stack<Point>();
@@ -231,7 +235,7 @@ namespace BestRedactor.Forms
             _pb.Image = _picture.Bitmap;
             Refresh();
         }
-        public void Refresh()
+        public new void Refresh()
         {
             tabControlPage.Size = new Size(_picture.Bitmap.Width + 12, _picture.Bitmap.Height + 32);
             _pb.Refresh();
@@ -259,7 +263,19 @@ namespace BestRedactor.Forms
             tsBtn_color1.BackColor = Settings.LastUseColor;
 
         }
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e) => Close();
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings.FailClose = false;
+            Close();
+        } 
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!_pictures.Remove(_picture))
+                return;
+            tabControlPage.TabPages.Remove(tabControlPage.SelectedTab);
+            tabControlPage.Refresh();
+            Settings.OpenedTabs -= 1;
+        }
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
             if (_currentTool == Tools.Fill)
@@ -277,35 +293,29 @@ namespace BestRedactor.Forms
             if (trackBarZoom.Value > 49)
             {
                 _pb.Image = ZoomImage(_pb.Image, trackBarZoom.Value);
-                lblZoom.Text = $"{trackBarZoom.Value} %";
+                lblZoom.Text = $@"{trackBarZoom.Value} %";
             }
-            else
-                return;
         }
-        Image ZoomImage(Image orig, float percent)
+        private static Image ZoomImage(Image orig, float percent)
         {
+            // Ширина и высота результирующего изображения
+            var w           = orig.Width * percent / 100;
+            var h           = orig.Height * percent / 100;
+            var scaledImage = new Bitmap((int)w, (int)h);
+            // DPI результирующего изображения
+            scaledImage.SetResolution(orig.HorizontalResolution, orig.VerticalResolution);
+            // Часть исходного изображения, для которой меняем масштаб.
+            // В данном случае — всё изображение
+            var src = new Rectangle(0, 0, orig.Width, orig.Height);
+            // Часть изображения, которую будем рисовать
+            // В данном случае — всё изображение
+            var dest = new RectangleF(0, 0, w, h);
+            // Прорисовка с изменённым масштабом
+            using var g = Graphics.FromImage(scaledImage);
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.DrawImage(orig, dest, src, GraphicsUnit.Pixel);
             
-                Bitmap scaledImage;
-                // Ширина и высота результирующего изображения
-                float w = orig.Width * percent / 100;
-                float h = orig.Height * percent / 100;
-                scaledImage = new Bitmap((int)w, (int)h);
-                // DPI результирующего изображения
-                scaledImage.SetResolution(orig.HorizontalResolution, orig.VerticalResolution);
-                // Часть исходного изображения, для которой меняем масштаб.
-                // В данном случае — всё изображение
-                Rectangle src = new Rectangle(0, 0, orig.Width, orig.Height);
-                // Часть изображения, которую будем рисовать
-                // В данном случае — всё изображение
-                RectangleF dest = new RectangleF(0, 0, w, h);
-                // Прорисовка с изменённым масштабом
-                using (Graphics g = Graphics.FromImage(scaledImage))
-                {
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(orig, dest, src, GraphicsUnit.Pixel);
-                }
-                return scaledImage;
-            
+            return scaledImage;
         }
         private void btnZoomMinus_Click(object sender, EventArgs e)
         {
@@ -549,7 +559,7 @@ namespace BestRedactor.Forms
             _y  = e.Y;
             _sX = e.X - _cX;
             _sY = e.Y - _cY;
-            lblCursorPos.Text = $"{e.Location.X},{e.Location.Y}";   //отображение позиции курсора
+            lblCursorPos.Text = $@"{e.Location.X},{e.Location.Y}";   //отображение позиции курсора
         }
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {

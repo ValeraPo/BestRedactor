@@ -21,7 +21,12 @@ namespace BestRedactor.Data.AutoSave
                 var saveSettingsOld = JsonSerializer.Deserialize<AutoSaveSettings>(File.ReadAllText(path!));
                 if (saveSettingsOld != null)
                     for (var i = 0; i < saveSettingsOld.OpenTabs; i++)
-                        File.Delete($"~{saveSettingsOld.Name[i]}.{saveSettingsOld.ImageFormats[i].ToString().ToLower()}");
+                    {
+                        var pathTmp = $"~{saveSettingsOld.Name[i]}.{saveSettingsOld.ImageFormats[i].ToString().ToLower()}";
+                        if (File.Exists(pathTmp))
+                            File.Delete(pathTmp);
+                    }
+                        
             }
 
             var openedTabs = Settings.OpenedTabs;
