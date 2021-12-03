@@ -68,10 +68,8 @@ namespace BestRedactor.Logics
         public static Bitmap Sepia(Bitmap image)
         {
             float p = 10;
-            int step = (int) Math.Floor(255 / p);
             PixelPoint rgb = new PixelPoint();
             Bitmap total = (Bitmap)image.Clone();
-            float cr = 0, cg = 0, cb = 0;
             int i = 0,
                 j = 0,
                 h = total.Height,
@@ -82,13 +80,9 @@ namespace BestRedactor.Logics
                 for (j = 0; j < h; j++)
                 {
                     Color temp = total.GetPixel(i, j);
-                    rgb.R = temp.R;
-                    rgb.G = temp.G;
-                    rgb.B = temp.B;
-                    float tcr = cr, tcg = cg, tcb = cb;
-                    rgb.R = (int) ((tcr * 0.393f) + (tcg * 0.769f) + (tcb * 0.189f));
-                    rgb.G = (int) ((tcr * 0.349f) + (tcg * 0.686f) + (tcb * 0.168f));
-                    rgb.B = (int) ((tcr * 0.272f) + (tcg * 0.534f) + (tcb * 0.131f));
+                    rgb.R = (int) ((temp.R * 0.393f) + (temp.R * 0.769f) + (temp.R * 0.189f));
+                    rgb.G = (int) ((temp.G * 0.349f) + (temp.G * 0.686f) + (temp.G * 0.168f));
+                    rgb.B = (int) ((temp.B * 0.272f) + (temp.B * 0.534f) + (temp.B * 0.131f));
 
                     total.SetPixel(i, j, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
                 }
