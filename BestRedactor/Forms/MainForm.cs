@@ -211,11 +211,9 @@ namespace BestRedactor.Forms
 
 
         private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) => new FiltersForm(_picture, this, Filters.Contrast).ShowDialog();
-        private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
-        {
-            Precision.Blur(_picture.Bitmap);
-        }
+        private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e) => Precision.Blur(_picture.Bitmap);
         private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) => new FiltersForm(_picture, this, Filters.Brightness).ShowDialog();
+        private void drDBtnTSMenuItColors_Click(object sender, EventArgs e) => new ColorsForm(_picture, this).ShowDialog();
         public void RefreshAndSize()
         {
             _pb.Size = new Size(_picture.Bitmap.Width, _picture.Bitmap.Height);
@@ -233,14 +231,8 @@ namespace BestRedactor.Forms
             _pb.Refresh();
             _gra = Graphics.FromImage(_picture.Bitmap);
         }
-        
 
-        private void drDBtnTSMenuItColors_Click(object sender, EventArgs e)
-        {
-            ColorsForm cf = new ColorsForm(_picture, this);
-            cf.ShowDialog();
-            cf.pictureBox.Image = pictureBox.Image;
-        }
+
         private void tsBtn_color1_DoubleClick(object sender, EventArgs e)
         {
             _cd.ShowDialog();

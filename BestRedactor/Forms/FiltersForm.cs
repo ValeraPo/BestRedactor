@@ -30,12 +30,12 @@ namespace BestRedactor.Forms
                     break;
             }
         }
-        private Picture _picture;
-        private MainForm _main;
-        private int _poz;
-        private int _lenght;
+        private Picture   _picture;
+        private MainForm  _main;
+        private int       _poz;
+        private int       _lenght;
         private FilterDel _fd;
-        private Bitmap _preView;
+        private Bitmap    _preView;
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -45,7 +45,7 @@ namespace BestRedactor.Forms
         private void btnOk_Click(object sender, EventArgs e)
         {
             _picture.Bitmap = _fd(_picture.Bitmap, trackBar.Value);
-            _main.Refresh();
+            _main.RefreshAndPbImage();
             Close();
         }
 
