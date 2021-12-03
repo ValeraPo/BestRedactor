@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using BestRedactor.Enums;
 using BestRedactor.Interface;
 using BestRedactor.Logics;
 
@@ -9,7 +10,7 @@ namespace BestRedactor.Forms
     internal delegate Bitmap FilterDel(Bitmap image, int poz);
     public sealed partial class FiltersForm : Form
     {
-        public FiltersForm(IPicture picture, MainForm mainForm, MainForm.Filters filters)
+        public FiltersForm(IPicture picture, MainForm mainForm, Filters filters)
         {
             InitializeComponent();
             _preView = Logics.Resize.Resizing(picture.Bitmap, (picture.Bitmap.Width > 1024 || picture.Bitmap.Height > 768)? 0.3 : 1);
@@ -20,11 +21,11 @@ namespace BestRedactor.Forms
             
             switch (filters)
             {
-                case MainForm.Filters.Brightness:
+                case Filters.Brightness:
                     label.Text = "Яркость";
                     _fd = Intensity.Brightness;
                     break;
-                case MainForm.Filters.Contrast:
+                case Filters.Contrast:
                     label.Text = "Контраст";
                     _fd = Intensity.Contrast;
                     break;

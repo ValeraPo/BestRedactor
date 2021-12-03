@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using BestRedactor.Enums;
 using BestRedactor.Interface;
 using BestRedactor.Logics;
 
@@ -29,25 +30,26 @@ namespace BestRedactor.Forms
         private          ColorDialog   _cd       = new();
         private          bool          _isClickedColor; //добавить к логике выбора цвета
         private          int           _x, _y, _sX, _sY, _cX, _cY;
-        private          Picture       _picture => _pictures?[tabControlPage.SelectedIndex];
+        private          Tools         _currentTool = 0;
+        public           Filters       _selectedFilter;
+        private          Picture       _picture => _pictures[tabControlPage.SelectedIndex];
         private          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[0];
 
 
-        private enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, Brush }
-        private Tools _currentTool = 0;
-
-        public enum Filters { None, Blur, Brightness, Contrast }
-        public Filters _selectedFilter;
-
-
-        private void tsBtnBrush_Click(object sender, EventArgs e) =>           _currentTool = Tools.Pencil;
-        private void tsBtnPen_Click(object sender, EventArgs e) =>             _currentTool = Tools.Pencil;
-        private void tsBtnEraser_Click(object sender, EventArgs e) =>          _currentTool = Tools.Erase;
-        private void tsBtnMenuItemEllipce_Click(object sender, EventArgs e) => _currentTool = Tools.Ellipce;
-        private void tsBtnMenuItemLine_Click(object sender, EventArgs e) =>    _currentTool = Tools.Line;
-        private void tsBtnMenuItemRect_Click(object sender, EventArgs e) =>    _currentTool = Tools.Rectangle;
-        private void tsBtnFill_Click(object sender, EventArgs e) =>            _currentTool = Tools.Fill;
-        private void tsBtnPipette_Click(object sender, EventArgs e) =>         _currentTool = Tools.Pipette;
+        private void tsBtnBrush_Click(object sender, EventArgs e) =>               _currentTool = Tools.Pencil;
+        private void tsBtnPen_Click(object sender, EventArgs e) =>                 _currentTool = Tools.Pencil;
+        private void tsBtnEraser_Click(object sender, EventArgs e) =>              _currentTool = Tools.Erase;
+        private void tsBtnMenuItemEllipce_Click(object sender, EventArgs e) =>     _currentTool = Tools.Ellipce;
+        private void tsBtnMenuItemLine_Click(object sender, EventArgs e) =>        _currentTool = Tools.Line;
+        private void tsBtnMenuItemRect_Click(object sender, EventArgs e) =>        _currentTool = Tools.Rectangle;
+        private void tsBtnFill_Click(object sender, EventArgs e) =>                _currentTool = Tools.Fill;
+        private void tsBtnPipette_Click(object sender, EventArgs e) =>             _currentTool = Tools.Pipette;
+        private void tsBtnMenuItemCircle_Click(object sender, EventArgs e) =>      _currentTool = Tools.Circle;
+        private void tsBtnMenuItemCircleFill_Click(object sender, EventArgs e) =>  _currentTool = Tools.CircleFill;
+        private void tsBtnMenuItemEllipceFill_Click(object sender, EventArgs e) => _currentTool = Tools.EllipceFill;
+        private void tsBtnMenuItemRectFill_Click(object sender, EventArgs e) =>    _currentTool = Tools.RectangleFill;
+        private void toolStripMenuSquare_Click(object sender, EventArgs e) =>      _currentTool = Tools.Square;
+        private void toolStripMenuSquareFill_Click(object sender, EventArgs e) =>  _currentTool = Tools.SquareFill;
 
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
@@ -220,11 +222,6 @@ namespace BestRedactor.Forms
             tabControlPage.SelectedTab.Size = _pb.Size;
             Refresh();
         }
-        public void RefreshAndPbImage()
-        {
-            _pb.Image = _picture.Bitmap;
-            Refresh();
-        }
         public void Refresh()
         {
             tabControlPage.Size = new Size(_picture.Bitmap.Width + 12, _picture.Bitmap.Height + 32);
@@ -381,14 +378,24 @@ namespace BestRedactor.Forms
         private void PbPaint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
-
             if (!_isMouseDown)
                 return;
+            
             switch (_currentTool)
             {
+                case Tools.Line:
+                    g.DrawLine(_pen, _cX, _cY, _x, _y);
+                    break;
+                
+                
                 case Tools.Ellipce:
                     g.DrawEllipse(_pen, _cX, _cY, _sX, _sY);
                     break;
+                case Tools.EllipceFill:
+                    g.FillEllipse(new SolidBrush(Settings.LastUseColor),_cX, _cY, _sX, _sY);
+                    break;
+                
+                
                 case Tools.Rectangle when _sX > 0 && _sY > 0:
                     g.DrawRectangle(_pen, _cX, _cY, _sX, _sY);
                     break;
@@ -401,9 +408,123 @@ namespace BestRedactor.Forms
                 case Tools.Rectangle when _sX < 0 && _sY < 0:
                     g.DrawRectangle(_pen, _cX + _sX, _cY + _sY, Math.Abs(_sX), Math.Abs(_sY));
                     break;
-                case Tools.Line:
-                    g.DrawLine(_pen, _cX, _cY, _x, _y);
+                case Tools.RectangleFill when _sX > 0 && _sY > 0:
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, _sY);
                     break;
+                case Tools.RectangleFill when _sX < 0 && _sY > 0:
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), _cX + _sX, _cY, Math.Abs(_sX), _sY);
+                    break;
+                case Tools.RectangleFill when _sX > 0 && _sY < 0:
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), _cX, _cY + _sY, _sX, Math.Abs(_sY));
+                    break;
+                case Tools.RectangleFill when _sX < 0 && _sY < 0:
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), _cX + _sX, _cY + _sY, Math.Abs(_sX), Math.Abs(_sY));
+                    break;
+                
+
+                case Tools.Circle:
+                    if (Math.Abs(_sX) > Math.Abs(_sY))
+                    {
+                        switch (_sX)
+                        {
+                            case > 0 when _sY > 0:
+                            case < 0 when _sY < 0:
+                                g.DrawEllipse(_pen, _cX, _cY, _sX, _sX);
+                                break;
+                            case > 0 when _sY<0:
+                                g.DrawEllipse(_pen, _cX, _cY, _sX, -_sX);
+                                break;
+                            default:
+                                g.DrawEllipse(_pen, _cX, _cY, _sX, -_sX);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (_sX)
+                        {
+                            case > 0 when _sY > 0:
+                            case < 0 when _sY < 0:
+                                g.DrawEllipse(_pen, _cX, _cY, _sY, _sY);
+                                break;
+                            case > 0 when _sY < 0:
+                                g.DrawEllipse(_pen, _cX, _cY, -_sY, _sY);
+                                break;
+                            default:
+                                g.DrawEllipse(_pen, _cX, _cY, -_sY, _sY);
+                                break;
+                        }
+                    }
+                    break;
+                case Tools.CircleFill:
+                    if (Math.Abs(_sX) > Math.Abs(_sY))
+                    {
+                        switch (_sX)
+                        {
+                            case > 0 when _sY > 0:
+                            case < 0 when _sY < 0:
+                                g.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, _sX);
+                                break;
+                            case > 0 when _sY < 0:
+                                g.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, -_sX);
+                                break;
+                            default:
+                                g.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, -_sX);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (_sX)
+                        {
+                            case > 0 when _sY > 0:
+                            case < 0 when _sY < 0:
+                                g.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sY, _sY);
+                                break;
+                            case > 0 when _sY < 0:
+                                g.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, -_sY, _sY);
+                                break;
+                            default:
+                                g.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, -_sY, _sY);
+                                break;
+                        }
+                    }
+                    break;
+                
+                
+                //квадрат рисуется только в 1 сторону
+                case Tools.Square when _sX > 0 && _sY > 0 && _sX > _sY:
+                    g.DrawRectangle(_pen, _cX, _cY, _sX, _sX);
+                    break;
+                case Tools.Square when _sX > 0 && _sY > 0 && _sX < _sY:
+                    g.DrawRectangle(_pen, _cX, _cY, _sY, _sY);
+                    break;
+                /*case Tools.Square when _sX < 0 && _sY > 0 && Math.Abs(_sX) > Math.Abs(_sY):
+                    g.DrawRectangle(_pen, _cX + _sX, _cY, Math.Abs(_sX), Math.Abs(_sX));
+                    break;
+                case Tools.Square when _sX < 0 && _sY > 0 && Math.Abs(_sX) < Math.Abs(_sY):
+                    g.DrawRectangle(_pen, _cX + _sX, _cY, _sY, _sY);
+                    break;
+                case Tools.Square when _sX > 0 && _sY < 0 && Math.Abs(_sX) > Math.Abs(_sY):
+                    g.DrawRectangle(_pen, _cX, _cY + _sY, _sX, _sX);
+                    break;
+                case Tools.Square when _sX > 0 && _sY < 0 && Math.Abs(_sX) < Math.Abs(_sY):
+                    g.DrawRectangle(_pen, _cX, _cY + _sY, _sY, _sY);
+                    break;
+                case Tools.Square when _sX < 0 && _sY < 0 && Math.Abs(_sX) > Math.Abs(_sY):
+                    g.DrawRectangle(_pen, _cX + _sX, _cY + _sY, Math.Abs(_sX), Math.Abs(_sX));
+                    break;
+                case Tools.Square when _sX < 0 && _sY < 0 && Math.Abs(_sX) < Math.Abs(_sY):
+                    g.DrawRectangle(_pen, _cX + _sX, _cY + _sY, Math.Abs(_sY), Math.Abs(_sY));
+                    break;*/
+                case Tools.SquareFill when _sX > 0 && _sY > 0 && _sX > _sY:
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, _sX);
+                    break;
+                case Tools.SquareFill when _sX > 0 && _sY > 0 && _sX < _sY:
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sY, _sY);
+                    break;
+
+                default: return;
             }
         }
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -411,20 +532,19 @@ namespace BestRedactor.Forms
 
             if (_isMouseDown)
             {
-                if (_currentTool == Tools.Pencil)
+                switch (_currentTool)
                 {
-                    _px = e.Location;
-                    _gra.DrawLine(_pen, _px, _py);
-                    _py = _px;
+                    case Tools.Pencil:
+                        _px = e.Location;
+                        _gra.DrawLine(_pen, _px, _py);
+                        _py = _px;
+                        break;
+                    case Tools.Erase:
+                        _px = e.Location;
+                        _gra.DrawLine(_erase, _px, _py);
+                        _py = _px;
+                        break;
                 }
-
-                if (_currentTool == Tools.Erase)
-                {
-                    _px = e.Location;
-                    _gra.DrawLine(_erase, _px, _py);
-                    _py = _px;
-                }
-
             }
 
             _pb.Refresh(); //move out from collection 
@@ -441,28 +561,137 @@ namespace BestRedactor.Forms
             _sX = _x - _cX;
             _sY = _y - _cY;
 
-            if (_currentTool == Tools.Ellipce)
+            switch (_currentTool)
             {
-                _gra.DrawEllipse(_pen, _cX, _cY, _sX, _sY);
-            }
-            if (_currentTool == Tools.Rectangle)
-            {
-                if (_sX < 0)
+                case Tools.Line:
+                    _gra.DrawLine(_pen, _cX, _cY, _x, _y);
+                    break;
+                case Tools.Ellipce:
+                    _gra.DrawEllipse(_pen, _cX, _cY, _sX, _sY);
+                    break;
+                case Tools.EllipceFill:
+                    _gra.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX,_cY,_sX,_sY);
+                    break;
+                case Tools.Rectangle:
                 {
-                    _cX += _sX;
-                    _sX = Math.Abs(_sX);
-                }
-                if (_sY<0)
-                {
-                    _cY += _sY;
-                    _sY = Math.Abs(_sY);
-                }
+                    if (_sX < 0)
+                    {
+                        _cX += _sX;
+                        _sX =  Math.Abs(_sX);
+                    }
+                    if (_sY<0)
+                    {
+                        _cY += _sY;
+                        _sY =  Math.Abs(_sY);
+                    }
                     
-                _gra.DrawRectangle(_pen, _cX, _cY, _sX, _sY);
-            }
-            if (_currentTool == Tools.Line)
-            {
-                _gra.DrawLine(_pen, _cX, _cY, _x, _y);
+                    _gra.DrawRectangle(_pen, _cX, _cY, _sX, _sY);
+                    break;
+                }
+                case Tools.RectangleFill:
+                {
+                    if (_sX < 0)
+                    {
+                        _cX += _sX;
+                        _sX =  Math.Abs(_sX);
+                    }
+
+                    if (_sY < 0)
+                    {
+                        _cY += _sY;
+                        _sY =  Math.Abs(_sY);
+                    }
+
+                    _gra.FillRectangle(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, _sY);
+                    break;
+                }
+                case Tools.Circle when Math.Abs(_sX) > Math.Abs(_sY):
+                    switch (_sX)
+                    {
+                        case > 0 when _sY > 0:
+                        case < 0 when _sY < 0:
+                            _gra.DrawEllipse(_pen, _cX, _cY, _sX, _sX);
+                            break;
+                        case > 0 when _sY < 0:
+                            _gra.DrawEllipse(_pen, _cX, _cY, _sX, -_sX);
+                            break;
+                        default:
+                            _gra.DrawEllipse(_pen, _cX, _cY, _sX, -_sX);
+                            break;
+                    }
+
+                    break;
+                case Tools.Circle:
+                    switch (_sX)
+                    {
+                        case > 0 when _sY > 0:
+                        case < 0 when _sY < 0:
+                            _gra.DrawEllipse(_pen, _cX, _cY, _sY, _sY);
+                            break;
+                        case > 0 when _sY < 0:
+                            _gra.DrawEllipse(_pen, _cX, _cY, -_sY, _sY);
+                            break;
+                        default:
+                            _gra.DrawEllipse(_pen, _cX, _cY, -_sY, _sY);
+                            break;
+                    }
+
+                    break;
+                case Tools.CircleFill when Math.Abs(_sX) > Math.Abs(_sY):
+                    switch (_sX)
+                    {
+                        case > 0 when _sY > 0:
+                        case < 0 when _sY < 0:
+                            _gra.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, _sX);
+                            break;
+                        case > 0 when _sY < 0:
+                            _gra.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, -_sX);
+                            break;
+                        default:
+                            _gra.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, -_sX);
+                            break;
+                    }
+
+                    break;
+                case Tools.CircleFill:
+                    switch (_sX)
+                    {
+                        case > 0 when _sY > 0:
+                        case < 0 when _sY < 0:
+                            _gra.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sY, _sY);
+                            break;
+                        case > 0 when _sY < 0:
+                            _gra.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, -_sY, _sY);
+                            break;
+                        default:
+                            _gra.FillEllipse(new SolidBrush(Settings.LastUseColor), _cX, _cY, -_sY, _sY);
+                            break;
+                    }
+
+                    break;
+                //квадрат рисуется только в 1 сторону
+                /*if (_sX < 0)
+                {
+                    _cX += Math.Abs(_sX) > Math.Abs(_sY)? _sX : _sY;
+                    _sX =  Math.Abs(_sX) > Math.Abs(_sY)? Math.Abs(_sX) : Math.Abs(_sY);
+                }
+                if (_sY < 0)
+                {
+                    _cY += Math.Abs(_sY) > Math.Abs(_sX)? _sY : _sX;
+                    _sY =  Math.Abs(_sX) > Math.Abs(_sY)? Math.Abs(_sX) : Math.Abs(_sY);
+                }*/
+                case Tools.Square when _sX > _sY:
+                    _gra.DrawRectangle(_pen, _cX, _cY, _sX, _sX);
+                    break;
+                case Tools.Square:
+                    _gra.DrawRectangle(_pen, _cX, _cY, _sY, _sY);
+                    break;
+                case Tools.SquareFill when _sX > _sY:
+                    _gra.FillRectangle(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sX, _sX);
+                    break;
+                case Tools.SquareFill:
+                    _gra.FillRectangle(new SolidBrush(Settings.LastUseColor), _cX, _cY, _sY, _sY);
+                    break;
             }
         }
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
