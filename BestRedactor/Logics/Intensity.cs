@@ -13,35 +13,35 @@ namespace BestRedactor.Logics
     class Intensity
     {
         //якрость
-        public static IPicture Brightness(IPicture image, int poz, int lenght)
+        public static Bitmap Brightness(Bitmap image, int poz, int lenght)
         {
-            int N = (100 / lenght) * poz; //кол-во процентов
+            int N = (100 / lenght) * (poz - 100); //кол-во процентов
             PixelPoint rgb = new PixelPoint();
             Color c;
 
-            for (int y = 0; y < image.Bitmap.Height; y++)
-                for (int x = 0; x < image.Bitmap.Width; x++)
+            for (int y = 0; y < image.Height; y++)
+                for (int x = 0; x < image.Width; x++)
                 {
-                    c = image.Bitmap.GetPixel(x, y);
+                    c = image.GetPixel(x, y);
                     rgb.R = (c.R + N * 128 / 100);
                     rgb.G = (c.B + N * 128 / 100);
                     rgb.B = (c.G + N * 128 / 100);
-                    image.Bitmap.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
+                    image.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
                 }
             return image;
         }
 
         //контрастность
-        public static IPicture Contrast(IPicture image, int poz, int lenght)
+        public static Bitmap Contrast(Bitmap image, int poz, int lenght)
         {
-            int N = 20;//(100 / lenght) * (poz - 101); //кол-во процентов
+            int N = (100 / lenght) * (poz - 101); //кол-во процентов
             PixelPoint rgb = new PixelPoint();
             Color c;
 
-            for (int y = 0; y < image.Bitmap.Height; y++)
-                for (int x = 0; x < image.Bitmap.Width; x++)
+            for (int y = 0; y < image.Height; y++)
+                for (int x = 0; x < image.Width; x++)
                 {
-                    c = image.Bitmap.GetPixel(x, y);
+                    c = image.GetPixel(x, y);
                     if (N >= 0)
                     {
                         if (N == 100) N = 99;
@@ -56,7 +56,7 @@ namespace BestRedactor.Logics
                         rgb.B = (c.G * (100 + N) - 128 * N) / 100;
                         
                     }
-                    image.Bitmap.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
+                    image.SetPixel(x, y, Color.FromArgb(rgb.R, rgb.G, rgb.B));
                 }
             return image;
         }
