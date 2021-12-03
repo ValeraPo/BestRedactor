@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Reflection.PortableExecutable;
 using System.Windows.Forms;
@@ -14,26 +15,29 @@ namespace BestRedactor.Forms
         public MainForm()
         {
             InitializeComponent();
-            Settings.OpenedTabs = 0;
+            Settings.OpenedTabs    = 0;
             tsBtn_color1.BackColor = Settings.LastUseColor;
+            _pen.StartCap          = LineCap.Round;
+            _pen.EndCap            = LineCap.Round;
         }
 
-        private Graphics _gra;
-        private bool _isMouseDown;
-        private Point _px, _py;
-        private Pen _pen = new(Settings.LastUseColor, Settings.LastUseSize);
-        private readonly Pen _erase = new(Color.Transparent, 10);
-        private List<Picture> _pictures = new();
-        private bool _isClickedColor;                                   //добавить к логике выбора цвета
+        private          Graphics      _gra;
+        private          bool          _isMouseDown;
+        private          Point         _px, _py;
+        private          Pen           _pen      = new(Settings.LastUseColor, Settings.LastUseSize);
+        private readonly Pen           _erase    = new(Color.Transparent, 10);
+        private          List<Picture> _pictures = new();
+        private          ColorDialog   _cd       = new();
+        private          bool          _isClickedColor; //добавить к логике выбора цвета
+        private          int           _x, _y, _sX, _sY, _cX, _cY;
 
 
         private enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, Brush };
         private Tools _currentTool = 0;
+
         public enum Filters { None, Blur, Brightness, Contrast }
         public Filters _selectedFilter;
-        private int _x, _y, _sX, _sY, _cX, _cY;
-        private ColorDialog _cd = new();
-        
+
 
         private void tsBtnBrush_Click(object sender, EventArgs e) => _currentTool = Tools.Pencil;
         private void tsBtnPen_Click(object sender, EventArgs e) => _currentTool = Tools.Pencil;
@@ -77,17 +81,17 @@ namespace BestRedactor.Forms
             sfd.Filter = @"Jpeg(*.jpeg)|*.jpeg|Jpg(*.jpg)|*.jpg|Gif(*.gif)|*.gif|Icon(*.icon)|*.icon|Png(*.png)|*.png|Bmp(*.bmp)|*.bmp|Emf(*.emf)|*.emf|Exif(*.exif)|*.exif|Tiff(*.tiff)|*.tiff|Wmf(*.wmf)|*.wmf|Memorybmp(*.memorybmp)|*.memorybpmp";
             sfd.FilterIndex = _pictures[tabControlPage.SelectedIndex].ImageFormat.ToString().ToLower() switch
             {
-                "jpeg" => 1,
-                "gif" => 3,
-                "icon" => 4,
-                "png" => 5,
-                "bmp" => 6,
-                "emf" => 7,
-                "exif" => 8,
-                "tiff" => 9,
-                "wmf" => 10,
+                "jpeg"      => 1,
+                "gif"       => 3,
+                "icon"      => 4,
+                "png"       => 5,
+                "bmp"       => 6,
+                "emf"       => 7,
+                "exif"      => 8,
+                "tiff"      => 9,
+                "wmf"       => 10,
                 "memorybmp" => 11,
-                _ => throw new AggregateException("Не поддерживаемый тип данных")
+                _           => throw new AggregateException("Не поддерживаемый тип данных")
             };
             sfd.RestoreDirectory = true;
 
@@ -98,18 +102,18 @@ namespace BestRedactor.Forms
             {
                 _pictures[tabControlPage.SelectedIndex].ImageFormat = sfd.FilterIndex switch
                 {
-                    1 => ImageFormat.Jpeg,
-                    2 => ImageFormat.Jpeg,
-                    3 => ImageFormat.Gif,
-                    4 => ImageFormat.Icon,
-                    5 => ImageFormat.Png,
-                    6 => ImageFormat.Bmp,
-                    7 => ImageFormat.Emf,
-                    8 => ImageFormat.Exif,
-                    9 => ImageFormat.Tiff,
+                    1  => ImageFormat.Jpeg,
+                    2  => ImageFormat.Jpeg,
+                    3  => ImageFormat.Gif,
+                    4  => ImageFormat.Icon,
+                    5  => ImageFormat.Png,
+                    6  => ImageFormat.Bmp,
+                    7  => ImageFormat.Emf,
+                    8  => ImageFormat.Exif,
+                    9  => ImageFormat.Tiff,
                     10 => ImageFormat.Wmf,
                     11 => ImageFormat.MemoryBmp,
-                    _ => throw new AggregateException("Недоступный тип файла")
+                    _  => throw new AggregateException("Недоступный тип файла")
                 };
                 FileManagerL.SaveAs(_pictures[tabControlPage.SelectedIndex], sfd.FileName);
             }
@@ -139,29 +143,29 @@ namespace BestRedactor.Forms
         }
         private void AddNewTabPages(IPicture picture)
         {
-            TabPage tp = new TabPage(picture.FileName);
+            TabPage    tp = new TabPage(picture.FileName);
             PictureBox pb = new PictureBox();
 
-            tp.BorderStyle = BorderStyle.Fixed3D;
-            tp.Location = new Point(0, 0);
-            tp.ForeColor = SystemColors.ControlText;
-            tp.Name = $"tabPage{Settings.OpenedTabs}";
-            tp.Padding = new Padding(3);
-            tp.Size = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
-            tp.TabIndex = Settings.OpenedTabs;
+            tp.BorderStyle             = BorderStyle.Fixed3D;
+            tp.Location                = new Point(0, 0);
+            tp.ForeColor               = SystemColors.ControlText;
+            tp.Name                    = $"tabPage{Settings.OpenedTabs}";
+            tp.Padding                 = new Padding(3);
+            tp.Size                    = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
+            tp.TabIndex                = Settings.OpenedTabs;
             tp.UseVisualStyleBackColor = true;
             //
-            pb.Location = new Point(0, 0);
-            pb.Name = $"pb{Settings.OpenedTabs}";
-            pb.Size = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
-            pb.TabIndex = Settings.OpenedTabs;
-            pb.TabStop = false;
-            pb.Image = picture.Bitmap;
+            pb.Location   =  new Point(0, 0);
+            pb.Name       =  $"pb{Settings.OpenedTabs}";
+            pb.Size       =  new Size(picture.Bitmap.Width, picture.Bitmap.Height);
+            pb.TabIndex   =  Settings.OpenedTabs;
+            pb.TabStop    =  false;
+            pb.Image      =  picture.Bitmap;
             pb.MouseClick += pictureBox_MouseClick;
-            pb.MouseDown += pictureBox_MouseDown;
-            pb.MouseMove += pictureBox_MouseMove;
-            pb.MouseUp += pictureBox_MouseUp;
-            pb.Paint += PbPaint;
+            pb.MouseDown  += pictureBox_MouseDown;
+            pb.MouseMove  += pictureBox_MouseMove;
+            pb.MouseUp    += pictureBox_MouseUp;
+            pb.Paint      += PbPaint;
 
             tp.Controls.Add(pb); //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
