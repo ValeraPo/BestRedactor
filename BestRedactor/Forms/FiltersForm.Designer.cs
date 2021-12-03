@@ -1,12 +1,15 @@
 ﻿
+using System.ComponentModel;
+using System.Windows.Forms;
+
 namespace BestRedactor.Forms
 {
-    partial class FiltersForm
+    sealed partial class FiltersForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -93,6 +96,7 @@ namespace BestRedactor.Forms
             this.trackBar.TabIndex = 0;
             this.trackBar.TickFrequency = 5;
             this.trackBar.Value = 100;
+            this.trackBar.Scroll += new System.EventHandler(this.trackBar_Scroll);
             // 
             // panel2
             // 
@@ -134,12 +138,12 @@ namespace BestRedactor.Forms
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label;
-        private System.Windows.Forms.TrackBar trackBar;
-        private System.Windows.Forms.Panel panel2;
-        public System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnOk;
+        private Panel panel1;
+        private Label label;
+        private TrackBar trackBar;
+        private Panel panel2;
+        public PictureBox pictureBox;
+        private Button btnCancel;
+        private Button btnOk;
     }
 }

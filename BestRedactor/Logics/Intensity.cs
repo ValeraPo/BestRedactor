@@ -13,9 +13,9 @@ namespace BestRedactor.Logics
     class Intensity
     {
         //якрость
-        public static Bitmap Brightness(Bitmap image, int poz, int lenght)
+        public static Bitmap Brightness(Bitmap image, int poz)
         {
-            int N = (100 / lenght) * (poz - 100); //кол-во процентов
+            int N = poz - 99; //кол-во процентов
             PixelPoint rgb = new PixelPoint();
             Color c;
 
@@ -32,9 +32,9 @@ namespace BestRedactor.Logics
         }
 
         //контрастность
-        public static Bitmap Contrast(Bitmap image, int poz, int lenght)
+        public static Bitmap Contrast(Bitmap image, int poz)
         {
-            int N = (100 / lenght) * (poz - 101); //кол-во процентов
+            int N = poz - 99; //кол-во процентов
             PixelPoint rgb = new PixelPoint();
             Color c;
 

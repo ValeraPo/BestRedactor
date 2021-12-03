@@ -12,9 +12,9 @@ namespace BestRedactor.Logics
     class Precision
     {
         //Размыть 
-        public static Bitmap Blur(Bitmap image, int poz, int lenght)
+        public static Bitmap Blur(Bitmap image)
         {
-            int kSize = (100 / lenght) * (poz - 100); //кол-во процентов
+            int kSize = 10; //кол-во процентов
             if (kSize % 2 == 0) kSize++;
             Bitmap Hblur = (Bitmap)image.Clone();
             float Avg = (float)1 / kSize;

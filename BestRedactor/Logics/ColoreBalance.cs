@@ -11,9 +11,9 @@ namespace BestRedactor.Logics
     public class ColorBalance
     {
         //цветовой баланс R
-        public static Bitmap R(Bitmap image, int poz, int lenght)
+        public static Bitmap R(Bitmap image, int poz)
         {
-            int N = (100 / lenght) * (poz - 100); //кол-во процентов
+            int N = poz - 99; //кол-во процентов
             PixelPoint rgb = new PixelPoint();
             Color c;
 
@@ -28,9 +28,9 @@ namespace BestRedactor.Logics
         }
 
         //цветовой баланс G
-        public static Bitmap G(Bitmap image, int poz, int lenght)
+        public static Bitmap G(Bitmap image, int poz)
         {
-            int N = (100 / lenght) * (poz - 100); //кол-во процентов
+            int N = poz - 99; //кол-во процентов
             PixelPoint rgb = new PixelPoint();
             Color c;
 
@@ -45,9 +45,9 @@ namespace BestRedactor.Logics
         }
 
         //цветовой баланс B
-        public static Bitmap B(Bitmap image, int poz, int lenght)
+        public static Bitmap B(Bitmap image, int poz)
         {
-            int N = (100 / lenght) * (poz - 100); //кол-во процентов
+            int N = poz - 99; //кол-во процентов
             PixelPoint rgb = new PixelPoint();
             Color c;
 

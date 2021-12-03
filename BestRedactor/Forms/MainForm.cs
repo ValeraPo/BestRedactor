@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Reflection.PortableExecutable;
 using System.Windows.Forms;
 using BestRedactor.Interface;
 using BestRedactor.Logics;
@@ -30,11 +29,11 @@ namespace BestRedactor.Forms
         private          ColorDialog   _cd       = new();
         private          bool          _isClickedColor; //добавить к логике выбора цвета
         private          int           _x, _y, _sX, _sY, _cX, _cY;
-        private          Picture       _picture => _pictures[tabControlPage.SelectedIndex];
+        private          Picture       _picture => _pictures?[tabControlPage.SelectedIndex];
         private          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[0];
 
 
-        private enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, Brush };
+        private enum Tools { Cursor, Pencil, Erase, Ellipce, Rectangle, Line, Pipette, Fill, Brush }
         private Tools _currentTool = 0;
 
         public enum Filters { None, Blur, Brightness, Contrast }
@@ -214,23 +213,23 @@ namespace BestRedactor.Forms
         private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) => new FiltersForm(_picture, this, Filters.Contrast).ShowDialog();
         private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
         {
-            
-            new FiltersForm(_picture, this, Filters.Blur).ShowDialog();
-            
+            Precision.Blur(_picture.Bitmap);
         }
         private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) => new FiltersForm(_picture, this, Filters.Brightness).ShowDialog();
         public void RefreshAndSize()
         {
-            _pb.Size = new Size(_picture.Bitmap.Width,
-                _picture.Bitmap.Height);
+            _pb.Size = new Size(_picture.Bitmap.Width, _picture.Bitmap.Height);
             tabControlPage.SelectedTab.Size = _pb.Size;
+            Refresh();
+        }
+        public void RefreshAndPbImage()
+        {
+            _pb.Image = _picture.Bitmap;
             Refresh();
         }
         public void Refresh()
         {
-            tabControlPage.Size = new Size(_picture.Bitmap.Width + 12,
-                _picture.Bitmap.Height + 32);
-            tabControlPage.Refresh();
+            tabControlPage.Size = new Size(_picture.Bitmap.Width + 12, _picture.Bitmap.Height + 32);
             _pb.Refresh();
             _gra = Graphics.FromImage(_picture.Bitmap);
         }
@@ -266,7 +265,8 @@ namespace BestRedactor.Forms
         
         private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
         {
-            Logics.Precision.Sharpness(_picture);
+            Precision.Sharpness(_picture.Bitmap);
+            Refresh();
         }
 
         
@@ -310,7 +310,7 @@ namespace BestRedactor.Forms
                 // Прорисовка с изменённым масштабом
                 using (Graphics g = Graphics.FromImage(scaledImage))
                 {
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     g.DrawImage(orig, dest, src, GraphicsUnit.Pixel);
                 }
                 return scaledImage;
@@ -332,49 +332,55 @@ namespace BestRedactor.Forms
 
         private void drDBtnTSMenuItDiscolor_Click(object sender, EventArgs e)
         {
-            Logics.ColorBalance.ToGrayScale(_picture);
+            ColorBalance.ToGrayScale(_picture.Bitmap);
+            Refresh();
         }
 
         private void toolStripMenuInversion_Click(object sender, EventArgs e)
         {
-            Logics.ColorBalance.IverseColor(_picture);
+            ColorBalance.IverseColor(_picture.Bitmap);
+            Refresh();
         }
 
         private void toolStripMenuSepia_Click(object sender, EventArgs e)
         {
-            Logics.ColorBalance.Sepia(_picture); //не фурычит
+            ColorBalance.Sepia(_picture.Bitmap); //не фурычит
+            Refresh();
         }
 
         private void toolStripMenuNoize_Click(object sender, EventArgs e)
         {
-            Logics.Precision.Noise(_picture);    //не фурычит
+            Precision.Noise(_picture.Bitmap);    //не фурычит
+            Refresh();
         }
 
         private void MirrorVertically_Click(object sender, EventArgs e)
         {
-            Logics.Rotation.VerticalReflection(_picture);
+            _pb.Image = Rotation.VerticalReflection(_picture.Bitmap);
+            Refresh();
         }
 
         private void ToolStripMenuHoris_Click(object sender, EventArgs e)
         {
-            Logics.Rotation.HorizontalReflection(_picture);
+            _pb.Image = Rotation.HorizontalReflection(_picture.Bitmap);
+            Refresh();
         }
 
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
-            _pb.Image = Rotation.PictureRotationBy(_picture, 90).Bitmap;
+            _pb.Image = Rotation.PictureRotationBy(_picture.Bitmap, 90);
             RefreshAndSize();
         }
 
         private void toolStripMenuRotBy270_Click(object sender, EventArgs e)
         {
-            _pb.Image = Rotation.PictureRotationBy(_picture, 270).Bitmap;
+            _pb.Image = Rotation.PictureRotationBy(_picture.Bitmap, 270);
             RefreshAndSize();
         }
 
         private void toolStripMenuRotBy180_Click(object sender, EventArgs e)
         {
-            _pb.Image = Rotation.PictureRotationBy(_picture, 45).Bitmap;
+            _pb.Image = Rotation.PictureRotationBy(_picture.Bitmap, 180);
             RefreshAndSize();
         }
 

@@ -1,4 +1,7 @@
 ﻿
+using System.ComponentModel;
+using System.Windows.Forms;
+
 namespace BestRedactor.Forms
 {
     partial class ColorsForm
@@ -6,7 +9,7 @@ namespace BestRedactor.Forms
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -221,19 +224,19 @@ namespace BestRedactor.Forms
 
         #endregion
 
-        public System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.TrackBar trackBarBlue;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TrackBar trackBarRed;
-        private System.Windows.Forms.TrackBar trackBarGreen;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label B;
-        private System.Windows.Forms.Label G;
-        private System.Windows.Forms.Label R;
+        public PictureBox pictureBox;
+        private Panel panel1;
+        private Button btnCancel;
+        private Button btnOk;
+        private TrackBar trackBarBlue;
+        private Panel panel2;
+        private TrackBar trackBarRed;
+        private TrackBar trackBarGreen;
+        private Label label3;
+        private Label label2;
+        private Label label1;
+        private Label B;
+        private Label G;
+        private Label R;
     }
 }

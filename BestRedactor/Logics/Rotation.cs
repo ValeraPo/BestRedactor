@@ -8,39 +8,39 @@ namespace BestRedactor.Logics
 {
     public static class Rotation
     {
-        public static IPicture VerticalReflection(IPicture picture)
+        public static Bitmap VerticalReflection(Bitmap bm)
         {
-            picture.Bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            return picture;
+            bm?.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            return bm;
         }
-        public static IPicture HorizontalReflection(IPicture picture)
+        public static Bitmap HorizontalReflection(Bitmap bm)
         {
-            picture.Bitmap.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            return picture;
+            bm?.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            return bm;
         }
 
 
-        public static IPicture PictureRotationBy(IPicture picture, int angle)
+        public static Bitmap PictureRotationBy(Bitmap bm, int angle)
         {
             angle = angle > 0? angle % 360 : 360 + angle % 360;
             switch (angle)
             {
                 case 90:
-                    picture.Bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    bm?.RotateFlip(RotateFlipType.Rotate90FlipNone);
                     break;
                 case 180:
-                    picture.Bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    bm?.RotateFlip(RotateFlipType.Rotate180FlipNone);
                     break;
                 case 270:
-                    picture.Bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    bm?.RotateFlip(RotateFlipType.Rotate270FlipNone);
                     break;
                 case 0: break;
                 default:
-                    picture.Bitmap = RotateBitmap(picture.Bitmap, angle);
+                    bm = RotateBitmap(bm, angle);
                     break;
             }
 
-            return picture;
+            return bm;
         }
 
         
