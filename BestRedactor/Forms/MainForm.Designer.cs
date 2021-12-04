@@ -117,6 +117,7 @@ namespace BestRedactor.Forms
             this.tsText = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.timerIsToSave = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).BeginInit();
@@ -287,7 +288,7 @@ namespace BestRedactor.Forms
             // timerAutoSave
             // 
             this.timerAutoSave.Enabled = true;
-            this.timerAutoSave.Interval = 30000;
+            this.timerAutoSave.Interval = 10000;
             this.timerAutoSave.Tick += new System.EventHandler(this.timerAutoSave_Tick);
             // 
             // BottomToolStripPanel
@@ -889,6 +890,11 @@ namespace BestRedactor.Forms
             this.splitContainer2.SplitterDistance = 691;
             this.splitContainer2.TabIndex = 0;
             // 
+            // timerIsToSave
+            // 
+            this.timerIsToSave.Interval = 6000;
+            this.timerIsToSave.Tick += new System.EventHandler(this.timerIsToSave_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1014,6 +1020,7 @@ namespace BestRedactor.Forms
         private ToolStripMenuItem toolStripMenuSquare;
         private ToolStripMenuItem tsBtnMenuItemCircleFill;
         private ToolStripMenuItem toolStripMenuSquareFill;
+        private Timer timerIsToSave;
     }
 }
 

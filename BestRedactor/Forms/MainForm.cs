@@ -12,6 +12,16 @@ namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
     {
+        //TODO Иконки нормальные
+        //TODO Сделать форму для поворота на произвольный угол
+        //TODO Починить Zoom/сделать ползунки для пролистывания слишком больших изображений
+        //TODO Бекап сессии(восстановление из бекапа)
+        //TODO Кадрирование
+        //TODO Горячие клавиши
+        //TODO Починить квадрат
+
+
+        //TODO Добавить историю(когда-то потом)
         public MainForm()
         {
             InitializeComponent();
@@ -21,7 +31,12 @@ namespace BestRedactor.Forms
             _pen.EndCap            = LineCap.Round;
             _erase.StartCap        = LineCap.Round;
             _erase.EndCap          = LineCap.Round;
-            Settings.FailClose     = true;
+            if (Settings.FailClose)
+            {
+                //TODO Диалоговое окно Загрузить последниё бекап сессии
+            }
+            else
+                Settings.FailClose     = true;
         }
 
         private          Graphics      _gra;
@@ -62,10 +77,29 @@ namespace BestRedactor.Forms
             _currentTool = Tools.Cursor;
         }
 
-
-        private void timerAutoSave_Tick(object sender, EventArgs e) => AutoSave.Backup(_pictures);
+        
+        private void timerAutoSave_Tick(object sender, EventArgs e)
+        {
+            AutoSave.Backup(_pictures);
+            var i = 0;
+            foreach (TabPage elem in tabControlPage.TabPages)
+            {
+                elem.Text = _pictures[i].FileName;
+                i++;
+            }
+        }
+        private void timerIsToSave_Tick(object sender, EventArgs e)
+        {
+            Settings.FailClose = true;
+            timerIsToSave.Stop();
+        }
         private void toolStripMenuItem1_Click(object sender, EventArgs e) => FileManagerL.Save(_picture);
-        private void SaveAll(object sander, EventArgs e) => FileManagerL.SaveAll(_pictures);
+        private void SaveAll(object sander, EventArgs e)
+        {
+            FileManagerL.SaveAll(_pictures);
+            Settings.FailClose = false;
+            timerIsToSave.Start();
+        }
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -149,7 +183,7 @@ namespace BestRedactor.Forms
         }
         private void AddNewTabPages(IPicture picture)
         {
-            var    tp = new TabPage(picture.FileName);
+            var tp = new TabPage(picture.FileName);
             var pb = new PictureBox();
 
             tp.BorderStyle             = BorderStyle.Fixed3D;
@@ -184,7 +218,6 @@ namespace BestRedactor.Forms
         }
 
 
-
         // метод для поиска старого цвета до заливки формы новым цветом
         private static void Validate(Bitmap bm, Stack<Point> sp, int x, int y, Color oldColor, Color newColor)
         {
@@ -213,7 +246,6 @@ namespace BestRedactor.Forms
                 Validate(bm, pixel, pt.X, pt.Y + 1, oldCol, newCol);
             }
         }
-
 
 
         private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) => new FiltersForm(_picture, this, Filters.Contrast).ShowDialog();
@@ -254,7 +286,7 @@ namespace BestRedactor.Forms
         private void tsBtn_color1_Click(object sender, EventArgs e)
         {
 
-            //if (isClickedColor)
+            //TODO if (isClickedColor)
 
             if (_cd.ShowDialog() != DialogResult.OK)
                 return;
@@ -266,10 +298,15 @@ namespace BestRedactor.Forms
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Settings.FailClose = false;
+            //TODO диалоговое окно Сохранить Всё
             Close();
-        } 
+        }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Settings.FailClose)
+            {
+                //TODO диалоговое окно с предложением сохраниться
+            }
             if (!_pictures.Remove(_picture))
                 return;
             tabControlPage.TabPages.Remove(tabControlPage.SelectedTab);
@@ -286,7 +323,7 @@ namespace BestRedactor.Forms
             _pen.Color             = Settings.LastUseColor;
             tsBtn_color1.BackColor = Settings.LastUseColor;
         }
-        
+
 
         private void trackBarZoom_Scroll(object sender, EventArgs e)
         {
@@ -380,7 +417,6 @@ namespace BestRedactor.Forms
             RefreshAndSize();
         }
 
-        
 
         private void PbPaint(object sender, PaintEventArgs e)
         {
