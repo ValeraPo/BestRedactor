@@ -9,7 +9,10 @@ namespace BestRedactor.Logics
         //Размыть 
         public static Bitmap Blur(Bitmap image)
         {
-            var kSize = 11; //кол-во процентов
+            if (image == null) throw new ArgumentNullException();
+            if (image.Width >= 7680 || image.Height >= 7680)
+                throw new ArgumentOutOfRangeException();
+            var kSize = 11; 
             var hblur = (Bitmap)image.Clone();
             var avg   = (float)1 / kSize;
 
@@ -99,8 +102,6 @@ namespace BestRedactor.Logics
                     total.SetPixel(i, j, Color.FromArgb((int)iAvg[0], (int)iAvg[1], (int)iAvg[2], (int)iAvg[3]));
                 }
             }
-
-            //image = total;
             return total;
         }
 
@@ -108,11 +109,12 @@ namespace BestRedactor.Logics
         // Повысить резкость 
         public static Bitmap Sharpness(Bitmap image)
         {
+            if (image == null) throw new ArgumentNullException();
+            if (image.Width >= 7680 || image.Height >= 7680)
+                throw new ArgumentOutOfRangeException();
             var sharpenImage = (Bitmap)image.Clone();
             var width        = sharpenImage.Width;
             var height       = sharpenImage.Height;
-
-            // Create sharpening filter.
             var filter = new double[,]
                          {
                              { -1, -1, -1, },
@@ -125,19 +127,15 @@ namespace BestRedactor.Logics
 
             var result = new Color[sharpenImage.Width, sharpenImage.Height];
 
-            // Lock image bits for read/write.
             var pbits = sharpenImage.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite,
                 PixelFormat.Format24bppRgb);
 
-            // Declare an array to hold the bytes of the bitmap.
             var bytes     = pbits.Stride * height;
             var rgbValues = new byte[bytes];
 
-            // Copy the RGB values into the array.
             System.Runtime.InteropServices.Marshal.Copy(pbits.Scan0, rgbValues, 0, bytes);
 
             int rgb;
-            // Fill the color array with the new sharpened color values.
             for (var x = 0; x < width; ++x)
             for (var y = 0; y < height; ++y)
             {
@@ -166,7 +164,6 @@ namespace BestRedactor.Logics
             }
 
 
-            // Update the image with the sharpened pixels.
             for (var x = 0; x < width; ++x)
             for (var y = 0; y < height; ++y)
             {
@@ -178,9 +175,7 @@ namespace BestRedactor.Logics
             }
 
 
-            // Copy the RGB values back to the bitmap.
             System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, pbits.Scan0, bytes);
-            // Release image bits.
             sharpenImage.UnlockBits(pbits);
             return sharpenImage;
         }
@@ -189,6 +184,9 @@ namespace BestRedactor.Logics
         // Добавить шум
         public static Bitmap Noise(Bitmap image)
         {
+            if (image == null) throw new ArgumentNullException();
+            if (image.Width >= 7680 || image.Height >= 7680)
+                throw new ArgumentOutOfRangeException();
             const float p      = 10;
             var         total  = (Bitmap)image.Clone();
             var         adjust = (int)(p * 2.55f);

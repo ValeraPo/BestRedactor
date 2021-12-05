@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System;
 
 namespace BestRedactor.Logics
 {
@@ -7,11 +8,17 @@ namespace BestRedactor.Logics
     {
         public static Bitmap VerticalReflection(Bitmap bm)
         {
+            if (bm == null) throw new ArgumentNullException();
+            if (bm.Width >= 7680 || bm.Height >= 7680)
+                throw new ArgumentOutOfRangeException();
             bm?.RotateFlip(RotateFlipType.RotateNoneFlipY);
             return bm;
         }
         public static Bitmap HorizontalReflection(Bitmap bm)
         {
+            if (bm == null) throw new ArgumentNullException();
+            if (bm.Width >= 7680 || bm.Height >= 7680)
+                throw new ArgumentOutOfRangeException();
             bm?.RotateFlip(RotateFlipType.RotateNoneFlipX);
             return bm;
         }
@@ -19,6 +26,9 @@ namespace BestRedactor.Logics
 
         public static Bitmap PictureRotationBy(Bitmap bm, int angle)
         {
+            if (bm == null) throw new ArgumentNullException();
+            if (bm.Width >= 7680 || bm.Height >= 7680)
+                throw new ArgumentOutOfRangeException();
             angle = angle > 0? angle % 360 : 360 + angle % 360;
             switch (angle)
             {
@@ -43,6 +53,9 @@ namespace BestRedactor.Logics
         
         private static Bitmap RotateBitmap(Bitmap bm, float angle)
         {
+            if (bm == null) throw new ArgumentNullException();
+            if (bm.Width >= 7680 || bm.Height >= 7680)
+                throw new ArgumentOutOfRangeException();
             // Матрицу для представления вращения
             var rotateAtOrigin = new Matrix();
             rotateAtOrigin.Rotate(angle);
@@ -68,7 +81,7 @@ namespace BestRedactor.Logics
             // Очистите цвет в верхнем левом углу изображения.
             gr.Clear(bm.GetPixel(0, 0));
 
-            // Отчистка
+            // Очистка
             gr.Clear(Color.Transparent);
 
             // Преобразование для поворота.

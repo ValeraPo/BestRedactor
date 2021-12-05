@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System;
 
 
 namespace BestRedactor.Logics
@@ -8,6 +9,9 @@ namespace BestRedactor.Logics
         //якрость
         public static Bitmap Brightness(Bitmap image, int poz)
         {
+            if (image == null) throw new ArgumentNullException();
+            if (image.Width >= 7680 || image.Height >= 7680)
+                throw new ArgumentOutOfRangeException();
             var   N     = poz - 100; //кол-во процентов
             var   total = (Bitmap)image.Clone();
             var   rgb   = new PixelPoint();
@@ -29,6 +33,9 @@ namespace BestRedactor.Logics
         //контрастность
         public static Bitmap Contrast(Bitmap image, int poz)
         {
+            if (image == null) throw new ArgumentNullException();
+            if (image.Width >= 7680 || image.Height >= 7680)
+                throw new ArgumentOutOfRangeException();
             var N     = poz - 100; //кол-во процентов
             var rgb   = new PixelPoint();
             var total = (Bitmap)image.Clone();

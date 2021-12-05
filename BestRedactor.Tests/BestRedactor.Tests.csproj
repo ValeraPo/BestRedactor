@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{156131C4-DEFA-410D-9FCF-8515AB8DD11A}</ProjectGuid>
+        <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>BestRedactor.Tests</RootNamespace>
+        <AssemblyName>BestRedactor.Tests</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="CoreCompat.System.Drawing, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c0a7ed9c2333b592">
+          <HintPath>..\packages\CoreCompat.System.Drawing.1.0.0-beta006\lib\net45\CoreCompat.System.Drawing.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Drawing.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>..\packages\System.Drawing.Common.6.0.0\lib\net461\System.Drawing.Common.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Xml" />
+        <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
+            <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="..\BestRedactor\Interface\IPicture.cs">
+          <Link>BestRedactor\Interface\IPicture.cs</Link>
+        </Compile>
+        <Compile Include="..\BestRedactor\Logics\ColorBalance.cs">
+          <Link>BestRedactor\Logics\ColorBalance.cs</Link>
+        </Compile>
+        <Compile Include="..\BestRedactor\Logics\Intensity.cs">
+          <Link>BestRedactor\Logics\Intensity.cs</Link>
+        </Compile>
+        <Compile Include="..\BestRedactor\Logics\Picture.cs">
+          <Link>BestRedactor\Logics\Picture.cs</Link>
+        </Compile>
+        <Compile Include="..\BestRedactor\Logics\PixelPoint.cs">
+          <Link>BestRedactor\Logics\PixelPoint.cs</Link>
+        </Compile>
+        <Compile Include="..\BestRedactor\Logics\Precision.cs">
+          <Link>BestRedactor\Logics\Precision.cs</Link>
+        </Compile>
+        <Compile Include="..\BestRedactor\Logics\Resize.cs">
+          <Link>BestRedactor\Logics\Resize.cs</Link>
+        </Compile>
+        <Compile Include="..\BestRedactor\Logics\Rotation.cs">
+          <Link>BestRedactor\Logics\Rotation.cs</Link>
+        </Compile>
+        <Compile Include="ColoreBalance.Tests.cs" />
+        <Compile Include="Intensity.Tests.cs" />
+        <Compile Include="Precision.Tests.cs" />
+        <Compile Include="Resize.Tests.cs" />
+        <Compile Include="Rotation.Tests.cs" />
+        <Compile Include="Tests.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="packages.config" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>
