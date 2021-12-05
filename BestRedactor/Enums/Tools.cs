@@ -5,6 +5,9 @@
         Cursor,
         Pencil,
         Erase,
+        Pipette,
+        Fill,
+        Brush,
         Line,
         Circle,
         Ellipce,
@@ -14,8 +17,5 @@
         EllipceFill,
         RectangleFill,
         SquareFill,
-        Pipette,
-        Fill,
-        Brush
     }
 }

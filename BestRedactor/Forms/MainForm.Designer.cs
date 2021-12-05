@@ -338,6 +338,7 @@ namespace BestRedactor.Forms
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage1.Location = new System.Drawing.Point(0, 0);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Size = new System.Drawing.Size(200, 100);
@@ -395,7 +396,7 @@ namespace BestRedactor.Forms
             // 
             this.lblCursorPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblCursorPos.AutoSize = true;
-            this.lblCursorPos.Location = new System.Drawing.Point(5, 4);
+            this.lblCursorPos.Location = new System.Drawing.Point(32, 6);
             this.lblCursorPos.Name = "lblCursorPos";
             this.lblCursorPos.Size = new System.Drawing.Size(86, 15);
             this.lblCursorPos.TabIndex = 5;
@@ -405,7 +406,7 @@ namespace BestRedactor.Forms
             // 
             this.lblPictureSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblPictureSize.AutoSize = true;
-            this.lblPictureSize.Location = new System.Drawing.Point(132, 4);
+            this.lblPictureSize.Location = new System.Drawing.Point(131, 6);
             this.lblPictureSize.Name = "lblPictureSize";
             this.lblPictureSize.Size = new System.Drawing.Size(101, 15);
             this.lblPictureSize.TabIndex = 6;
@@ -475,7 +476,7 @@ namespace BestRedactor.Forms
             this.toolStripTools.Location = new System.Drawing.Point(0, 3);
             this.toolStripTools.Name = "toolStripTools";
             this.toolStripTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStripTools.Size = new System.Drawing.Size(32, 362);
+            this.toolStripTools.Size = new System.Drawing.Size(32, 342);
             this.toolStripTools.TabIndex = 4;
             this.toolStripTools.Text = "tools";
             // 
@@ -490,7 +491,6 @@ namespace BestRedactor.Forms
             this.tsBtn_color1.Text = "цвет 1";
             this.tsBtn_color1.ToolTipText = "цвет 1";
             this.tsBtn_color1.Click += new System.EventHandler(this.tsBtn_color1_Click);
-            this.tsBtn_color1.DoubleClick += new System.EventHandler(this.tsBtn_color1_DoubleClick);
             // 
             // tsBtn_color2
             // 
@@ -502,6 +502,7 @@ namespace BestRedactor.Forms
             this.tsBtn_color2.Size = new System.Drawing.Size(20, 20);
             this.tsBtn_color2.Text = "toolStripButton3";
             this.tsBtn_color2.ToolTipText = "цвет 2";
+            this.tsBtn_color2.Click += new System.EventHandler(this.tsBtn_color2_Click);
             // 
             // tsBtnBrush
             // 
@@ -531,7 +532,7 @@ namespace BestRedactor.Forms
             // 
             this.tsSplitButtonShape.AutoSize = false;
             this.tsSplitButtonShape.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsSplitButtonShape.DropDownButtonWidth = 5;
+            this.tsSplitButtonShape.DropDownButtonWidth = 7;
             this.tsSplitButtonShape.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsBtnMenuItemLine,
             this.tsBtnMenuItemCircle,
@@ -545,8 +546,9 @@ namespace BestRedactor.Forms
             this.tsSplitButtonShape.Image = ((System.Drawing.Image)(resources.GetObject("tsSplitButtonShape.Image")));
             this.tsSplitButtonShape.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsSplitButtonShape.Name = "tsSplitButtonShape";
-            this.tsSplitButtonShape.Size = new System.Drawing.Size(25, 20);
+            this.tsSplitButtonShape.Size = new System.Drawing.Size(30, 20);
             this.tsSplitButtonShape.Text = "форма";
+            this.tsSplitButtonShape.ButtonClick += new System.EventHandler(this.tsSplitButtonShape_ButtonClick);
             // 
             // tsBtnMenuItemLine
             // 
@@ -789,7 +791,7 @@ namespace BestRedactor.Forms
             this.tsButtonCursor.Image = ((System.Drawing.Image)(resources.GetObject("tsButtonCursor.Image")));
             this.tsButtonCursor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsButtonCursor.Name = "tsButtonCursor";
-            this.tsButtonCursor.Size = new System.Drawing.Size(20, 20);
+            this.tsButtonCursor.Size = new System.Drawing.Size(22, 22);
             this.tsButtonCursor.Text = "toolStripButton1";
             this.tsButtonCursor.ToolTipText = "Указатель";
             this.tsButtonCursor.Click += new System.EventHandler(this.tsButtonCursor_Click);
