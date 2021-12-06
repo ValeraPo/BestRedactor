@@ -394,45 +394,6 @@ namespace BestRedactor.Forms
         }
 
 
-        private void trackBarZoom_Scroll(object sender, EventArgs e)
-        {
-            if (trackBarZoom.Value > 49)
-            {
-                _pb.Image    = ZoomImage(_pb.Image, trackBarZoom.Value);
-                lblZoom.Text = $@"{trackBarZoom.Value} %";
-            }
-        }
-        private static Image ZoomImage(Image orig, float percent)
-        {
-            // Ширина и высота результирующего изображения
-            var w           = orig.Width * percent / 100;
-            var h           = orig.Height * percent / 100;
-            var scaledImage = new Bitmap((int)w, (int)h);
-            // DPI результирующего изображения
-            scaledImage.SetResolution(orig.HorizontalResolution, orig.VerticalResolution);
-            // Часть исходного изображения, для которой меняем масштаб.
-            // В данном случае — всё изображение
-            var src = new Rectangle(0, 0, orig.Width, orig.Height);
-            // Часть изображения, которую будем рисовать
-            // В данном случае — всё изображение
-            var dest = new RectangleF(0, 0, w, h);
-            // Прорисовка с изменённым масштабом
-            using var g = Graphics.FromImage(scaledImage);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.DrawImage(orig, dest, src, GraphicsUnit.Pixel);
-
-            return scaledImage;
-        }
-        private void btnZoomMinus_Click(object sender, EventArgs e)
-        {
-            trackBarZoom_Scroll(null, null);
-            trackBarZoom.Value -= 25;
-        }
-        private void btnZoomPlus_Click(object sender, EventArgs e)
-        {
-            trackBarZoom_Scroll(null, null);
-            trackBarZoom.Value += 25;
-        }
 
         // filters
         private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
@@ -592,5 +553,29 @@ namespace BestRedactor.Forms
         {
             Refresh();
         }
+
+
+        //private void trackBarZoom_Scroll(object sender, EventArgs e)
+        //{
+            
+        //    _pb.Width = _pb.Width * (trackBarZoom.Value / 100);
+        //    _pb.Height = _pb.Height * (trackBarZoom.Value / 100);
+        //    //Refresh();
+        //}
+        
+        //private void btnZoomMinus_Click(object sender, EventArgs e)
+        //{
+        //    //trackBarZoom_Scroll(null, null);
+        //    trackBarZoom.Value -= 25;
+        //    _pb.Width = _pb.Width * (trackBarZoom.Value / 100);
+        //    _pb.Height = _pb.Height * (trackBarZoom.Value / 100);
+        //}
+        //private void btnZoomPlus_Click(object sender, EventArgs e)
+        //{
+        //    //trackBarZoom_Scroll(null, null);
+        //    trackBarZoom.Value += 25;
+        //    _pb.Width = _pb.Width * (trackBarZoom.Value / 100);
+        //    _pb.Height = _pb.Height * (trackBarZoom.Value / 100);
+        //}
     }
 }

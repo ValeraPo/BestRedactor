@@ -541,43 +541,24 @@ namespace BestRedactor.Forms
             // 
             // trackBarZoom
             // 
-            this.trackBarZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBarZoom.AutoSize = false;
-            this.trackBarZoom.Cursor = System.Windows.Forms.Cursors.VSplit;
-            this.trackBarZoom.LargeChange = 50;
-            this.trackBarZoom.Location = new System.Drawing.Point(1239, 1);
-            this.trackBarZoom.Maximum = 400;
-            this.trackBarZoom.Minimum = 50;
+            this.trackBarZoom.Location = new System.Drawing.Point(0, 0);
             this.trackBarZoom.Name = "trackBarZoom";
-            this.trackBarZoom.Size = new System.Drawing.Size(100, 20);
-            this.trackBarZoom.SmallChange = 20;
-            this.trackBarZoom.TabIndex = 0;
-            this.trackBarZoom.TickFrequency = 20;
-            this.trackBarZoom.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBarZoom.Value = 100;
-            this.trackBarZoom.Scroll += new System.EventHandler(this.trackBarZoom_Scroll);
+            this.trackBarZoom.Size = new System.Drawing.Size(104, 45);
+            this.trackBarZoom.TabIndex = 9;
             // 
             // btnZoomPlus
             // 
-            this.btnZoomPlus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnZoomPlus.Location = new System.Drawing.Point(1345, 1);
+            this.btnZoomPlus.Location = new System.Drawing.Point(0, 0);
             this.btnZoomPlus.Name = "btnZoomPlus";
-            this.btnZoomPlus.Size = new System.Drawing.Size(18, 18);
-            this.btnZoomPlus.TabIndex = 1;
-            this.btnZoomPlus.Text = "button1";
-            this.btnZoomPlus.UseVisualStyleBackColor = true;
-            this.btnZoomPlus.Click += new System.EventHandler(this.btnZoomPlus_Click);
+            this.btnZoomPlus.Size = new System.Drawing.Size(75, 23);
+            this.btnZoomPlus.TabIndex = 8;
             // 
             // btnZoomMinus
             // 
-            this.btnZoomMinus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnZoomMinus.Location = new System.Drawing.Point(1215, 2);
+            this.btnZoomMinus.Location = new System.Drawing.Point(0, 0);
             this.btnZoomMinus.Name = "btnZoomMinus";
-            this.btnZoomMinus.Size = new System.Drawing.Size(18, 18);
-            this.btnZoomMinus.TabIndex = 4;
-            this.btnZoomMinus.Text = "button1";
-            this.btnZoomMinus.UseVisualStyleBackColor = true;
-            this.btnZoomMinus.Click += new System.EventHandler(this.btnZoomMinus_Click);
+            this.btnZoomMinus.Size = new System.Drawing.Size(75, 23);
+            this.btnZoomMinus.TabIndex = 7;
             // 
             // lblCursorPos
             // 
@@ -601,13 +582,10 @@ namespace BestRedactor.Forms
             // 
             // lblZoom
             // 
-            this.lblZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblZoom.AutoSize = true;
-            this.lblZoom.Location = new System.Drawing.Point(1170, 2);
+            this.lblZoom.Location = new System.Drawing.Point(0, 0);
             this.lblZoom.Name = "lblZoom";
-            this.lblZoom.Size = new System.Drawing.Size(37, 15);
-            this.lblZoom.TabIndex = 7;
-            this.lblZoom.Text = "zoom";
+            this.lblZoom.Size = new System.Drawing.Size(100, 23);
+            this.lblZoom.TabIndex = 0;
             // 
             // panel1
             // 
@@ -1065,6 +1043,7 @@ namespace BestRedactor.Forms
             // 
             // splitContainer1
             // 
+            this.splitContainer1.Cursor = System.Windows.Forms.Cursors.HSplit;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.IsSplitterFixed = true;
