@@ -216,7 +216,7 @@ namespace BestRedactor.Forms
             tp.Size                    = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
             tp.TabIndex                = Settings.OpenedTabs;
             tp.UseVisualStyleBackColor = true;
-            
+            tp.AutoScroll = true;
             
             //
             pb.SizeMode   =  PictureBoxSizeMode.Zoom;
