@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using BestRedactor.Interface;
 
@@ -14,7 +15,7 @@ namespace BestRedactor.Logics
             ImageFormat = imageFormat;
         }
         public Picture(Bitmap bitmap):
-            this(bitmap, @"%userprofile%\Pictures","NoName", ImageFormat.Bmp){}
+            this(bitmap, Environment.ExpandEnvironmentVariables(@"%userprofile%\Pictures\"),"NoName", ImageFormat.MemoryBmp){}
 
         public Bitmap      Bitmap      {get; set;}
         public string      Directory   {get; set;}

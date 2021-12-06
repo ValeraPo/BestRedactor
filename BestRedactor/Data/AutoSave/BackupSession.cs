@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text.Json;
@@ -12,7 +13,6 @@ namespace BestRedactor.Data.AutoSave
     {
         public static void Backup(object obj)
         {
-            var collection = (IEnumerable<IPicture>)obj;
             var path = Settings.PathBackup;
             path.PathNotNull();
             if (File.Exists(path)) //снятие атрибутов у временного файла
@@ -39,7 +39,7 @@ namespace BestRedactor.Data.AutoSave
                                    ImageFormats = new ImageFormat[openedTabs]
                                };
             var cnt = 0;
-            foreach (var elem in collection)
+            foreach (var elem in (IEnumerable<IPicture>)obj)
             {
                 var pathTmp = $"~{elem.FileName}.{elem.ImageFormat.ToString().ToLower()}"; //путь до временного файла
                 
@@ -77,14 +77,21 @@ namespace BestRedactor.Data.AutoSave
             var session = new List<Picture>();
             if (saveSettings == null)
                 return session;
+            path = Environment.ExpandEnvironmentVariables(@"%appdata%\BestRedactor\");
+            path.DirectoryCreature(true);
             for (var i = 0; i < saveSettings!.OpenTabs; i++)
-                if (saveSettings.Name[i] != null && saveSettings.ImageFormats != null) //создание новой сессии 
-                    session.Add(new Picture(
-                        new Bitmap($"~{saveSettings.Name[i]}.{saveSettings.ImageFormats[i].ToString().ToLower()}"),
-                        saveSettings.Directory[i],
-                        saveSettings.Name[i],
-                        saveSettings.ImageFormats[i]));
-
+            {
+                var pathTmp = $"~{saveSettings.Name[i]}.{saveSettings.ImageFormats[i].ToString().ToLower()}";
+                if (saveSettings.Name[i] == null || saveSettings.ImageFormats == null)
+                    continue;
+                File.Copy(pathTmp, path + pathTmp);
+                session.Add(new Picture(
+                    new Bitmap(
+                        $"{path}~{saveSettings.Name[i]}.{saveSettings.ImageFormats[i].ToString().ToLower()}"),
+                    saveSettings.Directory[i],
+                    saveSettings.Name[i],
+                    saveSettings.ImageFormats[i]));
+            }
 
             return session;
         }

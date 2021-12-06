@@ -1078,7 +1078,7 @@ namespace BestRedactor.Forms
             // 
             // timerIsToSave
             // 
-            this.timerIsToSave.Interval = 6000;
+            this.timerIsToSave.Interval = 30000;
             this.timerIsToSave.Tick += new System.EventHandler(this.timerIsToSave_Tick);
             // 
             // MainForm

@@ -8,7 +8,7 @@ namespace BestRedactor.Data
         public static void Log(string logMessage)
         {
             var path = Properties.Settings.Default["PathLog"].ToString();
-            path.DirectoryCreature();
+            path.DirectoryCreature(false);
 
             using (var w = File.AppendText($"{path}\\log {DateTime.Now.ToShortDateString()}.txt"))
             {

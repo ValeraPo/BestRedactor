@@ -10,9 +10,14 @@ namespace BestRedactor.Data
             return Directory.Exists(path);
         }
 
-        public static void DirectoryCreature(this string path)
+        public static void DirectoryCreature(this string path,bool delete)
         {
-            if (!DirectoryСheck(path))
+            if (DirectoryСheck(path) && delete)
+            {
+                Directory.Delete(path, true);
+                Directory.CreateDirectory(path);
+            }
+            if (DirectoryСheck(path))
                 Directory.CreateDirectory(path);
         }
 
