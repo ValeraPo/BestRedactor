@@ -13,24 +13,16 @@ namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
     {
-        //TODO Иконки нормальные
-        //TODO Сделать форму для поворота на произвольный угол
         //TODO Шахматка на задний план
-        //TODO Сделать ползунки для пролистывания слишком больших изображений
-        //TODO Починить Zoom(удалить)
         //TODO Предлогать сохраниться на закрытие формы на крестик
         //TODO Толщина кисти
-        //TODO Задний цвет у контейнера инструментов
-        //TODO Починить панель инструментов
         //TODO Кадрирование(обрезка)
         //TODO Вставка текста(форму или что придумаем)
         //TODO Иконка программы + нормальное название
-        
-        
+
+
+        //TODO Починить Zoom(удалить)
         //TODO Горячие клавиши
-        //TODO Починить квадрат
-
-
         //TODO Добавить историю(когда-то потом)
         public MainForm(List<Picture> pictures)
         {
@@ -332,6 +324,7 @@ namespace BestRedactor.Forms
             var tp = new TabPage(picture.FileName);
             var pb = new PictureBox();
 
+            tp.Dock = DockStyle.Fill;
             tp.BorderStyle             = BorderStyle.Fixed3D;
             tp.Location                = new Point(0, 0);
             tp.ForeColor               = SystemColors.ControlText;
