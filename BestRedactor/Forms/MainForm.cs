@@ -324,7 +324,7 @@ namespace BestRedactor.Forms
             var tp = new TabPage(picture.FileName);
             var pb = new PictureBox();
 
-            tp.Dock = DockStyle.Fill;
+            tp.Dock                    = DockStyle.Fill;
             tp.BorderStyle             = BorderStyle.Fixed3D;
             tp.Location                = new Point(0, 0);
             tp.ForeColor               = SystemColors.ControlText;
@@ -333,10 +333,10 @@ namespace BestRedactor.Forms
             tp.Size                    = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
             tp.TabIndex                = Settings.OpenedTabs;
             tp.UseVisualStyleBackColor = true;
-            tp.AutoScroll = true;
+            tp.AutoScroll              = true;
+            tp.BackColor               = SystemColors.Control;
             
             //
-            pb.SizeMode   =  PictureBoxSizeMode.Zoom;
             pb.Location   =  new Point(0, 0);
             pb.Name       =  $"pb{Settings.OpenedTabs}";
             pb.Size       =  new Size(picture.Bitmap.Width, picture.Bitmap.Height);
