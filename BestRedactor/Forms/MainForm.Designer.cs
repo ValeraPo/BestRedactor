@@ -99,6 +99,7 @@ namespace BestRedactor.Forms
             this.tsBtn_color2 = new System.Windows.Forms.ToolStripButton();
             this.tsBtnBrush = new System.Windows.Forms.ToolStripButton();
             this.tsBtnPen = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnEraser = new System.Windows.Forms.ToolStripButton();
             this.tsSplitButtonShape = new System.Windows.Forms.ToolStripSplitButton();
             this.tsBtnMenuItemLine = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnMenuItemCircle = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,7 +135,6 @@ namespace BestRedactor.Forms
             this.tsBtnFill = new System.Windows.Forms.ToolStripButton();
             this.tsBtnPipette = new System.Windows.Forms.ToolStripButton();
             this.tsButtonFraming = new System.Windows.Forms.ToolStripButton();
-            this.tsBtnEraser = new System.Windows.Forms.ToolStripButton();
             this.tsText = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -436,6 +436,7 @@ namespace BestRedactor.Forms
             this.ToolStripMenuItemFree.Name = "ToolStripMenuItemFree";
             this.ToolStripMenuItemFree.Size = new System.Drawing.Size(147, 22);
             this.ToolStripMenuItemFree.Text = "произвольно";
+            this.ToolStripMenuItemFree.Click += new System.EventHandler(this.toolStripTextBoxRotateOn_Click);
             // 
             // ToolStripMenuItemMirror
             // 
@@ -710,6 +711,17 @@ namespace BestRedactor.Forms
             this.tsBtnPen.ToolTipText = "Карандаш";
             this.tsBtnPen.Click += new System.EventHandler(this.tsBtnPen_Click);
             // 
+            // tsBtnEraser
+            // 
+            this.tsBtnEraser.AutoSize = false;
+            this.tsBtnEraser.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnEraser.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnEraser.Image")));
+            this.tsBtnEraser.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnEraser.Name = "tsBtnEraser";
+            this.tsBtnEraser.Size = new System.Drawing.Size(25, 25);
+            this.tsBtnEraser.Text = "Резинка";
+            this.tsBtnEraser.Click += new System.EventHandler(this.tsBtnEraser_Click);
+            // 
             // tsSplitButtonShape
             // 
             this.tsSplitButtonShape.AutoSize = false;
@@ -944,6 +956,7 @@ namespace BestRedactor.Forms
             this.toolStripTextBoxRotateOn.Name = "toolStripTextBoxRotateOn";
             this.toolStripTextBoxRotateOn.Size = new System.Drawing.Size(147, 22);
             this.toolStripTextBoxRotateOn.Text = "произвольно";
+            this.toolStripTextBoxRotateOn.Click += new System.EventHandler(this.toolStripTextBoxRotateOn_Click);
             // 
             // drDBtnTSMenuItMirror
             // 
@@ -994,35 +1007,26 @@ namespace BestRedactor.Forms
             // 
             // tsBtnPipette
             // 
+            this.tsBtnPipette.AutoSize = false;
             this.tsBtnPipette.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsBtnPipette.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnPipette.Image")));
             this.tsBtnPipette.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnPipette.Name = "tsBtnPipette";
-            this.tsBtnPipette.Size = new System.Drawing.Size(30, 20);
+            this.tsBtnPipette.Size = new System.Drawing.Size(25, 25);
             this.tsBtnPipette.Text = "пипетка";
             this.tsBtnPipette.ToolTipText = "Пипетка";
             this.tsBtnPipette.Click += new System.EventHandler(this.tsBtnPipette_Click);
             // 
             // tsButtonFraming
             // 
+            this.tsButtonFraming.AutoSize = false;
             this.tsButtonFraming.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsButtonFraming.Image = ((System.Drawing.Image)(resources.GetObject("tsButtonFraming.Image")));
             this.tsButtonFraming.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsButtonFraming.Name = "tsButtonFraming";
-            this.tsButtonFraming.Size = new System.Drawing.Size(30, 20);
+            this.tsButtonFraming.Size = new System.Drawing.Size(25, 25);
             this.tsButtonFraming.Text = "toolStripButton1";
             this.tsButtonFraming.ToolTipText = "Кадрирование";
-            // 
-            // tsBtnEraser
-            // 
-            this.tsBtnEraser.AutoSize = false;
-            this.tsBtnEraser.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsBtnEraser.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnEraser.Image")));
-            this.tsBtnEraser.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtnEraser.Name = "tsBtnEraser";
-            this.tsBtnEraser.Size = new System.Drawing.Size(25, 25);
-            this.tsBtnEraser.Text = "Резинка";
-            this.tsBtnEraser.Click += new System.EventHandler(this.tsBtnEraser_Click);
             // 
             // tsText
             // 

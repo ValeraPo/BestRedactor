@@ -66,7 +66,13 @@ namespace BestRedactor.Forms
         private          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[0];
 
 
-        private void tsButtonCursor_Click(object sender, EventArgs e) =>           _currentTool = Tools.Cursor;
+        private void tsButtonCursor_Click(object sender, EventArgs e)
+        {
+            _currentTool = Tools.Cursor;
+            //
+            tsButtonCursor.Checked = true;
+            tsButtonCursor.CheckOnClick = true;
+        }
         private void tsBtnBrush_Click(object sender, EventArgs e) =>               _currentTool = Tools.Pencil;
         private void tsBtnPen_Click(object sender, EventArgs e) =>                 _currentTool = Tools.Pencil;
         private void tsBtnEraser_Click(object sender, EventArgs e) =>              _currentTool = Tools.Erase;
@@ -482,6 +488,13 @@ namespace BestRedactor.Forms
         {
             _currentTool = _lastFigure;
         }
+
+        private void toolStripTextBoxRotateOn_Click(object sender, EventArgs e)
+        {
+            new Rotation(_picture, this).ShowDialog();
+            _pb.Image = _picture.Bitmap;
+        }
+
         private void PbPaint(object sender, PaintEventArgs e)
         {
             if (!_isMouseDown)
