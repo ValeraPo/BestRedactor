@@ -33,8 +33,6 @@ namespace BestRedactor.Forms
         }
         private Picture   _picture;
         private MainForm  _main;
-        private int       _poz;
-        private int       _lenght;
         private FilterDel _fd;
         private Bitmap    _preView;
 
