@@ -161,44 +161,42 @@ namespace BestRedactor.Forms.MethodsForEvents
                     sX = sY;
                     g.DrawRectangle(pen, cX + sX, cY + sY, -sX, -sY);
                     break;
-                
-                    
-                    //TODO Filled squere - не фурычит пока
-              
 
+
+                
                 //IV четверть
-                case Tools.Square when sX > 0 && sY > 0 && sX > sY:
+                case Tools.SquareFill when sX > 0 && sY > 0 && sX > sY:
                     sY = sX;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY, sX, sY);
                     break;
-                case Tools.Square when sX > 0 && sY > 0 && sX < sY:
+                case Tools.SquareFill when sX > 0 && sY > 0 && sX < sY:
                     sX = sY;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY, sY, sY);
                     break;
                 //III четверть
-                case Tools.Square when sX < 0 && sY > 0 && -sX > sY:
+                case Tools.SquareFill when sX < 0 && sY > 0 && -sX > sY:
                     sY = -sX;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY, -sX, sY);
                     break;
-                case Tools.Square when sX < 0 && sY > 0 && -sX < sY:
+                case Tools.SquareFill when sX < 0 && sY > 0 && -sX < sY:
                     sX = -sY;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY, -sX, sY);
                     break;
                 //I четверть
-                case Tools.Square when sX > 0 && sY < 0 && sX > -sY:
+                case Tools.SquareFill when sX > 0 && sY < 0 && sX > -sY:
                     sY = -sX;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY + sY, sX, -sY);
                     break;
-                case Tools.Square when sX > 0 && sY < 0 && sX < -sY:
+                case Tools.SquareFill when sX > 0 && sY < 0 && sX < -sY:
                     sX = -sY;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY + sY, sX, -sY);
                     break;
                 //II четверть
-                case Tools.Square when sX < 0 && sY < 0 && -sX > -sY:
+                case Tools.SquareFill when sX < 0 && sY < 0 && -sX > -sY:
                     sY = sX;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY + sY, -sX, -sY);
                     break;
-                case Tools.Square when sX < 0 && sY < 0 && -sX < -sY:
+                case Tools.SquareFill when sX < 0 && sY < 0 && -sX < -sY:
                     sX = sY;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY + sY, -sX, -sY);
                     break;
@@ -209,3 +207,4 @@ namespace BestRedactor.Forms.MethodsForEvents
         }
     }
 }
+

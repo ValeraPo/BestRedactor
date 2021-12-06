@@ -448,27 +448,27 @@ namespace BestRedactor.Forms
         }
         private void MirrorVertically_Click(object sender, EventArgs e)
         {
-            _pb.Image = Rotation.VerticalReflection(_picture.Bitmap);
+            _pb.Image = Logics.Rotation.VerticalReflection(_picture.Bitmap);
             Refresh();
         }
         private void ToolStripMenuHoris_Click(object sender, EventArgs e)
         {
-            _pb.Image = Rotation.HorizontalReflection(_picture.Bitmap);
+            _pb.Image = Logics.Rotation.HorizontalReflection(_picture.Bitmap);
             Refresh();
         }
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        private void toolStripMenuRotBy90_Click(object sender, EventArgs e)
         {
-            _pb.Image = Rotation.PictureRotationBy(_picture.Bitmap, 90);
+            _pb.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 90);
             RefreshAndSize();
         }
         private void toolStripMenuRotBy270_Click(object sender, EventArgs e)
         {
-            _pb.Image = Rotation.PictureRotationBy(_picture.Bitmap, 270);
+            _pb.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 270);
             RefreshAndSize();
         }
         private void toolStripMenuRotBy180_Click(object sender, EventArgs e)
         {
-            _pb.Image = Rotation.PictureRotationBy(_picture.Bitmap, 180);
+            _pb.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 180);
             RefreshAndSize();
         }
 
@@ -480,6 +480,8 @@ namespace BestRedactor.Forms
             }
             _currentTool = _lastFigure;
         }
+
+        
 
         private void PbPaint(object sender, PaintEventArgs e)
         {
@@ -531,6 +533,38 @@ namespace BestRedactor.Forms
             _py = e.Location;
             _cX = e.X;
             _cY = e.Y;
+
+            //изменение иконки
+            switch (_currentTool)
+            {
+                case Tools.Line:
+                    tsSplitButtonShape.Image = tsBtnMenuItemLine.Image;
+                    break;
+                case Tools.Ellipce:
+                    tsSplitButtonShape.Image = tsBtnMenuItemEllipce.Image;
+                    break;
+                case Tools.EllipceFill:
+                    tsSplitButtonShape.Image = tsBtnMenuItemEllipceFill.Image;
+                    break;
+                case Tools.Rectangle:
+                    tsSplitButtonShape.Image = tsBtnMenuItemRect.Image;
+                    break;
+                case Tools.RectangleFill:
+                    tsSplitButtonShape.Image = tsBtnMenuItemRectFill.Image;
+                    break;
+                case Tools.Circle:
+                    tsSplitButtonShape.Image = tsBtnMenuItemCircle.Image;
+                    break;
+                case Tools.CircleFill:
+                    tsSplitButtonShape.Image = tsBtnMenuItemCircleFill.Image;
+                    break;
+                case Tools.Square:
+                    tsSplitButtonShape.Image = toolStripMenuSquare.Image;
+                    break;
+                case Tools.SquareFill:
+                    tsSplitButtonShape.Image = toolStripMenuSquareFill.Image;
+                    break;
+            }
         }
         
         
