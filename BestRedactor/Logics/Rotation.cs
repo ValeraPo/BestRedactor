@@ -11,7 +11,7 @@ namespace BestRedactor.Logics
             if (bm == null) throw new ArgumentNullException();
             if (bm.Width >= 7680 || bm.Height >= 7680)
                 throw new ArgumentOutOfRangeException();
-            bm?.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            bm.RotateFlip(RotateFlipType.RotateNoneFlipY);
             return bm;
         }
         public static Bitmap HorizontalReflection(Bitmap bm)
@@ -19,7 +19,7 @@ namespace BestRedactor.Logics
             if (bm == null) throw new ArgumentNullException();
             if (bm.Width >= 7680 || bm.Height >= 7680)
                 throw new ArgumentOutOfRangeException();
-            bm?.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            bm.RotateFlip(RotateFlipType.RotateNoneFlipX);
             return bm;
         }
 
@@ -33,13 +33,13 @@ namespace BestRedactor.Logics
             switch (angle)
             {
                 case 90:
-                    bm?.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    bm.RotateFlip(RotateFlipType.Rotate90FlipNone);
                     break;
                 case 180:
-                    bm?.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    bm.RotateFlip(RotateFlipType.Rotate180FlipNone);
                     break;
                 case 270:
-                    bm?.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    bm.RotateFlip(RotateFlipType.Rotate270FlipNone);
                     break;
                 case 0: break;
                 default:

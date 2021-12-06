@@ -10,8 +10,9 @@ namespace BestRedactor.Data.AutoSave
 {
     public static class BackupSession
     {
-        public static void Backup(IEnumerable<IPicture> collection)
+        public static void Backup(object obj)
         {
+            var collection = (IEnumerable<IPicture>)obj;
             var path = Settings.PathBackup;
             path.PathNotNull();
             if (File.Exists(path)) //снятие атрибутов у временного файла

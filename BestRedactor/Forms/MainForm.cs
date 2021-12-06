@@ -15,13 +15,18 @@ namespace BestRedactor.Forms
     {
         //TODO Иконки нормальные
         //TODO Сделать форму для поворота на произвольный угол
-        //TODO Починить Zoom/сделать ползунки для пролистывания слишком больших изображений
-        //TODO Бекап сессии(восстановление из бекапа)
-        //TODO Кадрирование
+        //TODO Сделать ползунки для пролистывания слишком больших изображений
+        //TODO Починить Zoom(удалить)
+        //TODO Предлогать сохраниться на закрытие формы на крестик
+        //TODO Толщина кисти
+        //TODO Задний цвет у контейнера инструментов
+        //TODO Починить панель инструментов
+        //TODO Кадрирование(обрезка)
+        //TODO Вставка текста(форму или что придумаем)
+        //TODO Иконка программы + нормальное название
+        
+        
         //TODO Горячие клавиши
-        //TODO Починить квадрат
-
-
         //TODO Добавить историю(когда-то потом)
         public MainForm()
         {
@@ -41,8 +46,15 @@ namespace BestRedactor.Forms
                     MessageBoxDefaultButton.Button1,
                     MessageBoxOptions.DefaultDesktopOnly);
                 if (result == DialogResult.Yes)
-                    //  для восстановления сессии
-                    Refresh();
+                    foreach (var picture in AutoSave.LoadsSession())
+                    {
+                        var elem = (Picture)picture;
+                        _pictures.Add(elem);
+                        AddNewTabPages(elem);
+                    }
+
+                //TODO Выбор развёрнутой формы
+                TopMost = true;
             }
             else
                 Settings.FailClose = true;
@@ -58,6 +70,7 @@ namespace BestRedactor.Forms
         private          bool          _isClickedColor1;
         private          bool          _isClickedColor2;
         private          bool          _isSaved;
+        private          bool          _autoSaveTimer;
         private          int           _x, _y, _sX, _sY, _cX, _cY;
         private          Tools         _currentTool = 0;
         private          Tools         _lastFigure  = 0;
@@ -92,12 +105,27 @@ namespace BestRedactor.Forms
 
         private void timerAutoSave_Tick(object sender, EventArgs e)
         {
-            AutoSave.Backup(_pictures);
-            var i = 0;
-            foreach (TabPage elem in tabControlPage.TabPages)
+            if (_autoSaveTimer)
             {
-                elem.Text = _pictures[i].FileName;
-                i++;
+                var i = 0;
+                foreach (TabPage elem in tabControlPage.TabPages)
+                {
+                    elem.Text = _pictures[i].FileName;
+                    i++;
+                }
+                
+                timerAutoSave.Stop();
+                timerAutoSave.Interval = 180000;
+                timerAutoSave.Start();
+                _autoSaveTimer        = false;
+            }
+            else
+            {
+                AutoSave.Backup(_pictures);
+                timerAutoSave.Stop();
+                timerAutoSave.Interval = 5000;
+                timerAutoSave.Start();
+                _autoSaveTimer        = true;
             }
         }
         private void timerIsToSave_Tick(object sender, EventArgs e)

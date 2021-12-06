@@ -470,7 +470,7 @@ namespace BestRedactor.Forms
             // timerAutoSave
             // 
             this.timerAutoSave.Enabled = true;
-            this.timerAutoSave.Interval = 10000;
+            this.timerAutoSave.Interval = 180000;
             this.timerAutoSave.Tick += new System.EventHandler(this.timerAutoSave_Tick);
             // 
             // BottomToolStripPanel
