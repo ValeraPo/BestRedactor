@@ -216,6 +216,8 @@ namespace BestRedactor.Forms
             tp.Size                    = new Size(picture.Bitmap.Width, picture.Bitmap.Height);
             tp.TabIndex                = Settings.OpenedTabs;
             tp.UseVisualStyleBackColor = true;
+            
+            
             //
             pb.SizeMode   =  PictureBoxSizeMode.Zoom;
             pb.Location   =  new Point(0, 0);
@@ -229,6 +231,7 @@ namespace BestRedactor.Forms
             pb.MouseMove  += pictureBox_MouseMove;
             pb.MouseUp    += pictureBox_MouseUp;
             pb.Paint      += PbPaint;
+            
 
             tp.Controls.Add(pb); //создание новой вкладки с объектом PictureBox
             tabControlPage.TabPages.Add(tp);
