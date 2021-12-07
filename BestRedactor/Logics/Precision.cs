@@ -12,7 +12,7 @@ namespace BestRedactor.Logics
             if (image == null) throw new ArgumentNullException();
             if (image.Width >= 7680 || image.Height >= 7680)
                 throw new ArgumentOutOfRangeException();
-            var kSize = 11; 
+            var kSize = 5; 
             var hblur = (Bitmap)image.Clone();
             var avg   = (float)1 / kSize;
 
@@ -43,6 +43,8 @@ namespace BestRedactor.Logics
                         hSum[1] -= tmpPColor.R;
                         hSum[2] -= tmpPColor.G;
                         hSum[3] -= tmpPColor.B;
+                        
+
                         var tmpNColor = hblur.GetPixel(i + 1 + kSize / 2, j);
                         hSum[0] += tmpNColor.A;
                         hSum[1] += tmpNColor.R;
@@ -83,10 +85,14 @@ namespace BestRedactor.Logics
                     if (j - kSize / 2 >= 0 && j + 1 + kSize / 2 < hblur.Height)
                     {
                         var tmpPColor = hblur.GetPixel(i, j - kSize / 2);
-                        tSum[0] -= tmpPColor.A;
-                        tSum[1] -= tmpPColor.R;
-                        tSum[2] -= tmpPColor.G;
-                        tSum[3] -= tmpPColor.B;
+                        if (tmpPColor.A != 0)
+                        {
+                            tSum[0] -= tmpPColor.A;
+                            tSum[1] -= tmpPColor.R;
+                            tSum[2] -= tmpPColor.G;
+                            tSum[3] -= tmpPColor.B;
+                        }
+
                         var tmpNColor = hblur.GetPixel(i, j + 1 + kSize / 2);
                         tSum[0] += tmpNColor.A;
                         tSum[1] += tmpNColor.R;
@@ -101,6 +107,12 @@ namespace BestRedactor.Logics
 
                     total.SetPixel(i, j, Color.FromArgb((int)iAvg[0], (int)iAvg[1], (int)iAvg[2], (int)iAvg[3]));
                 }
+            }
+            for (var y = 0; y < total.Height; y++)
+            for (var x = 0; x < total.Width; x++)
+            {
+                if (image.GetPixel(x,y).A == 0)
+                    total.SetPixel(x,y, image.GetPixel(x,y));
             }
             return total;
         }
@@ -158,8 +170,9 @@ namespace BestRedactor.Logics
                     var r = Math.Min(Math.Max((int)(factor * red + bias), 0), 255);
                     var g = Math.Min(Math.Max((int)(factor * green + bias), 0), 255);
                     var b = Math.Min(Math.Max((int)(factor * blue + bias), 0), 255);
-
-                    result[x, y] = Color.FromArgb(r, g, b);
+                   // if (image.GetPixel(x,y).A != 0)
+                        result[x, y] = Color.FromArgb(r, g, b);
+                    //else result[x, y] = image.GetPixel(x,y);
                 }
             }
 
@@ -177,6 +190,12 @@ namespace BestRedactor.Logics
 
             System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, pbits.Scan0, bytes);
             sharpenImage.UnlockBits(pbits);
+            for (var x = 0; x < width; ++x)
+            for (var y = 0; y < height; ++y)
+            {
+                if (image.GetPixel(x,y).A == 0)
+                    sharpenImage.SetPixel(x,y, image.GetPixel(x,y));
+            }
             return sharpenImage;
         }
 
@@ -197,20 +216,23 @@ namespace BestRedactor.Logics
             for (var j = 0; j < total.Height; j++)
             {
                 var temp = total.GetPixel(i, j);
-                rgb.R = temp.R;
-                rgb.G = temp.G;
-                rgb.B = temp.B;
+                if (temp.A == 0)
+                    total.SetPixel(i, j, temp);
+                else
+                {
+                    rgb.R = temp.R;
+                    rgb.G = temp.G;
+                    rgb.B = temp.B;
 
-                var temprand = rand.Next(adjust * -1, adjust);
 
-                rgb.R += temprand;
-                rgb.G += temprand;
-                rgb.B += temprand;
+                    var temprand = rand.Next(adjust * -1, adjust);
 
-                total.SetPixel(i, j, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
+                    rgb.R += temprand;
+                    rgb.G += temprand;
+                    rgb.B += temprand;
+                    total.SetPixel(i, j, Color.FromArgb(255, rgb.R, rgb.G, rgb.B));
+                }
             }
-
-
             return total;
         }
     }
