@@ -87,12 +87,8 @@ namespace BestRedactor.Forms
             this.tabControlPage = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.trackBarZoom = new System.Windows.Forms.TrackBar();
-            this.btnZoomPlus = new System.Windows.Forms.Button();
-            this.btnZoomMinus = new System.Windows.Forms.Button();
             this.lblCursorPos = new System.Windows.Forms.Label();
             this.lblPictureSize = new System.Windows.Forms.Label();
-            this.lblZoom = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripTools = new System.Windows.Forms.ToolStrip();
@@ -145,7 +141,6 @@ namespace BestRedactor.Forms
             this.timerIsToSave = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).BeginInit();
             this.panel1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -540,27 +535,6 @@ namespace BestRedactor.Forms
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
-            // trackBarZoom
-            // 
-            this.trackBarZoom.Location = new System.Drawing.Point(0, 0);
-            this.trackBarZoom.Name = "trackBarZoom";
-            this.trackBarZoom.Size = new System.Drawing.Size(104, 45);
-            this.trackBarZoom.TabIndex = 9;
-            // 
-            // btnZoomPlus
-            // 
-            this.btnZoomPlus.Location = new System.Drawing.Point(0, 0);
-            this.btnZoomPlus.Name = "btnZoomPlus";
-            this.btnZoomPlus.Size = new System.Drawing.Size(75, 23);
-            this.btnZoomPlus.TabIndex = 8;
-            // 
-            // btnZoomMinus
-            // 
-            this.btnZoomMinus.Location = new System.Drawing.Point(0, 0);
-            this.btnZoomMinus.Name = "btnZoomMinus";
-            this.btnZoomMinus.Size = new System.Drawing.Size(75, 23);
-            this.btnZoomMinus.TabIndex = 7;
-            // 
             // lblCursorPos
             // 
             this.lblCursorPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -581,21 +555,10 @@ namespace BestRedactor.Forms
             this.lblPictureSize.TabIndex = 6;
             this.lblPictureSize.Text = "current resolution";
             // 
-            // lblZoom
-            // 
-            this.lblZoom.Location = new System.Drawing.Point(0, 0);
-            this.lblZoom.Name = "lblZoom";
-            this.lblZoom.Size = new System.Drawing.Size(100, 23);
-            this.lblZoom.TabIndex = 0;
-            // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.lblZoom);
             this.panel1.Controls.Add(this.lblPictureSize);
             this.panel1.Controls.Add(this.lblCursorPos);
-            this.panel1.Controls.Add(this.btnZoomMinus);
-            this.panel1.Controls.Add(this.btnZoomPlus);
-            this.panel1.Controls.Add(this.trackBarZoom);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 1);
             this.panel1.Name = "panel1";
@@ -1097,16 +1060,17 @@ namespace BestRedactor.Forms
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1370, 749);
             this.Controls.Add(this.splitContainer1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximumSize = new System.Drawing.Size(3840, 2160);
             this.MinimumSize = new System.Drawing.Size(420, 420);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "The Best Redactor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarZoom)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
@@ -1126,8 +1090,6 @@ namespace BestRedactor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.KeyPreview =  true;
-            this.KeyDown += Crop;
 
         }
 
@@ -1162,12 +1124,8 @@ namespace BestRedactor.Forms
         private TabControl tabControlPage;
         private TabPage tabPage1;
         public PictureBox pictureBox;
-        private TrackBar trackBarZoom;
-        private Button btnZoomPlus;
-        private Button btnZoomMinus;
         private Label lblCursorPos;
         private Label lblPictureSize;
-        private Label lblZoom;
         private Panel panel1;
         private ToolStripContainer toolStripContainer1;
         private ToolStrip toolStripTools;

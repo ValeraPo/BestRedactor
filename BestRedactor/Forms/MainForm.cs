@@ -541,15 +541,6 @@ namespace BestRedactor.Forms
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Settings.FailClose = false;
-            var result = MessageBox.Show(@"Сохранить все открытые вкладки?",
-                @"Save All",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-            if (result == DialogResult.Yes)
-                FileManagerL.SaveAll(_pictures);
             Close();
         }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -670,6 +661,20 @@ namespace BestRedactor.Forms
                 Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
             }
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Settings.FailClose = false;
+            var result = MessageBox.Show(@"Сохранить все открытые вкладки?",
+                @"Save All",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+            if (result == DialogResult.Yes)
+                FileManagerL.SaveAll(_pictures);
+        }
+
         private void PbPaint(object sender, PaintEventArgs e)
         {
             if (!_isMouseDown)
