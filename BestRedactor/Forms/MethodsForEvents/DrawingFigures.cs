@@ -7,8 +7,9 @@ namespace BestRedactor.Forms.MethodsForEvents
 {
     internal class DrawingFigures
     {
-        internal static void DrawAFigure(Graphics g, Tools currentTool, Pen pen, int cX, int cY, int sX, int sY, int x, int y)
+        internal static Rectangle DrawAFigure(Graphics g, Tools currentTool, Pen pen, int cX, int cY, int sX, int sY, int x, int y)
         {
+            var tmp = new Rectangle();
             switch (currentTool)
             {
                 case Tools.Line:
@@ -195,10 +196,28 @@ namespace BestRedactor.Forms.MethodsForEvents
                     sX = sY;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY + sY, -sX, -sY);
                     break;
+                
 
-                default: return;
+                case Tools.Cropping when sX >= 0 && sY >= 0:
+                    tmp = new Rectangle(cX, cY, sX, sY);
+                    g.DrawRectangle(new Pen(Color.Blue, 0.8f), tmp);
+                    break;
+                case Tools.Cropping when sX < 0 && sY >= 0:
+                    tmp = new Rectangle(cX + sX, cY, Math.Abs(sX), sY);
+                    g.DrawRectangle(new Pen(Color.Blue, 0.8f), tmp);
+                    break;
+                case Tools.Cropping when sX >= 0 && sY < 0:
+                    tmp = new Rectangle(cX, cY + sY, sX, Math.Abs(sY));
+                    g.DrawRectangle(new Pen(Color.Blue, 0.8f), tmp);
+                    break;
+                case Tools.Cropping when sX < 0 && sY < 0:
+                    tmp = new Rectangle(cX + sX, cY + sY, Math.Abs(sX), Math.Abs(sY));
+                    g.DrawRectangle(new Pen(Color.Blue, 0.8f), tmp);
+                    break;
 
             }
+
+            return tmp;
         }
     }
 }

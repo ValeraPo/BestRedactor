@@ -16,7 +16,7 @@ namespace BestRedactor.Logics
             return resized;
         }
         // Кадрирование
-        private static Bitmap Cropping(Bitmap image, Rectangle cropArea)
+        public static Bitmap Cropping(Bitmap image, Rectangle cropArea)
         {
             Bitmap bmpCrop = image.Clone(cropArea,
                 image.PixelFormat);
