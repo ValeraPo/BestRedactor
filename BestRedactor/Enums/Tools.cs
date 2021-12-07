@@ -8,6 +8,8 @@
         Pipette,
         Fill,
         Brush,
+        Text,
+        Cropping,
         Line,
         Circle,
         Ellipce,

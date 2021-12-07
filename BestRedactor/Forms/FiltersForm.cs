@@ -15,23 +15,24 @@ namespace BestRedactor.Forms
             InitializeComponent();
             _preView = Logics.Resize.Resizing(picture.Bitmap, (picture.Bitmap.Width > 1024 || picture.Bitmap.Height > 768)? 0.3 : 1);
             pictureBox.Image = _preView;
-            Text = $"{pictureBox.Image.Width}X{pictureBox.Image.Height} || {picture.Bitmap.Width}X{picture.Bitmap.Height}";
-            _picture = (Picture)picture;
+            _picture = picture;
             _main = mainForm;
             
             switch (filters)
             {
                 case Filters.Brightness:
-                    label.Text = "Яркость";
+                    Text = @"Изменение яркости";
+                    label.Text = @"Яркость";
                     _fd = Intensity.Brightness;
                     break;
                 case Filters.Contrast:
-                    label.Text = "Контраст";
+                    Text = @"Изменение контраста";
+                    label.Text = @"Контраст";
                     _fd = Intensity.Contrast;
                     break;
             }
         }
-        private Picture   _picture;
+        private IPicture  _picture;
         private MainForm  _main;
         private FilterDel _fd;
         private Bitmap    _preView;
@@ -50,6 +51,7 @@ namespace BestRedactor.Forms
 
         private void trackBar_Scroll(object sender, EventArgs e)
         {
+            labelValue.Text = $@"{trackBar.Value - 100}";
             pictureBox.Image = _fd(_preView, trackBar.Value);
             pictureBox.Refresh();
         }

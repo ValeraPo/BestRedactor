@@ -39,6 +39,7 @@ namespace BestRedactor.Forms
             this.trackBar = new System.Windows.Forms.TrackBar();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.labelValue = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             this.panel2.SuspendLayout();
@@ -47,6 +48,7 @@ namespace BestRedactor.Forms
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labelValue);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Controls.Add(this.btnOk);
             this.panel1.Controls.Add(this.label);
@@ -117,6 +119,15 @@ namespace BestRedactor.Forms
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
+            // labelValue
+            // 
+            this.labelValue.AutoSize = true;
+            this.labelValue.Location = new System.Drawing.Point(188, 16);
+            this.labelValue.Name = "labelValue";
+            this.labelValue.Size = new System.Drawing.Size(19, 21);
+            this.labelValue.TabIndex = 4;
+            this.labelValue.Text = "0";
+            // 
             // FiltersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -145,5 +156,6 @@ namespace BestRedactor.Forms
         public PictureBox pictureBox;
         private Button btnCancel;
         private Button btnOk;
+        private Label labelValue;
     }
 }

@@ -134,8 +134,7 @@
         private System.Windows.Forms.RadioButton radioButRight;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button buttonOk;
-        private System.Windows.Forms.Label label;
-        private System.Windows.Forms.TextBox textBox;
+        private System.Windows.Forms.Label label;        
         private System.Windows.Forms.MaskedTextBox maskedTextBox;
     }
 }

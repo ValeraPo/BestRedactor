@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace BestRedactor.Forms
 {
-    partial class ColorsForm
+    sealed partial class ColorsForm
     {
         /// <summary>
         /// Required designer variable.

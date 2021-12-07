@@ -6,7 +6,7 @@ using BestRedactor.Logics;
 
 namespace BestRedactor.Forms
 {
-    public partial class ColorsForm : Form
+    public sealed partial class ColorsForm : Form
     {
         public ColorsForm(IPicture picture, MainForm mainForm)
         {
@@ -14,7 +14,7 @@ namespace BestRedactor.Forms
             _preView = Logics.Resize.Resizing(picture.Bitmap, (picture.Bitmap.Width > 1024 || picture.Bitmap.Height > 768)? 0.3 : 1);
             pictureBox.Image    = _preView;
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            Text = $"{pictureBox.Image.Width}X{pictureBox.Image.Height} || {picture.Bitmap.Width}X{picture.Bitmap.Height}";
+            Text = @"Редактирование цветового баланса";
             _picture = (Picture)picture;
             _main    = mainForm;
         }

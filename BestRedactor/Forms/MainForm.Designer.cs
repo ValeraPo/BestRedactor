@@ -849,6 +849,7 @@ namespace BestRedactor.Forms
             this.tsButtonFraming.Size = new System.Drawing.Size(25, 25);
             this.tsButtonFraming.Text = "кадрирование";
             this.tsButtonFraming.ToolTipText = "Кадрирование";
+            this.tsButtonFraming.Click += new System.EventHandler(this.tsButtonFraming_Click);
             // 
             // tsText
             // 
@@ -859,6 +860,7 @@ namespace BestRedactor.Forms
             this.tsText.Name = "tsText";
             this.tsText.Size = new System.Drawing.Size(25, 25);
             this.tsText.Text = "текст";
+            this.tsText.Click += new System.EventHandler(this.tsText_Click);
             // 
             // tsButtonCursor
             // 
@@ -1148,11 +1150,7 @@ namespace BestRedactor.Forms
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripMenuItem clearToolStripMenuItem;
         private ColorDialog colorDialog1;
-        private VScrollBar vScrollBar1;
-        private ToolStripButton toolStripButtonCursor;
-        private ToolStripButton toolStripButtonFill;
-        private ToolStripButton toolStripButtonPipette;
-        private ToolStripButton toolStripButtonFraming;        
+        private VScrollBar vScrollBar1;                
         private Timer timerAutoSave;
         private ToolStripPanel BottomToolStripPanel;
         private ToolStripPanel TopToolStripPanel;

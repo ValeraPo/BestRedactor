@@ -19,6 +19,7 @@ namespace BestRedactor.Forms
         //TODO Кадрирование(обрезка)
         //TODO Вставка текста(форму или что придумаем)
         //TODO Иконка программы + нормальное название
+        //TODO Выбор цвета поправить(не отображается цвет на Checked палитре)
 
 
         //TODO Починить Zoom(удалить)
@@ -34,10 +35,12 @@ namespace BestRedactor.Forms
             _pen.EndCap            = LineCap.Round;
             _erase.StartCap        = LineCap.Round;
             _erase.EndCap          = LineCap.Round;
+            tsBtn_color1.Checked   = true;
+            tsButtonCursor.Checked = true;
             if (Settings.FailClose)
             {
-                var result = MessageBox.Show("Восстановить предыдущую сессию?",
-                    "Backup",
+                var result = MessageBox.Show(@"Восстановить предыдущую сессию?",
+                    @"Backup",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question,
                     MessageBoxDefaultButton.Button1,
@@ -85,38 +88,50 @@ namespace BestRedactor.Forms
         private void tsButtonCursor_Click(object sender, EventArgs e)
         {
             DisableSelect(_currentTool);
-            _currentTool = Tools.Cursor;
+            _currentTool           = Tools.Cursor;
             tsButtonCursor.Checked = true;
         }
         private void tsBtnBrush_Click(object sender, EventArgs e)
         {
             DisableSelect(_currentTool);
-            _currentTool = Tools.Brush;
+            _currentTool       = Tools.Brush;
             tsBtnBrush.Checked = true;
         }
         private void tsBtnPen_Click(object sender, EventArgs e)
         {
             DisableSelect(_currentTool);
-            _currentTool = Tools.Pencil;
+            _currentTool     = Tools.Pencil;
             tsBtnPen.Checked = true;
         }
         private void tsBtnEraser_Click(object sender, EventArgs e)
         {
             DisableSelect(_currentTool);
-            _currentTool = Tools.Erase;
+            _currentTool        = Tools.Erase;
             tsBtnEraser.Checked = true;
         }
         private void tsBtnFill_Click(object sender, EventArgs e)
         {
             DisableSelect(_currentTool);
-            _currentTool = Tools.Fill;
+            _currentTool      = Tools.Fill;
             tsBtnFill.Checked = true;
         }
         private void tsBtnPipette_Click(object sender, EventArgs e)
         {
             DisableSelect(_currentTool);
-            _currentTool = Tools.Pipette;
+            _currentTool         = Tools.Pipette;
             tsBtnPipette.Checked = true;
+        }
+        private void tsText_Click(object sender, EventArgs e)
+        {
+            DisableSelect(_currentTool);
+            _currentTool   = Tools.Text;
+            tsText.Checked = true;
+        }
+        private void tsButtonFraming_Click(object sender, EventArgs e)
+        {
+            DisableSelect(_currentTool);
+            _currentTool            = Tools.Cropping;
+            tsButtonFraming.Checked = true;
         }
         private void tsBtnMenuItemEllipce_Click(object sender, EventArgs e) => DisableSelect(Tools.Ellipce);
         private void tsBtnMenuItemLine_Click(object sender, EventArgs e) => DisableSelect(Tools.Line);
@@ -151,42 +166,48 @@ namespace BestRedactor.Forms
                 case Tools.Fill:
                     tsBtnFill.Checked = false;
                     break;
+                case Tools.Text:
+                    tsText.Checked = false;
+                    break;
+                case Tools.Cropping:
+                    tsButtonFraming.Checked = false;
+                    break;
                 //изменение иконки
                 case Tools.Line:
                     tsSplitButtonShape.Image = tsBtnMenuItemLine.Image;
-                    _currentTool = tools;
+                    _currentTool             = tools;
                     break;
                 case Tools.Ellipce:
                     tsSplitButtonShape.Image = tsBtnMenuItemEllipce.Image;
-                    _currentTool = tools;
+                    _currentTool             = tools;
                     break;
                 case Tools.EllipceFill:
                     tsSplitButtonShape.Image = tsBtnMenuItemEllipceFill.Image;
-                    _currentTool = tools;
+                    _currentTool             = tools;
                     break;
                 case Tools.Rectangle:
                     tsSplitButtonShape.Image = tsBtnMenuItemRect.Image;
-                    _currentTool = tools;
+                    _currentTool             = tools;
                     break;
                 case Tools.RectangleFill:
                     tsSplitButtonShape.Image = tsBtnMenuItemRectFill.Image;
-                    _currentTool = tools;
+                    _currentTool             = tools;
                     break;
                 case Tools.Circle:
                     tsSplitButtonShape.Image = tsBtnMenuItemCircle.Image;
-                    _currentTool = tools;
+                    _currentTool             = tools;
                     break;
                 case Tools.CircleFill:
                     tsSplitButtonShape.Image = tsBtnMenuItemCircleFill.Image;
-                    _currentTool = tools;
+                    _currentTool             = tools;
                     break;
                 case Tools.Square:
                     tsSplitButtonShape.Image = toolStripMenuSquare.Image;
-                    _currentTool = tools;
+                    _currentTool             = tools;
                     break;
                 case Tools.SquareFill:
                     tsSplitButtonShape.Image = toolStripMenuSquareFill.Image;
-                    _currentTool = tools;
+                    _currentTool             = tools;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tools), tools, null);
@@ -211,15 +232,15 @@ namespace BestRedactor.Forms
                     elem.Text = _pictures[i].FileName;
                     i++;
                 }
-                
+
                 timerAutoSave.Interval = 180000;
-                _autoSaveTimer        = false;
+                _autoSaveTimer         = false;
             }
             else
             {
                 AutoSave.Backup(_pictures);
                 timerAutoSave.Interval = 5000;
-                _autoSaveTimer        = true;
+                _autoSaveTimer         = true;
             }
         }
         private void timerIsToSave_Tick(object sender, EventArgs e)
@@ -254,7 +275,7 @@ namespace BestRedactor.Forms
         {
             var sfd = new SaveFileDialog();
             sfd.Filter =
-                @"Jpeg(*.jpeg)|*.jpeg|Jpg(*.jpg)|*.jpg|Gif(*.gif)|*.gif|Icon(*.icon)|*.icon|Png(*.png)|*.png|Bmp(*.bmp)|*.bmp|Emf(*.emf)|*.emf|Exif(*.exif)|*.exif|Tiff(*.tiff)|*.tiff|Wmf(*.wmf)|*.wmf|Memorybmp(*.memorybmp)|*.memorybpmp";
+                @"Jpeg(*.jpeg)|*.jpeg|Jpg(*.jpg)|*.jpg|Gif(*.gif)|*.gif|Icon(*.icon)|*.icon|Png(*.png)|*.png|Bmp(*.bmp)|*.bmp|Emf(*.emf)|*.emf|Exif(*.exif)|*.exif|Tiff(*.tiff)|*.tiff|Wmf(*.wmf)|*.wmf|Memorybmp(*.memorybmp)|*.memorybmp";
             sfd.FilterIndex = _picture.ImageFormat.ToString().ToLower() switch
             {
                 "jpeg"      => 1,
@@ -303,7 +324,7 @@ namespace BestRedactor.Forms
         {
             var ofd = new OpenFileDialog();
             ofd.Filter =
-                @"Image Files(*.bmp;*.jpeg;*.jpg;*.gif;*.png;*.icon;*.emf;*.exif;*.tiff;*.wmf;*.memorybpmp)|*.bmp;*.jpeg;*.jpg;*.gif;*.png;*.icon;*.emf;*.exif;*.tiff;*.wmf;*.memorybpmp";
+                @"Image Files(*.bmp;*.jpeg;*.jpg;*.gif;*.png;*.icon;*.emf;*.exif;*.tiff;*.wmf;*.memorybmp)|*.bmp;*.jpeg;*.jpg;*.gif;*.png;*.icon;*.emf;*.exif;*.tiff;*.wmf;*.memorybmp";
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
             try
@@ -335,7 +356,7 @@ namespace BestRedactor.Forms
             tp.UseVisualStyleBackColor = true;
             tp.AutoScroll              = true;
             tp.BackColor               = SystemColors.Control;
-            
+
             //
             pb.Location   =  new Point(0, 0);
             pb.Name       =  $"pb{Settings.OpenedTabs}";
@@ -413,6 +434,8 @@ namespace BestRedactor.Forms
         }
         public new void Refresh()
         {
+            if (Settings.OpenedTabs == 0)
+                return;
             tabControlPage.Size = new Size(_picture.Bitmap.Width + 12, _picture.Bitmap.Height + 32);
             _pb.Refresh();
             _gra = Graphics.FromImage(_picture.Bitmap);
@@ -437,6 +460,8 @@ namespace BestRedactor.Forms
                 _pen.Color            = tsBtn_color1.BackColor;
                 _pencil.Color         = tsBtn_color1.BackColor;
                 Settings.LastUseColor = tsBtn_color1.BackColor;
+                tsBtn_color1.Checked  = true;
+                tsBtn_color2.Checked  = false;
                 _isClickedColor1      = true;
                 _isClickedColor2      = false;
             }
@@ -447,18 +472,20 @@ namespace BestRedactor.Forms
             {
                 if (_cd.ShowDialog() != DialogResult.OK)
                     return;
-                tsBtn_color2.BackColor = _cd.Color;
-                _pen.Color             = tsBtn_color2.BackColor;
-                _pencil.Color          = tsBtn_color2.BackColor;
-                Settings.LastUseColor  = tsBtn_color2.BackColor;
+                tsBtn_color2.ForeColor = _cd.Color;
+                _pen.Color             = tsBtn_color2.ForeColor;
+                _pencil.Color          = tsBtn_color2.ForeColor;
+                Settings.LastUseColor  = tsBtn_color2.ForeColor;
                 _isClickedColor2       = false;
                 _isClickedColor1       = false;
             }
             else
             {
-                _pen.Color            = tsBtn_color2.BackColor;
-                _pencil.Color         = tsBtn_color2.BackColor;
-                Settings.LastUseColor = tsBtn_color2.BackColor;
+                _pen.Color            = tsBtn_color2.ForeColor;
+                _pencil.Color         = tsBtn_color2.ForeColor;
+                Settings.LastUseColor = tsBtn_color2.ForeColor;
+                tsBtn_color1.Checked  = false;
+                tsBtn_color2.Checked  = true;
                 _isClickedColor2      = true;
                 _isClickedColor1      = false;
             }
@@ -466,8 +493,8 @@ namespace BestRedactor.Forms
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Settings.FailClose = false;
-            var result = MessageBox.Show("Сохранить все открытые вкладки?",
-                "Save All",
+            var result = MessageBox.Show(@"Сохранить все открытые вкладки?",
+                @"Save All",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question,
                 MessageBoxDefaultButton.Button1,
@@ -480,8 +507,8 @@ namespace BestRedactor.Forms
         {
             if (Settings.FailClose)
             {
-                var result = MessageBox.Show("Сохранить перед закрытием?",
-                    "Save",
+                var result = MessageBox.Show(@"Сохранить перед закрытием?",
+                    @"Save",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question,
                     MessageBoxDefaultButton.Button1,
@@ -498,9 +525,10 @@ namespace BestRedactor.Forms
 
             if (!_pictures.Remove(_picture))
                 return;
-            tabControlPage.TabPages.Remove(tabControlPage.SelectedTab);
-            tabControlPage.Refresh();
             Settings.OpenedTabs -= 1;
+            tabControlPage.TabPages.Remove(tabControlPage.SelectedTab);
+            lblPictureSize.Text = string.Empty;
+            tabControlPage.Refresh();
         }
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
@@ -513,7 +541,6 @@ namespace BestRedactor.Forms
             _pencil.Color          = Settings.LastUseColor;
             tsBtn_color1.BackColor = Settings.LastUseColor;
         }
-
 
 
         // filters
@@ -640,7 +667,8 @@ namespace BestRedactor.Forms
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _pictures.Add(new Picture(new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb)));
+            _pictures.Add(new Picture(new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height,
+                PixelFormat.Format32bppArgb)));
             AddNewTabPages(_pictures[^1]);
             Refresh();
         }
@@ -652,12 +680,12 @@ namespace BestRedactor.Forms
 
         //private void trackBarZoom_Scroll(object sender, EventArgs e)
         //{
-            
+
         //    _pb.Width = _pb.Width * (trackBarZoom.Value / 100);
         //    _pb.Height = _pb.Height * (trackBarZoom.Value / 100);
         //    //Refresh();
         //}
-        
+
         //private void btnZoomMinus_Click(object sender, EventArgs e)
         //{
         //    //trackBarZoom_Scroll(null, null);
