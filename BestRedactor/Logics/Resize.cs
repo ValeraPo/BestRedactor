@@ -15,6 +15,13 @@ namespace BestRedactor.Logics
                 (int)(image.Height*coefficient)));
             return resized;
         }
+        // Кадрирование
+        private static Bitmap Cropping(Bitmap image, Rectangle cropArea)
+        {
+            Bitmap bmpCrop = image.Clone(cropArea,
+                image.PixelFormat);
+            return bmpCrop;
+        }
 
     }
 }
