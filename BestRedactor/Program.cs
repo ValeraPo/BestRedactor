@@ -26,6 +26,7 @@ namespace BestRedactor
                 Loger.Log(e.ToString());
                 AutoSave.Backup(pictures);
             }
+            //Application.Run(new Form1());
         }
     }
 }

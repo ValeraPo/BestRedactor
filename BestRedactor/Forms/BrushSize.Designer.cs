@@ -60,6 +60,7 @@
             // 
             // textBoxSize
             // 
+            this.textBoxSize.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBoxSize.Location = new System.Drawing.Point(138, 12);
             this.textBoxSize.Name = "textBoxSize";
             this.textBoxSize.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -71,6 +72,7 @@
             // BrushSize
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(215, 70);
             this.ControlBox = false;
             this.Controls.Add(this.textBoxSize);
@@ -80,6 +82,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "BrushSize";
+            this.Opacity = 0.95D;
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

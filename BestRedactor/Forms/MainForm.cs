@@ -345,7 +345,7 @@ namespace BestRedactor.Forms
         {
             var tp = new TabPage(picture.FileName);
             var pb = new PictureBox();
-
+            //creation tabPage
             tp.Dock                    = DockStyle.Fill;
             tp.BorderStyle             = BorderStyle.Fixed3D;
             tp.Location                = new Point(0, 0);
@@ -358,7 +358,7 @@ namespace BestRedactor.Forms
             tp.AutoScroll              = true;
             tp.BackColor               = SystemColors.Control;
 
-            //
+            //creation pictureBox
             pb.Location   =  new Point(0, 0);
             pb.Name       =  $"pb{Settings.OpenedTabs}";
             pb.Size       =  new Size(picture.Bitmap.Width, picture.Bitmap.Height);
@@ -371,7 +371,17 @@ namespace BestRedactor.Forms
             pb.MouseUp    += pictureBox_MouseUp;
             pb.Paint      += PbPaint;
 
-            tp.Controls.Add(pb); //создание новой вкладки с объектом PictureBox
+            //creation textBox
+            TextBox textBox = new TextBox();
+            textBox.Multiline = true;
+            textBox.BorderStyle = BorderStyle.None;
+            textBox.Visible = false;
+            
+
+            //создание новой вкладки с объектом PictureBox
+            tp.Controls.Add(pb); 
+            tp.Controls.Add(textBox);
+
             tabControlPage.TabPages.Add(tp);
             tabControlPage.SelectedTab =  tp;
             tabControlPage.Size        =  new Size(_picture.Bitmap.Width + 12, _picture.Bitmap.Height + 32);
@@ -666,8 +676,18 @@ namespace BestRedactor.Forms
                     _lastFigure = _currentTool;
                 _brushSize.Visible = false;
                 _brush.Width = Settings.LastUseSize;
+
+                if (_currentTool == Tools.Text)
+                {
+                    TextBox textBox = (TextBox)tabControlPage.SelectedTab.Controls[1];
+                    textBox.Location = new Point(_x + this.Location.X + 48, _y + this.Location.Y + 10);
+                    textBox.BringToFront();
+                    textBox.Text = "";
+                    textBox.Size = new Size(256, 23);
+                    textBox.Enabled = true;
+                }
             }
-            else if (e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right && _currentTool == Tools.Brush)
             {
                 _brushSize.Show();
                 _brushSize.Location = new Point(_x + this.Location.X + 48, _y + this.Location.Y + 10);

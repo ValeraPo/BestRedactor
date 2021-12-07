@@ -117,6 +117,7 @@ namespace BestRedactor.Forms
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.tsButtonFraming = new System.Windows.Forms.ToolStripButton();
             this.tsText = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnSelection = new System.Windows.Forms.ToolStripButton();
             this.tsButtonCursor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.tsDropDownFilters = new System.Windows.Forms.ToolStripDropDownButton();
@@ -641,6 +642,7 @@ namespace BestRedactor.Forms
             this.toolStripSeparator13,
             this.tsButtonFraming,
             this.tsText,
+            this.tsBtnSelection,
             this.tsButtonCursor,
             this.toolStripSeparator14,
             this.tsDropDownFilters});
@@ -657,6 +659,7 @@ namespace BestRedactor.Forms
             this.tsBtn_color1.AutoSize = false;
             this.tsBtn_color1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.tsBtn_color1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtn_color1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsBtn_color1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtn_color1.Name = "tsBtn_color1";
             this.tsBtn_color1.Size = new System.Drawing.Size(20, 20);
@@ -669,10 +672,11 @@ namespace BestRedactor.Forms
             this.tsBtn_color2.AutoSize = false;
             this.tsBtn_color2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.tsBtn_color2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtn_color2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsBtn_color2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtn_color2.Name = "tsBtn_color2";
             this.tsBtn_color2.Size = new System.Drawing.Size(20, 20);
-            this.tsBtn_color2.Text = "toolStripButton3";
+            this.tsBtn_color2.Text = "цвет2";
             this.tsBtn_color2.ToolTipText = "цвет 2";
             this.tsBtn_color2.Click += new System.EventHandler(this.tsBtn_color2_Click);
             // 
@@ -861,6 +865,16 @@ namespace BestRedactor.Forms
             this.tsText.Size = new System.Drawing.Size(25, 25);
             this.tsText.Text = "текст";
             this.tsText.Click += new System.EventHandler(this.tsText_Click);
+            // 
+            // tsBtnSelection
+            // 
+            this.tsBtnSelection.AutoSize = false;
+            this.tsBtnSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnSelection.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnSelection.Image")));
+            this.tsBtnSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnSelection.Name = "tsBtnSelection";
+            this.tsBtnSelection.Size = new System.Drawing.Size(25, 25);
+            this.tsBtnSelection.Text = "toolStripButton1";
             // 
             // tsButtonCursor
             // 
@@ -1238,6 +1252,7 @@ namespace BestRedactor.Forms
         private ToolStripSeparator toolStripSeparator12;
         private ToolStripSeparator toolStripSeparator13;
         private ToolStripSeparator toolStripSeparator14;
+        private ToolStripButton tsBtnSelection;
     }
 }
 
