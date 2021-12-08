@@ -1106,6 +1106,8 @@ namespace BestRedactor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.KeyPreview = true;
+            this.KeyDown += Crop;
 
         }
 
