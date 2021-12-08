@@ -87,8 +87,8 @@ namespace BestRedactor.Forms
         private readonly Size          _selectSizeTools     = new(30, 30);
         private readonly Size          _notSelectSizeTools  = new(25, 25);
         private          Picture       _picture => _pictures[tabControlPage.SelectedIndex];
-        private          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[0];
-
+        private          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
+        private TextBox _textBox = new TextBox();
 
         private void tsButtonCursor_Click(object sender, EventArgs e)
         {
@@ -431,15 +431,16 @@ namespace BestRedactor.Forms
             pb.Paint      += PbPaint;
 
             //creation textBox
-            TextBox textBox = new TextBox();
-            textBox.Multiline = true;
-            textBox.BorderStyle = BorderStyle.None;
-            textBox.Visible = false;
+            
+            _textBox.Multiline = true;
+            _textBox.BorderStyle = BorderStyle.None;
+            _textBox.Visible = false;
             
 
+            
+            tp.Controls.Add(_textBox);
             //создание новой вкладки с объектом PictureBox
             tp.Controls.Add(pb); 
-            tp.Controls.Add(textBox);
 
             tabControlPage.TabPages.Add(tp);
             tabControlPage.SelectedTab =  tp;
@@ -683,6 +684,13 @@ namespace BestRedactor.Forms
             {
                 Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
             }
+
+            if (_currentTool == Tools.Text && e.KeyCode == Keys.Enter && !_isMouseDown && Settings.OpenedTabs != 0 && e.Control)
+            {
+                _gra.DrawString(_textBox.Text, _textBox.Font, new SolidBrush(Settings.LastUseColor), _textBox.Location);
+                _textBox.Enabled = false;
+                _textBox.Visible = false;
+            }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -755,7 +763,7 @@ namespace BestRedactor.Forms
             _py = e.Location;
             _cX = e.X;
             _cY = e.Y;
-            if (_currentTool > Tools.Line)
+            if (_currentTool >= Tools.Line)
                 _lastFigure = _currentTool;
             if (_currentTool == Tools.Cropping) { _pb.Image = _picture.Bitmap; }
             if (e.Button == MouseButtons.Left)
@@ -763,20 +771,40 @@ namespace BestRedactor.Forms
                 _brushSize.Visible = false;
                 _brush.Width = Settings.LastUseSize;
 
-                /*if (_currentTool == Tools.Text)
+                if (_currentTool == Tools.Text)
                 {
-                    TextBox textBox = (TextBox)tabControlPage.SelectedTab.Controls[1];
-                    textBox.Location = new Point(_x + this.Location.X + 48, _y + this.Location.Y + 10);
-                    textBox.BringToFront();
-                    textBox.Text = "";
-                    textBox.Size = new Size(256, 23);
-                    textBox.Enabled = true;
-                }*/ //TODO не работает
+                    TextBox _textBox = (TextBox)tabControlPage.SelectedTab.Controls[0];
+                    _textBox.Location = new Point(_x - 5, _y - 8);
+                    _textBox.BringToFront();
+                    _textBox.Text = "";
+                    _textBox.Size = new Size(600, 23);
+                    _textBox.Enabled = true;
+                    _textBox.Visible = true;
+                    _textBox.BorderStyle = BorderStyle.FixedSingle;
+                    _textBox.Font = DefaultFont;
+                    _textBox.Margin = new Padding(0);
+                    _textBox.ShortcutsEnabled = false;
+
+                }//TODO не работает
             }
-            else if (e.Button == MouseButtons.Right && _currentTool == Tools.Brush)
+            else if (e.Button == MouseButtons.Right)
             {
-                _brushSize.Show();
-                _brushSize.Location = new Point(_x + this.Location.X + 48, _y + this.Location.Y + 10);
+                if (_currentTool == Tools.Brush)
+                {
+                    _brushSize.Show();
+                    _brushSize.Location = new Point(_x + this.Location.X + 48, _y + this.Location.Y + 10);
+                }
+                if (_currentTool == Tools.Text)
+                {
+                    FontDialog fDia = new();
+                    if (fDia.ShowDialog() == DialogResult.OK)
+                    {
+                        _textBox.Font = fDia.Font;
+                        _textBox.Size = new Size (600, (int)fDia.Font.Size*2);
+                        _textBox.Location = new Point(_textBox.Location.X, _textBox.Location.Y + 8 - _textBox.Size.Height/2);
+                            
+                    }
+                }
             }
         }
 
