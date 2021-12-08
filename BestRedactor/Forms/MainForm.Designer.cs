@@ -269,6 +269,7 @@ namespace BestRedactor.Forms
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.copyToolStripMenuItem.Text = "Копировать";
+            this.copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
             // 
             // pasteToolStripMenuItem
             // 
@@ -815,7 +816,7 @@ namespace BestRedactor.Forms
             this.tsButtonFraming.Name = "tsButtonFraming";
             this.tsButtonFraming.Size = new System.Drawing.Size(25, 25);
             this.tsButtonFraming.Text = "кадрирование";
-            this.tsButtonFraming.ToolTipText = "Кадрирование";
+            this.tsButtonFraming.ToolTipText = "Обрезка";
             this.tsButtonFraming.Click += new System.EventHandler(this.tsButtonFraming_Click);
             // 
             // tsText
@@ -837,7 +838,9 @@ namespace BestRedactor.Forms
             this.tsBtnSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnSelection.Name = "tsBtnSelection";
             this.tsBtnSelection.Size = new System.Drawing.Size(25, 25);
-            this.tsBtnSelection.Text = "toolStripButton1";
+            this.tsBtnSelection.Text = "кадрирование";
+            this.tsBtnSelection.ToolTipText = "Выделение";
+            this.tsBtnSelection.Click += tsBtnSelection_Click;
             // 
             // tsButtonCursor
             // 
@@ -1104,6 +1107,8 @@ namespace BestRedactor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.KeyPreview = true;
+            this.KeyDown += Crop;
 
         }
 

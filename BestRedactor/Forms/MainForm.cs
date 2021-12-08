@@ -13,7 +13,8 @@ namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
     {
-        //TODO Предлогать сохраниться на закрытие формы на крестик
+        //TODO Выход за пределы кадрирования
+        //TODO Крестики на TP
         //TODO Вставка текста(форму или что придумаем)
         //TODO Иконка программы + нормальное название
 
@@ -27,8 +28,8 @@ namespace BestRedactor.Forms
             _pictures              = pictures;
             Settings.OpenedTabs    = 0;
             tsBtn_color1.BackColor = Settings.LastUseColor;
-            _brush.StartCap          = LineCap.Round;
-            _brush.EndCap            = LineCap.Round;
+            _brush.StartCap        = LineCap.Round;
+            _brush.EndCap          = LineCap.Round;
             _erase.StartCap        = LineCap.Round;
             _erase.EndCap          = LineCap.Round;
             tsBtn_color1.Size      = _selectSizeColor;
@@ -63,10 +64,11 @@ namespace BestRedactor.Forms
 
         private          Graphics      _gra;
         private          Point         _px, _py;
-        private          Pen           _brush    = new(Settings.LastUseColor, Settings.LastUseSize);
-        private readonly Pen           _erase  = new(Color.White, 10);
-        private          Pen           _pencil = new(Settings.LastUseColor, 1f);
-        private readonly ColorDialog   _cd     = new();
+        private          Pen           _brush     = new(Settings.LastUseColor, Settings.LastUseSize);
+        private readonly Pen           _erase     = new(Color.White, 10);
+        private          Pen           _pencil    = new(Settings.LastUseColor, 1f);
+        private readonly ColorDialog   _cd        = new();
+        private          BrushSize     _brushSize = new();
         private          List<Picture> _pictures;
         private          Rectangle     _rectangleTmp;
         private          Bitmap        _bitmapTmp;
@@ -86,7 +88,6 @@ namespace BestRedactor.Forms
         private readonly Size          _notSelectSizeTools  = new(25, 25);
         private          Picture       _picture => _pictures[tabControlPage.SelectedIndex];
         private          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[0];
-        private BrushSize _brushSize = new BrushSize();
 
 
         private void tsButtonCursor_Click(object sender, EventArgs e)
@@ -133,8 +134,15 @@ namespace BestRedactor.Forms
         }
         private void tsButtonFraming_Click(object sender, EventArgs e)
         {
+            _picture.Bitmap = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
+            _pb.Image       = _picture.Bitmap;
+            RefreshAndSize();
+            lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
+        }
+        private void tsBtnSelection_Click(object sender, EventArgs e)
+        {
             DisableSelect(_currentTool);
-            _currentTool            = Tools.Cropping;
+            _currentTool         = Tools.Cropping;
             tsButtonFraming.Size = _selectSizeTools;
         }
         private void tsBtnMenuItemLine_Click(object sender, EventArgs e)
@@ -569,7 +577,7 @@ namespace BestRedactor.Forms
                     if (!_isSaved)
                     {
                         FileManagerL.Save(_picture);
-                        _isSaved = true; //TODO не забыть спросить про поле в IPicture
+                        _isSaved = true; 
                     }
                 }
             }
@@ -591,6 +599,10 @@ namespace BestRedactor.Forms
             _brush.Color             = Settings.LastUseColor;
             _pencil.Color          = Settings.LastUseColor;
             tsBtn_color1.BackColor = Settings.LastUseColor;
+        }
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
         }
 
 
@@ -738,17 +750,20 @@ namespace BestRedactor.Forms
             _rectangleTmp = DrawingFigures.DrawAFigure(_gra, _currentTool, _brush, _cX, _cY, _sX, _sY, _x, _y);
         }
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
+        { 
+            _isMouseDown = true;
+            _py = e.Location;
+            _cX = e.X;
+            _cY = e.Y;
+            if (_currentTool > Tools.Line)
+                _lastFigure = _currentTool;
             if (_currentTool == Tools.Cropping) { _pb.Image = _picture.Bitmap; }
             if (e.Button == MouseButtons.Left)
             {
-                _isMouseDown = true;
-                if (_currentTool > Tools.Line)
-                    _lastFigure = _currentTool;
                 _brushSize.Visible = false;
                 _brush.Width = Settings.LastUseSize;
 
-                if (_currentTool == Tools.Text)
+                /*if (_currentTool == Tools.Text)
                 {
                     TextBox textBox = (TextBox)tabControlPage.SelectedTab.Controls[1];
                     textBox.Location = new Point(_x + this.Location.X + 48, _y + this.Location.Y + 10);
@@ -756,7 +771,7 @@ namespace BestRedactor.Forms
                     textBox.Text = "";
                     textBox.Size = new Size(256, 23);
                     textBox.Enabled = true;
-                }
+                }*/ //TODO не работает
             }
             else if (e.Button == MouseButtons.Right && _currentTool == Tools.Brush)
             {
