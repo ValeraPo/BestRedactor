@@ -2,6 +2,7 @@
 using BestRedactor.Logics;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace BestRedactor.Forms.MethodsForEvents
 {
@@ -10,6 +11,9 @@ namespace BestRedactor.Forms.MethodsForEvents
         internal static Rectangle DrawAFigure(Graphics g, Tools currentTool, Pen pen, int cX, int cY, int sX, int sY, int x, int y)
         {
             var tmp = new Rectangle();
+            var penTmp = new Pen(Color.Blue, 0.8f);
+            penTmp.DashStyle = DashStyle.Dash;
+            penTmp.DashPattern = new[] {20f,10 };
             switch (currentTool)
             {
                 case Tools.Line:
@@ -200,19 +204,19 @@ namespace BestRedactor.Forms.MethodsForEvents
 
                 case Tools.Cropping when sX >= 0 && sY >= 0:
                     tmp = new Rectangle(cX, cY, sX, sY);
-                    g.DrawRectangle(new Pen(Color.Blue, 0.8f), tmp);
+                    g.DrawRectangle(penTmp, tmp);
                     break;
                 case Tools.Cropping when sX < 0 && sY >= 0:
                     tmp = new Rectangle(cX + sX, cY, Math.Abs(sX), sY);
-                    g.DrawRectangle(new Pen(Color.Blue, 0.8f), tmp);
+                    g.DrawRectangle(penTmp, tmp);
                     break;
                 case Tools.Cropping when sX >= 0 && sY < 0:
                     tmp = new Rectangle(cX, cY + sY, sX, Math.Abs(sY));
-                    g.DrawRectangle(new Pen(Color.Blue, 0.8f), tmp);
+                    g.DrawRectangle(penTmp, tmp);
                     break;
                 case Tools.Cropping when sX < 0 && sY < 0:
                     tmp = new Rectangle(cX + sX, cY + sY, Math.Abs(sX), Math.Abs(sY));
-                    g.DrawRectangle(new Pen(Color.Blue, 0.8f), tmp);
+                    g.DrawRectangle(penTmp, tmp);
                     break;
 
             }

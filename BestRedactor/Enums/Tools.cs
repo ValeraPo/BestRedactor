@@ -10,7 +10,7 @@
         Brush,
         Text,
         Cropping,
-        Line,
+        Line = 100,
         Circle,
         Ellipce,
         Rectangle,

@@ -653,7 +653,7 @@ namespace BestRedactor.Forms
             // 
             this.tsBtnPen.AutoSize = false;
             this.tsBtnPen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsBtnPen.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnPen.Image")));
+            this.tsBtnPen.Image = (System.Drawing.Image)resources.GetObject("tsBtnPen.Image");
             this.tsBtnPen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnPen.Name = "tsBtnPen";
             this.tsBtnPen.Size = new System.Drawing.Size(25, 25);
