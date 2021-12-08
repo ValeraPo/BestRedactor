@@ -13,11 +13,16 @@ namespace BestRedactor.Forms.MethodsForEvents
             var tmp = new Rectangle();
             var penTmp = new Pen(Color.Blue, 0.8f);
             penTmp.DashStyle = DashStyle.Dash;
-            penTmp.DashPattern = new[] {20f,10 };
+            penTmp.DashPattern = new[] { 20f, 10 };
             switch (currentTool)
             {
                 case Tools.Line:
                     g.DrawLine(pen, cX, cY, x, y);
+                    break;
+                case Tools.DashLine:
+                    pen.DashStyle = DashStyle.Dash;
+                    g.DrawLine(pen, cX, cY, x, y);
+                    pen.DashStyle = DashStyle.Solid;
                     break;
 
 

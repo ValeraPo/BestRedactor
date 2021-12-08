@@ -76,7 +76,8 @@ namespace BestRedactor.Data
             if (!Clipboard.ContainsImage())
                 throw new InvalidDataException("В буфере обмена не содержится картинка");
 
-            return new Picture(new Bitmap(Clipboard.GetImage()!), @"%userprofile%\Pictures",
+            return new Picture(new Bitmap(Clipboard.GetImage()!),
+                Environment.ExpandEnvironmentVariables(@"%userprofile%\Pictures\"),
                 "Clipboard", ImageFormat.Png);
         }
     }
