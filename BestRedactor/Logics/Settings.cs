@@ -4,55 +4,40 @@ namespace BestRedactor.Logics
 {
     public static class Settings
     {
-        private static void Save()
+        private static void SetValue<T>(string key, T value)
         {
+            Properties.Settings.Default[key] = value;
             Properties.Settings.Default.Save();
+        }
+        private static T GetValue<T>(string key)
+        {
+            return (T)Properties.Settings.Default[key];
         }
         
         public static Color  LastUseColor
         {
-            get => (Color)Properties.Settings.Default["LastUseColor"];
-            set 
-            { 
-                Properties.Settings.Default["LastUseColor"] = value;
-                Save();
-            }
+            get => GetValue<Color>("LastUseColor");
+            set => SetValue("LastUseColor", value);
         }
         public static float   LastUseSize
         {
-            get => (float)Properties.Settings.Default["LastUseSize"];
-            set 
-            {
-                Properties.Settings.Default["LastUseSize"] = value;
-                Save();
-            }
+            get => GetValue<float>("LastUseSize");
+            set => SetValue("LastUseSize", value);
         }
         public static int   OpenedTabs
         {
-            get => (int)Properties.Settings.Default["OpenedTabs"];
-            set
-            {
-                Properties.Settings.Default["OpenedTabs"] = value;
-                Save();
-            }
+            get => GetValue<int>("OpenedTabs");
+            set => SetValue("OpenedTabs", value);
         }
         public static bool   FailClose
         {
-            get => (bool)Properties.Settings.Default["FailClose"];
-            set
-            {
-                Properties.Settings.Default["FailClose"] = value;
-                Save();
-            }
+            get => GetValue<bool>("FailClose");
+            set => SetValue("FailClose", value);
         }
         public static string PathBackup
         {
-            get => Properties.Settings.Default["PathBackup"].ToString();
-            set
-            {
-                Properties.Settings.Default["PathBackup"] = value;
-                Save();
-            }
+            get => GetValue<string>("PathBackup");
+            set => SetValue("PathBackup", value);
         }
     }
 }

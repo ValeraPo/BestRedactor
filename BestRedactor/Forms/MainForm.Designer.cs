@@ -140,6 +140,7 @@ namespace BestRedactor.Forms
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.timerIsToSave = new System.Windows.Forms.Timer(this.components);
+            this.tsBtnMenuItemDashLine = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.panel1.SuspendLayout();
@@ -269,6 +270,7 @@ namespace BestRedactor.Forms
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.copyToolStripMenuItem.Text = "Копировать";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(copyToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
@@ -714,6 +716,7 @@ namespace BestRedactor.Forms
             this.tsSplitButtonShape.DropDownButtonWidth = 7;
             this.tsSplitButtonShape.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsBtnMenuItemLine,
+            this.tsBtnMenuItemDashLine,
             this.tsBtnMenuItemCircle,
             this.tsBtnMenuItemEllipce,
             this.toolStripMenuSquare,
@@ -839,6 +842,7 @@ namespace BestRedactor.Forms
             this.tsBtnSelection.Size = new System.Drawing.Size(25, 25);
             this.tsBtnSelection.Text = "кадрирование";
             this.tsBtnSelection.ToolTipText = "Выделение";
+            this.tsBtnSelection.Click += new System.EventHandler(tsBtnSelection_Click);
             // 
             // tsButtonCursor
             // 
@@ -1069,6 +1073,13 @@ namespace BestRedactor.Forms
             this.timerIsToSave.Interval = 30000;
             this.timerIsToSave.Tick += new System.EventHandler(this.timerIsToSave_Tick);
             // 
+            // tsBtnMenuItemDashLine
+            // 
+            this.tsBtnMenuItemDashLine.Name = "tsBtnMenuItemDashLine";
+            this.tsBtnMenuItemDashLine.Size = new System.Drawing.Size(212, 22);
+            this.tsBtnMenuItemDashLine.Text = "Пунктирная линия";
+            this.tsBtnMenuItemDashLine.Click += new System.EventHandler(this.tsBtnMenuItemDashLine_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1106,8 +1117,8 @@ namespace BestRedactor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.KeyPreview = true;
-            this.KeyDown += Crop;
+            this.KeyPreview =  true;
+            this.KeyDown    += Crop;
 
         }
 
@@ -1149,12 +1160,12 @@ namespace BestRedactor.Forms
         private ToolStrip toolStripTools;
         private ToolStripButton tsBtn_color1;
         private ToolStripButton tsBtn_color2;
-        private ToolStripButton tsBtnBrush;
-        private ToolStripButton tsBtnPen;
-        private ToolStripSplitButton tsSplitButtonShape;
-        private ToolStripMenuItem tsBtnMenuItemLine;
-        private ToolStripMenuItem tsBtnMenuItemEllipce;
-        private ToolStripMenuItem tsBtnMenuItemRect;
+        internal ToolStripButton tsBtnBrush;
+        internal ToolStripButton tsBtnPen;
+        internal ToolStripSplitButton tsSplitButtonShape;
+        internal ToolStripMenuItem tsBtnMenuItemLine;
+        internal ToolStripMenuItem tsBtnMenuItemEllipce;
+        internal ToolStripMenuItem tsBtnMenuItemRect;
         private ToolStripDropDownButton tsDropDownFilters;
         private ToolStripMenuItem drDBtnTSMenuItDiscolor;
         private ToolStripMenuItem drDBtnTSMenuItColors;
@@ -1169,24 +1180,24 @@ namespace BestRedactor.Forms
         private ToolStripMenuItem drDBtnTSMenuItMirror;
         private ToolStripMenuItem MirrorVertically;
         private ToolStripMenuItem ToolStripMenuHoris;
-        private ToolStripButton tsButtonCursor;
-        private ToolStripButton tsBtnFill;
-        private ToolStripButton tsBtnPipette;
-        private ToolStripButton tsButtonFraming;
-        private ToolStripButton tsBtnEraser;
-        private ToolStripButton tsText;
+        internal ToolStripButton tsButtonCursor;
+        internal ToolStripButton tsBtnFill;
+        internal ToolStripButton tsBtnPipette;
+        internal ToolStripButton tsButtonFraming;
+        internal ToolStripButton tsBtnEraser;
+        internal ToolStripButton tsText;
         private ToolStripMenuItem toolStripMenuSaveAll;
         private SplitContainer splitContainer1;
         private SplitContainer splitContainer2;
         private ToolStripMenuItem toolStripMenuInversion;
         private ToolStripMenuItem toolStripMenuSepia;
         private ToolStripMenuItem toolStripMenuNoize;
-        private ToolStripMenuItem tsBtnMenuItemEllipceFill;
-        private ToolStripMenuItem tsBtnMenuItemRectFill;
-        private ToolStripMenuItem tsBtnMenuItemCircle;
-        private ToolStripMenuItem toolStripMenuSquare;
-        private ToolStripMenuItem tsBtnMenuItemCircleFill;
-        private ToolStripMenuItem toolStripMenuSquareFill;
+        internal ToolStripMenuItem tsBtnMenuItemEllipceFill;
+        internal ToolStripMenuItem tsBtnMenuItemRectFill;
+        internal ToolStripMenuItem tsBtnMenuItemCircle;
+        internal ToolStripMenuItem toolStripMenuSquare;
+        internal ToolStripMenuItem tsBtnMenuItemCircleFill;
+        internal ToolStripMenuItem toolStripMenuSquareFill;
         private Timer timerIsToSave;
         private ToolStripMenuItem toolStripTextBoxRotateOn;
         private ToolStripMenuItem изображениеToolStripMenuItem;
@@ -1217,6 +1228,7 @@ namespace BestRedactor.Forms
         private ToolStripSeparator toolStripSeparator13;
         private ToolStripSeparator toolStripSeparator14;
         private ToolStripButton tsBtnSelection;
+        internal ToolStripMenuItem tsBtnMenuItemDashLine;
     }
 }
 

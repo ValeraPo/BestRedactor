@@ -11,6 +11,7 @@
         Text,
         Cropping,
         Line,
+        DashLine,
         Circle,
         Ellipce,
         Rectangle,

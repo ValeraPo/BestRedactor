@@ -10,6 +10,7 @@ namespace BestRedactor.Forms
         {
             InitializeComponent();
             textBoxSize.Text = $"{(int)Settings.LastUseSize}";
+            trackBarBrushSize.Value = (int)Settings.LastUseSize;
         }
         
         private void trackBarBrushSize_Scroll(object sender, EventArgs e)

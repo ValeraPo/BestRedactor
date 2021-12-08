@@ -12,12 +12,8 @@ using BestRedactor.Logics;
 namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
-    {
-        //TODO Выход за пределы кадрирования
+    {       
         //TODO Крестики на TP
-        //TODO Вставка текста(форму или что придумаем)
-        //TODO Иконка программы + нормальное название
-
 
         //TODO Починить Zoom(удалить)
         //TODO Горячие клавиши
@@ -30,6 +26,7 @@ namespace BestRedactor.Forms
             tsBtn_color1.BackColor = Settings.LastUseColor;
             _brush.StartCap        = LineCap.Round;
             _brush.EndCap          = LineCap.Round;
+            _brush.DashPattern     = new[] { 5f, 5 };
             _erase.StartCap        = LineCap.Round;
             _erase.EndCap          = LineCap.Round;
             tsBtn_color1.Size      = _selectSizeColor;
@@ -62,76 +59,72 @@ namespace BestRedactor.Forms
                 Settings.FailClose = true;
         }
 
-        private          Graphics      _gra;
-        private          Point         _px, _py;
-        private          Pen           _brush     = new(Settings.LastUseColor, Settings.LastUseSize);
-        private readonly Pen           _erase     = new(Color.White, 10);
-        private          Pen           _pencil    = new(Settings.LastUseColor, 1f);
-        private readonly ColorDialog   _cd        = new();
-        private          BrushSize     _brushSize = new();
-        private          List<Picture> _pictures;
-        private          Rectangle     _rectangleTmp;
-        private          Bitmap        _bitmapTmp;
-        private          bool          _isMouseDown;
-        private          bool          _isClickedColor1;
-        private          bool          _isClickedColor2;
-        private          bool          _isSaved;
-        private          bool          _autoSaveTimer;
-        private          int           _x, _y, _sX, _sY, _cX, _cY;
-        private          Tools         _currentTool         = Tools.Cursor;
-        private          Tools         _lastFigure          = 0;
-        private readonly Size          _selectSizeColor     = new(25, 25);
-        private readonly Size          _notSelectSizeColor  = new(20, 20);
-        private readonly Size          _selectSizeFigure    = new(35, 30);
-        private readonly Size          _notSelectSizeFigure = new(30, 25);
-        private readonly Size          _selectSizeTools     = new(30, 30);
-        private readonly Size          _notSelectSizeTools  = new(25, 25);
-        private          Picture       _picture => _pictures[tabControlPage.SelectedIndex];
-        private          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
-        private          TextBox       _textBox => (TextBox)tabControlPage.SelectedTab.Controls[0];
+        private           Graphics      _gra;
+        private           Point         _px, _py;
+        private           Pen           _brush     = new(Settings.LastUseColor, Settings.LastUseSize);
+        private readonly  Pen           _erase     = new(Color.White, 10);
+        private           Pen           _pencil    = new(Settings.LastUseColor, 1f);
+        private readonly  ColorDialog   _cd        = new();
+        private           BrushSize     _brushSize = new();
+        private           List<Picture> _pictures;
+        private           Rectangle     _rectangleTmp;
+        private           Bitmap        _bitmapTmp;
+        private           bool          _isMouseDown;
+        private           bool          _isClickedColor1;
+        private           bool          _isClickedColor2;
+        private           bool          _isSaved;
+        private           bool          _autoSaveTimer;
+        private           int           _x, _y, _sX, _sY, _cX, _cY;
+        private           Tools         _currentTool         = Tools.Cursor;
+        private           Tools         _lastFigure          = Tools.Cursor;
+        private readonly  Size          _selectSizeColor     = new(25, 25);
+        private readonly  Size          _notSelectSizeColor  = new(20, 20);
+        internal readonly Size          _selectSizeFigure    = new(35, 30);
+        internal readonly Size          _notSelectSizeFigure = new(30, 25);
+        internal readonly Size          _selectSizeTools     = new(30, 30);
+        internal readonly Size          _notSelectSizeTools  = new(25, 25);
+        internal          Picture       _picture => _pictures[tabControlPage.SelectedIndex];
+        internal          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
+        private           TextBox       _textBox => (TextBox)tabControlPage.SelectedTab.Controls[0];
 
-        private void tsButtonCursor_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool        = Tools.Cursor;
-            tsButtonCursor.Size = _selectSizeTools;
-        }
-        private void tsBtnBrush_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool    = Tools.Brush;
-            tsBtnBrush.Size = _selectSizeTools;
-        }
-        private void tsBtnPen_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool  = Tools.Pencil;
-            tsBtnPen.Size = _selectSizeTools;
-        }
-        private void tsBtnEraser_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool     = Tools.Erase;
-            tsBtnEraser.Size = _selectSizeTools;
-        }
-        private void tsBtnFill_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool   = Tools.Fill;
-            tsBtnFill.Size = _selectSizeTools;
-        }
-        private void tsBtnPipette_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool      = Tools.Pipette;
-            tsBtnPipette.Size = _selectSizeTools;
-        }
-        private void tsText_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool = Tools.Text;
-            tsText.Size  = _selectSizeTools;
-        }
+        private void tsButtonCursor_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Cursor, ref _currentTool, this);
+        private void tsBtnBrush_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Brush, ref _currentTool, this);
+        private void tsBtnPen_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Pencil, ref _currentTool, this);
+        private void tsBtnEraser_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Erase, ref _currentTool, this);
+        private void tsBtnFill_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Fill, ref _currentTool, this);
+        private void tsBtnPipette_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Pipette, ref _currentTool, this);
+        private void tsText_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Text, ref _currentTool, this);
+        private void tsBtnSelection_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Cropping, ref _currentTool, this);
+        private void tsSplitButtonShape_ButtonClick(object sender, EventArgs e) =>
+            Selection.DisableSelect(_lastFigure, ref _currentTool, this);
+        private void tsBtnMenuItemLine_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Line, ref _currentTool, this);
+        private void tsBtnMenuItemDashLine_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.DashLine, ref _currentTool, this);
+        private void tsBtnMenuItemEllipce_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Ellipce, ref _currentTool, this);
+        private void tsBtnMenuItemEllipceFill_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.EllipceFill, ref _currentTool, this);
+        private void tsBtnMenuItemRect_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Rectangle, ref _currentTool, this);
+        private void tsBtnMenuItemRectFill_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.RectangleFill, ref _currentTool, this);
+        private void tsBtnMenuItemCircle_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Circle, ref _currentTool, this);
+        private void tsBtnMenuItemCircleFill_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.CircleFill, ref _currentTool, this);
+        private void toolStripMenuSquare_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.Square, ref _currentTool, this);
+        private void toolStripMenuSquareFill_Click(object sender, EventArgs e) =>
+            Selection.DisableSelect(Tools.SquareFill, ref _currentTool, this);
         private void tsButtonFraming_Click(object sender, EventArgs e)
         {
             _picture.Bitmap = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
@@ -139,146 +132,13 @@ namespace BestRedactor.Forms
             RefreshAndSize();
             lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
         }
-        private void tsBtnSelection_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool         = Tools.Cropping;
-            tsButtonFraming.Size = _selectSizeTools;
-        }
-        private void tsBtnMenuItemLine_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool             = Tools.Line;
-            tsSplitButtonShape.Image = tsBtnMenuItemLine.Image;
-            tsSplitButtonShape.Size  = _selectSizeFigure;
-        }
-        private void tsBtnMenuItemEllipce_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool             = Tools.Ellipce;
-            tsSplitButtonShape.Image = tsBtnMenuItemEllipce.Image;
-            tsSplitButtonShape.Size  = _selectSizeFigure;
-        }
-        private void tsBtnMenuItemEllipceFill_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool             = Tools.EllipceFill;
-            tsSplitButtonShape.Image = tsBtnMenuItemEllipceFill.Image;
-            tsSplitButtonShape.Size  = _selectSizeFigure;
-        }
-        private void tsBtnMenuItemRect_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool             = Tools.Rectangle;
-            tsSplitButtonShape.Image = tsBtnMenuItemRect.Image;
-            tsSplitButtonShape.Size  = _selectSizeFigure;
-        }
-        private void tsBtnMenuItemRectFill_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool             = Tools.RectangleFill;
-            tsSplitButtonShape.Image = tsBtnMenuItemRectFill.Image;
-            tsSplitButtonShape.Size  = _selectSizeFigure;
-        }
-        private void tsBtnMenuItemCircle_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool             = Tools.Circle;
-            tsSplitButtonShape.Image = tsBtnMenuItemCircle.Image;
-            tsSplitButtonShape.Size  = _selectSizeFigure;
-        }
-        private void tsBtnMenuItemCircleFill_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool             = Tools.CircleFill;
-            tsSplitButtonShape.Image = tsBtnMenuItemCircleFill.Image;
-            tsSplitButtonShape.Size  = _selectSizeFigure;
-        }
-        private void toolStripMenuSquare_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool             = Tools.Square;
-            tsSplitButtonShape.Image = toolStripMenuSquare.Image;
-            tsSplitButtonShape.Size  = _selectSizeFigure;
-        }
-        private void toolStripMenuSquareFill_Click(object sender, EventArgs e)
-        {
-            DisableSelect(_currentTool);
-            _currentTool             = Tools.SquareFill;
-            tsSplitButtonShape.Image = toolStripMenuSquareFill.Image;
-            tsSplitButtonShape.Size  = _selectSizeFigure;
-        }
-
-        private void DisableSelect(Tools tools)
-        {
-            switch (tools)
-            {
-                //снятие выделения
-                case Tools.Brush:
-                    tsBtnBrush.Size = _notSelectSizeTools;
-                    break;
-                case Tools.Pencil:
-                    tsBtnPen.Size = _notSelectSizeTools;
-                    break;
-                case Tools.Cursor:
-                    tsButtonCursor.Size = _notSelectSizeTools;
-                    break;
-                case Tools.Erase:
-                    tsBtnEraser.Size = _notSelectSizeTools;
-                    break;
-                case Tools.Pipette:
-                    tsBtnPipette.Size = _notSelectSizeTools;
-                    break;
-                case Tools.Fill:
-                    tsBtnFill.Size = _notSelectSizeTools;
-                    break;
-                case Tools.Text:
-                    tsText.Size = _notSelectSizeTools;
-                    break;
-                case Tools.Cropping:
-                    if (Settings.OpenedTabs != 0)
-                        _pb.Image = _picture.Bitmap;
-                    tsButtonFraming.Size = _notSelectSizeTools;
-                    break;
-                //изменение иконки
-                case Tools.Line:
-
-                    tsSplitButtonShape.Size = _notSelectSizeFigure;
-                    break;
-                case Tools.Ellipce:
-                    tsSplitButtonShape.Size = _notSelectSizeFigure;
-                    break;
-                case Tools.EllipceFill:
-                    tsSplitButtonShape.Size = _notSelectSizeFigure;
-                    break;
-                case Tools.Rectangle:
-                    tsSplitButtonShape.Size = _notSelectSizeFigure;
-                    break;
-                case Tools.RectangleFill:
-                    tsSplitButtonShape.Size = _notSelectSizeFigure;
-                    break;
-                case Tools.Circle:
-                    tsSplitButtonShape.Size = _notSelectSizeFigure;
-                    break;
-                case Tools.CircleFill:
-                    tsSplitButtonShape.Size = _notSelectSizeFigure;
-                    break;
-                case Tools.Square:
-                    tsSplitButtonShape.Size = _notSelectSizeFigure;
-                    break;
-                case Tools.SquareFill:
-                    tsSplitButtonShape.Size = _notSelectSizeFigure;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(tools), tools, null);
-            }
-        }
+        
 
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _gra.Clear(Settings.LastUseColor);
-            _currentTool = Tools.Cursor;
+            Selection.DisableSelect(Tools.Cursor, ref _currentTool, this);
         }
 
 
@@ -432,7 +292,7 @@ namespace BestRedactor.Forms
             pb.Paint      += PbPaint;
 
             //creation textBox
-
+            
             tb.Multiline   = true;
             tb.BorderStyle = BorderStyle.None;
             tb.Enabled = false;
@@ -441,6 +301,7 @@ namespace BestRedactor.Forms
             tp.Controls.Add(tb);
             //создание новой вкладки с объектом PictureBox
             tp.Controls.Add(pb);
+           
 
             tabControlPage.TabPages.Add(tp);
             tabControlPage.SelectedTab =  tp;
@@ -448,38 +309,6 @@ namespace BestRedactor.Forms
 
             lblPictureSize.Text = $@"{picture.Bitmap.Width} x {picture.Bitmap.Height}";
         }
-
-
-        // метод для поиска старого цвета до заливки формы новым цветом
-        private void Validate(Bitmap bm, Stack<Point> sp, int x, int y, Color oldColor, Color newColor)
-        {
-            var cx = bm.GetPixel(x, y);
-            if (cx != oldColor)
-                return;
-            sp.Push(new Point(x, y));
-            bm.SetPixel(x, y, newColor);
-        }
-        private void Fill(Bitmap bm, int x, int y, Color newCol)
-        {
-            var oldCol = bm.GetPixel(x, y);
-            var pixel  = new Stack<Point>();
-            pixel.Push(new Point(x, y));
-            bm.SetPixel(x, y, newCol);
-            if (oldCol.ToArgb() == newCol.ToArgb())
-                return;
-            while (pixel.Count > 0)
-            {
-                var pt = pixel.Pop();
-                if (pt.X <= 0 || pt.Y <= 0 || pt.X >= bm.Width - 1 || pt.Y >= bm.Height - 1)
-                    continue;
-                Validate(bm, pixel, pt.X - 1, pt.Y, oldCol, newCol);
-                Validate(bm, pixel, pt.X, pt.Y - 1, oldCol, newCol);
-                Validate(bm, pixel, pt.X + 1, pt.Y, oldCol, newCol);
-                Validate(bm, pixel, pt.X, pt.Y + 1, oldCol, newCol);
-            }
-        }
-
-
         private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) =>
             new FiltersForm(_picture, this, Filters.Contrast).ShowDialog();
         private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
@@ -502,7 +331,7 @@ namespace BestRedactor.Forms
             _pb.Image = _picture.Bitmap;
             Refresh();
         }
-        public new void Refresh()
+        private new void Refresh()
         {
             if (Settings.OpenedTabs == 0)
                 return;
@@ -593,16 +422,21 @@ namespace BestRedactor.Forms
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
             if (_currentTool == Tools.Fill)
-                Fill(_picture.Bitmap, e.X, e.Y, Settings.LastUseColor);
+                Filling.Fill(_picture.Bitmap, e.X, e.Y, Settings.LastUseColor);
             if (_currentTool != Tools.Pipette)
                 return;
-            Settings.LastUseColor  = _picture.Bitmap.GetPixel(e.X, e.Y);
-            _brush.Color           = Settings.LastUseColor;
-            _pencil.Color          = Settings.LastUseColor;
-            tsBtn_color1.BackColor = Settings.LastUseColor;
+            Settings.LastUseColor = _picture.Bitmap.GetPixel(e.X, e.Y);
+            _brush.Color          = Settings.LastUseColor;
+            _pencil.Color         = Settings.LastUseColor;
+            if (tsBtn_color1.Size == _selectSizeColor)
+                tsBtn_color1.BackColor = Settings.LastUseColor;
+            else
+                tsBtn_color2.BackColor = Settings.LastUseColor;
         }
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return;
             Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
         }
 
@@ -660,14 +494,12 @@ namespace BestRedactor.Forms
         }
 
 
-        private void tsSplitButtonShape_ButtonClick(object sender, EventArgs e)
-        {
-            _currentTool = _lastFigure;
-        }
+        
         private void toolStripTextBoxRotateOn_Click(object sender, EventArgs e)
         {
             new Rotation(_picture, this).ShowDialog();
-            _pb.Image = _picture.Bitmap;
+            _pb.Image           = _picture.Bitmap;
+            lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
         }
 
         private void Crop(object sender, KeyEventArgs e)
@@ -686,6 +518,15 @@ namespace BestRedactor.Forms
                 Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
             }
 
+            if (_currentTool == Tools.Cropping && e.KeyCode == Keys.V && e.Control && !_isMouseDown &&
+                Settings.OpenedTabs != 0) { pasteToolStripMenuItem_Click(null, null); }
+
+            if (e.Control && e.KeyCode == Keys.S) { FileManagerL.Save(_picture); }
+
+            if (e.Control && e.Alt && e.Shift && e.KeyCode == Keys.S) { SaveAll(null, null); }
+
+            if (e.Control && e.Alt && e.KeyCode == Keys.S) { toolStripMenuItem2_Click(null, null); }
+
             if (_currentTool == Tools.Text && e.KeyCode == Keys.Enter && Settings.OpenedTabs != 0 && e.Control)
             {
                 _gra.DrawString(_textBox.Text, _textBox.Font, new SolidBrush(Settings.LastUseColor), _textBox.Location);
@@ -697,6 +538,8 @@ namespace BestRedactor.Forms
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Settings.FailClose = false;
+            if (Settings.OpenedTabs == 0)
+                return;
             var result = MessageBox.Show(@"Сохранить все открытые вкладки?",
                 @"Save All",
                 MessageBoxButtons.YesNo,
@@ -706,6 +549,7 @@ namespace BestRedactor.Forms
             if (result == DialogResult.Yes)
                 FileManagerL.SaveAll(_pictures);
         }
+
 
         private void PbPaint(object sender, PaintEventArgs e)
         {
@@ -759,10 +603,17 @@ namespace BestRedactor.Forms
             }
 
             _rectangleTmp = DrawingFigures.DrawAFigure(_gra, _currentTool, _brush, _cX, _cY, _sX, _sY, _x, _y);
+            if (_rectangleTmp.X < 0)
+                _rectangleTmp.X = 0;
+            if (_rectangleTmp.Y < 0)
+                _rectangleTmp.Y = 0;
+            if (_rectangleTmp.X + _rectangleTmp.Width > _pb.Width)
+                _rectangleTmp.Width = _pb.Width - _rectangleTmp.X;
+            if (_rectangleTmp.Y + _rectangleTmp.Height > _pb.Height)
+                _rectangleTmp.Height = _pb.Height - _rectangleTmp.Y;
         }
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            _isMouseDown = true;
+        {            
             _py          = e.Location;
             _cX          = e.X;
             _cY          = e.Y;
@@ -780,8 +631,9 @@ namespace BestRedactor.Forms
             {
                 case MouseButtons.Left:
                 {
+                    _isMouseDown       = true;
                     _brushSize.Visible = false;
-                    _brush.Width       = Settings.LastUseSize;
+                     _brush.Width       = Settings.LastUseSize;
 
                     if (_currentTool == Tools.Text)
                     {
