@@ -9,7 +9,7 @@
         Fill,
         Brush,
         Text,
-        Cropping,
+        Selection,
         Line,
         DashLine,
         Circle,

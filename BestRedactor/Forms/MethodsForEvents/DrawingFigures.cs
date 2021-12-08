@@ -207,19 +207,19 @@ namespace BestRedactor.Forms.MethodsForEvents
                     break;
                 
 
-                case Tools.Cropping when sX >= 0 && sY >= 0:
+                case Tools.Selection when sX >= 0 && sY >= 0:
                     tmp = new Rectangle(cX, cY, sX, sY);
                     g.DrawRectangle(penTmp, tmp);
                     break;
-                case Tools.Cropping when sX < 0 && sY >= 0:
+                case Tools.Selection when sX < 0 && sY >= 0:
                     tmp = new Rectangle(cX + sX, cY, Math.Abs(sX), sY);
                     g.DrawRectangle(penTmp, tmp);
                     break;
-                case Tools.Cropping when sX >= 0 && sY < 0:
+                case Tools.Selection when sX >= 0 && sY < 0:
                     tmp = new Rectangle(cX, cY + sY, sX, Math.Abs(sY));
                     g.DrawRectangle(penTmp, tmp);
                     break;
-                case Tools.Cropping when sX < 0 && sY < 0:
+                case Tools.Selection when sX < 0 && sY < 0:
                     tmp = new Rectangle(cX + sX, cY + sY, Math.Abs(sX), Math.Abs(sY));
                     g.DrawRectangle(penTmp, tmp);
                     break;

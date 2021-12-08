@@ -102,6 +102,7 @@ namespace BestRedactor.Forms
             this.tsBtnEraser = new System.Windows.Forms.ToolStripButton();
             this.tsSplitButtonShape = new System.Windows.Forms.ToolStripSplitButton();
             this.tsBtnMenuItemLine = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsBtnMenuItemDashLine = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnMenuItemCircle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBtnMenuItemEllipce = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuSquare = new System.Windows.Forms.ToolStripMenuItem();
@@ -140,7 +141,7 @@ namespace BestRedactor.Forms
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.timerIsToSave = new System.Windows.Forms.Timer(this.components);
-            this.tsBtnMenuItemDashLine = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.panel1.SuspendLayout();
@@ -191,64 +192,64 @@ namespace BestRedactor.Forms
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "Создать";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Открыть";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem1.Text = "Сохранить";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuSaveAll
             // 
             this.toolStripMenuSaveAll.Name = "toolStripMenuSaveAll";
-            this.toolStripMenuSaveAll.Size = new System.Drawing.Size(154, 22);
+            this.toolStripMenuSaveAll.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuSaveAll.Text = "Сохранить всё";
             this.toolStripMenuSaveAll.Click += new System.EventHandler(this.SaveAll);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(154, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "Сохранить как";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.closeToolStripMenuItem.Text = "Закрыть";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Выход";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -270,7 +271,7 @@ namespace BestRedactor.Forms
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.copyToolStripMenuItem.Text = "Копировать";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(copyToolStripMenuItem_Click);
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
@@ -605,12 +606,13 @@ namespace BestRedactor.Forms
             this.tsBtnEraser,
             this.tsSplitButtonShape,
             this.toolStripSeparator13,
-            this.tsButtonFraming,
+            this.tsButtonCursor,
             this.tsText,
             this.tsBtnSelection,
-            this.tsButtonCursor,
+            this.toolStripSeparator15,
+            this.tsDropDownFilters,
             this.toolStripSeparator14,
-            this.tsDropDownFilters});
+            this.tsButtonFraming});
             this.toolStripTools.Location = new System.Drawing.Point(0, 0);
             this.toolStripTools.Name = "toolStripTools";
             this.toolStripTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -740,6 +742,13 @@ namespace BestRedactor.Forms
             this.tsBtnMenuItemLine.Text = "Линия";
             this.tsBtnMenuItemLine.Click += new System.EventHandler(this.tsBtnMenuItemLine_Click);
             // 
+            // tsBtnMenuItemDashLine
+            // 
+            this.tsBtnMenuItemDashLine.Name = "tsBtnMenuItemDashLine";
+            this.tsBtnMenuItemDashLine.Size = new System.Drawing.Size(212, 22);
+            this.tsBtnMenuItemDashLine.Text = "Пунктирная линия";
+            this.tsBtnMenuItemDashLine.Click += new System.EventHandler(this.tsBtnMenuItemDashLine_Click);
+            // 
             // tsBtnMenuItemCircle
             // 
             this.tsBtnMenuItemCircle.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnMenuItemCircle.Image")));
@@ -842,7 +851,7 @@ namespace BestRedactor.Forms
             this.tsBtnSelection.Size = new System.Drawing.Size(25, 25);
             this.tsBtnSelection.Text = "кадрирование";
             this.tsBtnSelection.ToolTipText = "Выделение";
-            this.tsBtnSelection.Click += new System.EventHandler(tsBtnSelection_Click);
+            this.tsBtnSelection.Click += new System.EventHandler(this.tsBtnSelection_Click);
             // 
             // tsButtonCursor
             // 
@@ -1073,12 +1082,10 @@ namespace BestRedactor.Forms
             this.timerIsToSave.Interval = 30000;
             this.timerIsToSave.Tick += new System.EventHandler(this.timerIsToSave_Tick);
             // 
-            // tsBtnMenuItemDashLine
+            // toolStripSeparator15
             // 
-            this.tsBtnMenuItemDashLine.Name = "tsBtnMenuItemDashLine";
-            this.tsBtnMenuItemDashLine.Size = new System.Drawing.Size(212, 22);
-            this.tsBtnMenuItemDashLine.Text = "Пунктирная линия";
-            this.tsBtnMenuItemDashLine.Click += new System.EventHandler(this.tsBtnMenuItemDashLine_Click);
+            this.toolStripSeparator15.Name = "toolStripSeparator15";
+            this.toolStripSeparator15.Size = new System.Drawing.Size(30, 6);
             // 
             // MainForm
             // 
@@ -1117,8 +1124,6 @@ namespace BestRedactor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.KeyPreview =  true;
-            this.KeyDown    += KeyPress;
 
         }
 
@@ -1229,6 +1234,7 @@ namespace BestRedactor.Forms
         private ToolStripSeparator toolStripSeparator14;
         private ToolStripButton tsBtnSelection;
         internal ToolStripMenuItem tsBtnMenuItemDashLine;
+        private ToolStripSeparator toolStripSeparator15;
     }
 }
 

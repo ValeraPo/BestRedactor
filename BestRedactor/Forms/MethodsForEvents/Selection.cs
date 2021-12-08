@@ -32,7 +32,7 @@ namespace BestRedactor.Forms.MethodsForEvents
                 case Tools.Text:
                     main.tsText.Size = main._notSelectSizeTools;
                     break;
-                case Tools.Cropping:
+                case Tools.Selection:
                     if (Settings.OpenedTabs != 0)
                         main._pictureBox.Image = main._picture.Bitmap;
                     main.tsButtonFraming.Size = main._notSelectSizeTools;
@@ -79,7 +79,7 @@ namespace BestRedactor.Forms.MethodsForEvents
                 case Tools.Text:
                     main.tsText.Size = main._selectSizeTools;
                     break;
-                case Tools.Cropping:
+                case Tools.Selection:
                     main.tsButtonFraming.Size = main._selectSizeTools;
                     break;
                 

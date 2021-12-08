@@ -101,7 +101,7 @@ namespace BestRedactor.Forms
         private void tsText_Click(object sender, EventArgs e) =>
             Selection.DisableSelect(Tools.Text, ref _currentTool, this);
         private void tsBtnSelection_Click(object sender, EventArgs e) =>
-            Selection.DisableSelect(Tools.Cropping, ref _currentTool, this);
+            Selection.DisableSelect(Tools.Selection, ref _currentTool, this);
         private void tsSplitButtonShape_ButtonClick(object sender, EventArgs e) =>
             Selection.DisableSelect(_lastFigure, ref _currentTool, this);
         private void tsBtnMenuItemLine_Click(object sender, EventArgs e) =>
@@ -126,6 +126,8 @@ namespace BestRedactor.Forms
             Selection.DisableSelect(Tools.SquareFill, ref _currentTool, this);
         private void tsButtonFraming_Click(object sender, EventArgs e)
         {
+            if (_currentTool != Tools.Selection || Settings.OpenedTabs == 0)
+                return;
             _picture.Bitmap   = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
             _pictureBox.Image = _picture.Bitmap;
             RefreshAndSize();
@@ -495,7 +497,7 @@ namespace BestRedactor.Forms
 
         private new void KeyPress(object sender, KeyEventArgs e)
         {
-            if (_currentTool == Tools.Cropping && e.KeyCode == Keys.Enter && !_isMouseDown && Settings.OpenedTabs != 0)
+            if (_currentTool == Tools.Selection && e.KeyCode == Keys.Enter && !_isMouseDown && Settings.OpenedTabs != 0)
             {
                 _picture.Bitmap   = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
                 _pictureBox.Image = _picture.Bitmap;
@@ -503,11 +505,11 @@ namespace BestRedactor.Forms
                 lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
             }
 
-            if (_currentTool == Tools.Cropping && e.KeyCode == Keys.C && e.Control && !_isMouseDown &&
+            if (_currentTool == Tools.Selection && e.KeyCode == Keys.C && e.Control && !_isMouseDown &&
                 Settings.OpenedTabs != 0)
                 Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
 
-            if (_currentTool == Tools.Cropping && e.KeyCode == Keys.V && e.Control && !_isMouseDown &&
+            if (_currentTool == Tools.Selection && e.KeyCode == Keys.V && e.Control && !_isMouseDown &&
                 Settings.OpenedTabs != 0) pasteToolStripMenuItem_Click(null, null);
 
             if (e.Control && e.KeyCode == Keys.S) FileManagerL.Save(_picture);
@@ -587,7 +589,7 @@ namespace BestRedactor.Forms
 
             _xShift = _xLocation - _xCoord;
             _yShift = _yLocation - _yCoord;
-            if (_currentTool == Tools.Cropping)
+            if (_currentTool == Tools.Selection)
             {
                 _bitmapTmp        = (Bitmap)_picture.Bitmap.Clone();
                 _graphics         = Graphics.FromImage(_bitmapTmp);
@@ -615,7 +617,7 @@ namespace BestRedactor.Forms
                 case >= Tools.Line:
                     _lastFigure = _currentTool;
                     break;
-                case Tools.Cropping:
+                case Tools.Selection:
                     _pictureBox.Image = _picture.Bitmap;
                     break;
             }
