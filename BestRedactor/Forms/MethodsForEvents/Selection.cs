@@ -34,7 +34,7 @@ namespace BestRedactor.Forms.MethodsForEvents
                     break;
                 case Tools.Cropping:
                     if (Settings.OpenedTabs != 0)
-                        main._pb.Image = main._picture.Bitmap;
+                        main._pictureBox.Image = main._picture.Bitmap;
                     main.tsButtonFraming.Size = main._notSelectSizeTools;
                     break;
                 

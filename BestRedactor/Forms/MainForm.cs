@@ -12,7 +12,7 @@ using BestRedactor.Logics;
 namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
-    {       
+    {
         //TODO Крестики на TP
 
         //TODO Починить Zoom(удалить)
@@ -59,22 +59,21 @@ namespace BestRedactor.Forms
                 Settings.FailClose = true;
         }
 
-        private           Graphics      _gra;
-        private           Point         _px, _py;
-        private           Pen           _brush     = new(Settings.LastUseColor, Settings.LastUseSize);
-        private readonly  Pen           _erase     = new(Color.White, 10);
-        private           Pen           _pencil    = new(Settings.LastUseColor, 1f);
-        private readonly  ColorDialog   _cd        = new();
-        private           BrushSize     _brushSize = new();
+        private           Graphics      _graphics;
+        private           Point         _pointFirst, _pointSecond;
+        private           Pen           _brush       = new(Settings.LastUseColor, Settings.LastUseSize);
+        private readonly  Pen           _erase       = new(Color.White, 10);
+        private           Pen           _pencil      = new(Settings.LastUseColor, 1f);
+        private readonly  ColorDialog   _colorDialog = new();
+        private           BrushSize     _brushSize   = new();
         private           List<Picture> _pictures;
         private           Rectangle     _rectangleTmp;
         private           Bitmap        _bitmapTmp;
         private           bool          _isMouseDown;
         private           bool          _isClickedColor1;
         private           bool          _isClickedColor2;
-        private           bool          _isSaved;
         private           bool          _autoSaveTimer;
-        private           int           _x, _y, _sX, _sY, _cX, _cY;
+        private           int           _xLocation, _yLocation, _xShift, _yShift, _xCoord, _yCoord;
         private           Tools         _currentTool         = Tools.Cursor;
         private           Tools         _lastFigure          = Tools.Cursor;
         private readonly  Size          _selectSizeColor     = new(25, 25);
@@ -83,9 +82,9 @@ namespace BestRedactor.Forms
         internal readonly Size          _notSelectSizeFigure = new(30, 25);
         internal readonly Size          _selectSizeTools     = new(30, 30);
         internal readonly Size          _notSelectSizeTools  = new(25, 25);
-        internal          Picture       _picture => _pictures[tabControlPage.SelectedIndex];
-        internal          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
-        private           TextBox       _textBox => (TextBox)tabControlPage.SelectedTab.Controls[0];
+        internal          Picture       _picture    => _pictures[tabControlPage.SelectedIndex];
+        internal          PictureBox    _pictureBox => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
+        private           TextBox       _textBox    => (TextBox)tabControlPage.SelectedTab.Controls[0];
 
         private void tsButtonCursor_Click(object sender, EventArgs e) =>
             Selection.DisableSelect(Tools.Cursor, ref _currentTool, this);
@@ -127,17 +126,16 @@ namespace BestRedactor.Forms
             Selection.DisableSelect(Tools.SquareFill, ref _currentTool, this);
         private void tsButtonFraming_Click(object sender, EventArgs e)
         {
-            _picture.Bitmap = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
-            _pb.Image       = _picture.Bitmap;
+            _picture.Bitmap   = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
+            _pictureBox.Image = _picture.Bitmap;
             RefreshAndSize();
             lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
         }
-        
 
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _gra.Clear(Settings.LastUseColor);
+            _graphics.Clear(Settings.LastUseColor);
             Selection.DisableSelect(Tools.Cursor, ref _currentTool, this);
         }
 
@@ -252,7 +250,7 @@ namespace BestRedactor.Forms
                 _pictures.Add((Picture)FileManagerL.Load(ofd.FileName));
                 AddNewTabPages(_pictures[Settings.OpenedTabs]);
                 Refresh();
-                lblPictureSize.Text = $@"{_pb.Image.Width} x {_pb.Image.Height}";
+                lblPictureSize.Text = $@"{_pictureBox.Image.Width} x {_pictureBox.Image.Height}";
             }
             catch (Exception ex)
             {
@@ -292,16 +290,17 @@ namespace BestRedactor.Forms
             pb.Paint      += PbPaint;
 
             //creation textBox
-            
+
             tb.Multiline   = true;
             tb.BorderStyle = BorderStyle.None;
-            tb.Enabled = false;
+            tb.Enabled     = false;
+            tb.Visible     = false;
 
 
             tp.Controls.Add(tb);
             //создание новой вкладки с объектом PictureBox
             tp.Controls.Add(pb);
-           
+
 
             tabControlPage.TabPages.Add(tp);
             tabControlPage.SelectedTab =  tp;
@@ -322,21 +321,21 @@ namespace BestRedactor.Forms
             new ColorsForm(_picture, this).ShowDialog();
         public void RefreshAndSize()
         {
-            _pb.Size                        = new Size(_picture.Bitmap.Width, _picture.Bitmap.Height);
-            tabControlPage.SelectedTab.Size = _pb.Size;
+            _pictureBox.Size                = new Size(_picture.Bitmap.Width, _picture.Bitmap.Height);
+            tabControlPage.SelectedTab.Size = _pictureBox.Size;
             Refresh();
         }
         public void RefreshAndPbImage()
         {
-            _pb.Image = _picture.Bitmap;
+            _pictureBox.Image = _picture.Bitmap;
             Refresh();
         }
         private new void Refresh()
         {
             if (Settings.OpenedTabs == 0)
                 return;
-            _pb.Refresh();
-            _gra = Graphics.FromImage(_picture.Bitmap);
+            _pictureBox.Refresh();
+            _graphics = Graphics.FromImage(_picture.Bitmap);
         }
 
 
@@ -344,9 +343,9 @@ namespace BestRedactor.Forms
         {
             if (_isClickedColor1)
             {
-                if (_cd.ShowDialog() != DialogResult.OK)
+                if (_colorDialog.ShowDialog() != DialogResult.OK)
                     return;
-                tsBtn_color1.BackColor = _cd.Color;
+                tsBtn_color1.BackColor = _colorDialog.Color;
                 _brush.Color           = tsBtn_color1.BackColor;
                 _pencil.Color          = tsBtn_color1.BackColor;
                 Settings.LastUseColor  = tsBtn_color1.BackColor;
@@ -368,9 +367,9 @@ namespace BestRedactor.Forms
         {
             if (_isClickedColor2)
             {
-                if (_cd.ShowDialog() != DialogResult.OK)
+                if (_colorDialog.ShowDialog() != DialogResult.OK)
                     return;
-                tsBtn_color2.BackColor = _cd.Color;
+                tsBtn_color2.BackColor = _colorDialog.Color;
                 _brush.Color           = tsBtn_color2.BackColor;
                 _pencil.Color          = tsBtn_color2.BackColor;
                 Settings.LastUseColor  = tsBtn_color2.BackColor;
@@ -402,14 +401,7 @@ namespace BestRedactor.Forms
                     MessageBoxIcon.Question,
                     MessageBoxDefaultButton.Button1,
                     MessageBoxOptions.DefaultDesktopOnly);
-                if (result == DialogResult.Yes)
-                {
-                    if (!_isSaved)
-                    {
-                        FileManagerL.Save(_picture);
-                        _isSaved = true;
-                    }
-                }
+                if (result == DialogResult.Yes) { FileManagerL.Save(_picture); }
             }
 
             if (!_pictures.Remove(_picture))
@@ -469,67 +461,65 @@ namespace BestRedactor.Forms
         }
         private void MirrorVertically_Click(object sender, EventArgs e)
         {
-            _pb.Image = Logics.Rotation.VerticalReflection(_picture.Bitmap);
+            _pictureBox.Image = Logics.Rotation.VerticalReflection(_picture.Bitmap);
             Refresh();
         }
         private void ToolStripMenuHoris_Click(object sender, EventArgs e)
         {
-            _pb.Image = Logics.Rotation.HorizontalReflection(_picture.Bitmap);
+            _pictureBox.Image = Logics.Rotation.HorizontalReflection(_picture.Bitmap);
             Refresh();
         }
         private void toolStripMenuRotBy90_Click(object sender, EventArgs e)
         {
-            _pb.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 90);
+            _pictureBox.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 90);
             RefreshAndSize();
         }
         private void toolStripMenuRotBy270_Click(object sender, EventArgs e)
         {
-            _pb.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 270);
+            _pictureBox.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 270);
             RefreshAndSize();
         }
         private void toolStripMenuRotBy180_Click(object sender, EventArgs e)
         {
-            _pb.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 180);
+            _pictureBox.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 180);
             RefreshAndSize();
         }
 
 
-        
         private void toolStripTextBoxRotateOn_Click(object sender, EventArgs e)
         {
             new Rotation(_picture, this).ShowDialog();
-            _pb.Image           = _picture.Bitmap;
+            _pictureBox.Image   = _picture.Bitmap;
             lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
         }
 
-        private void Crop(object sender, KeyEventArgs e)
+        private new void KeyPress(object sender, KeyEventArgs e)
         {
             if (_currentTool == Tools.Cropping && e.KeyCode == Keys.Enter && !_isMouseDown && Settings.OpenedTabs != 0)
             {
-                _picture.Bitmap = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
-                _pb.Image       = _picture.Bitmap;
+                _picture.Bitmap   = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
+                _pictureBox.Image = _picture.Bitmap;
                 RefreshAndSize();
                 lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
             }
 
             if (_currentTool == Tools.Cropping && e.KeyCode == Keys.C && e.Control && !_isMouseDown &&
                 Settings.OpenedTabs != 0)
-            {
                 Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
-            }
 
             if (_currentTool == Tools.Cropping && e.KeyCode == Keys.V && e.Control && !_isMouseDown &&
-                Settings.OpenedTabs != 0) { pasteToolStripMenuItem_Click(null, null); }
+                Settings.OpenedTabs != 0) pasteToolStripMenuItem_Click(null, null);
 
-            if (e.Control && e.KeyCode == Keys.S) { FileManagerL.Save(_picture); }
+            if (e.Control && e.KeyCode == Keys.S) FileManagerL.Save(_picture);
 
-            if (e.Control && e.Alt && e.Shift && e.KeyCode == Keys.S) { SaveAll(null, null); }
+            if (e.Control && e.Alt && e.Shift && e.KeyCode == Keys.S) SaveAll(null, null);
 
-            if (e.Control && e.Alt && e.KeyCode == Keys.S) { toolStripMenuItem2_Click(null, null); }
+            if (e.Control && e.Alt && e.KeyCode == Keys.S) toolStripMenuItem2_Click(null, null);
 
             if (_currentTool == Tools.Text && e.KeyCode == Keys.Enter && Settings.OpenedTabs != 0 && e.Control)
             {
-                _gra.DrawString(_textBox.Text, _textBox.Font, new SolidBrush(Settings.LastUseColor), _textBox.Location);
+                _graphics.DrawString(_textBox.Text, _textBox.Font, new SolidBrush(Settings.LastUseColor),
+                    _textBox.Location);
                 _textBox.Enabled = false;
                 _textBox.Visible = false;
             }
@@ -542,12 +532,14 @@ namespace BestRedactor.Forms
                 return;
             var result = MessageBox.Show(@"Сохранить все открытые вкладки?",
                 @"Save All",
-                MessageBoxButtons.YesNo,
+                MessageBoxButtons.YesNoCancel,
                 MessageBoxIcon.Question,
                 MessageBoxDefaultButton.Button1,
                 MessageBoxOptions.DefaultDesktopOnly);
             if (result == DialogResult.Yes)
                 FileManagerL.SaveAll(_pictures);
+            if (result == DialogResult.Cancel)
+                e.Cancel = true;
         }
 
 
@@ -555,7 +547,7 @@ namespace BestRedactor.Forms
         {
             if (!_isMouseDown)
                 return;
-            DrawingFigures.DrawAFigure(e.Graphics, _currentTool, _brush, _cX, _cY, _sX, _sY, _x, _y);
+            DrawingFigures.DrawAFigure(e.Graphics, _currentTool, _brush, _xCoord, _yCoord, _xShift, _yShift, _xLocation, _yLocation);
         }
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -564,66 +556,67 @@ namespace BestRedactor.Forms
                 switch (_currentTool)
                 {
                     case Tools.Brush:
-                        _px = e.Location;
-                        _gra.DrawLine(_brush, _px, _py);
-                        _py = _px;
+                        _pointFirst = e.Location;
+                        _graphics.DrawLine(_brush, _pointFirst, _pointSecond);
+                        _pointSecond = _pointFirst;
                         break;
                     case Tools.Pencil:
-                        _px = e.Location;
-                        _gra.DrawLine(_pencil, _px, _py);
-                        _py = _px;
+                        _pointFirst = e.Location;
+                        _graphics.DrawLine(_pencil, _pointFirst, _pointSecond);
+                        _pointSecond = _pointFirst;
                         break;
                     case Tools.Erase:
-                        _px = e.Location;
-                        _gra.DrawLine(_erase, _px, _py);
-                        _py = _px;
+                        _pointFirst = e.Location;
+                        _graphics.DrawLine(_erase, _pointFirst, _pointSecond);
+                        _pointSecond = _pointFirst;
                         break;
                 }
             }
 
             //
-            _pb.Refresh(); //move out from collection 
-            _x                = e.X;
-            _y                = e.Y;
-            _sX               = e.X - _cX;
-            _sY               = e.Y - _cY;
-            lblCursorPos.Text = $@"{_x},{_y}"; //отображение позиции курсора
+            _pictureBox.Refresh(); //move out from collection 
+            _xLocation        = e.X;
+            _yLocation        = e.Y;
+            _xShift           = e.X - _xCoord;
+            _yShift           = e.Y - _yCoord;
+            lblCursorPos.Text = $@"{_xLocation},{_yLocation}"; //отображение позиции курсора
         }
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             _isMouseDown = false;
 
-            _sX = _x - _cX;
-            _sY = _y - _cY;
+            _xShift = _xLocation - _xCoord;
+            _yShift = _yLocation - _yCoord;
             if (_currentTool == Tools.Cropping)
             {
-                _bitmapTmp = (Bitmap)_picture.Bitmap.Clone();
-                _gra       = Graphics.FromImage(_bitmapTmp);
-                _pb.Image  = _bitmapTmp;
+                _bitmapTmp        = (Bitmap)_picture.Bitmap.Clone();
+                _graphics         = Graphics.FromImage(_bitmapTmp);
+                _pictureBox.Image = _bitmapTmp;
             }
 
-            _rectangleTmp = DrawingFigures.DrawAFigure(_gra, _currentTool, _brush, _cX, _cY, _sX, _sY, _x, _y);
+            _rectangleTmp = DrawingFigures.DrawAFigure(_graphics, _currentTool, _brush, _xCoord, _yCoord, _xShift,
+                _yShift, _xLocation, _yLocation);
             if (_rectangleTmp.X < 0)
                 _rectangleTmp.X = 0;
             if (_rectangleTmp.Y < 0)
                 _rectangleTmp.Y = 0;
-            if (_rectangleTmp.X + _rectangleTmp.Width > _pb.Width)
-                _rectangleTmp.Width = _pb.Width - _rectangleTmp.X;
-            if (_rectangleTmp.Y + _rectangleTmp.Height > _pb.Height)
-                _rectangleTmp.Height = _pb.Height - _rectangleTmp.Y;
+            if (_rectangleTmp.X + _rectangleTmp.Width > _pictureBox.Width)
+                _rectangleTmp.Width = _pictureBox.Width - _rectangleTmp.X;
+            if (_rectangleTmp.Y + _rectangleTmp.Height > _pictureBox.Height)
+                _rectangleTmp.Height = _pictureBox.Height - _rectangleTmp.Y;
         }
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
-        {            
-            _py          = e.Location;
-            _cX          = e.X;
-            _cY          = e.Y;
+        {
+            _pointSecond = e.Location;
+            _xCoord      = e.X;
+            _yCoord      = e.Y;
             switch (_currentTool)
             {
                 case >= Tools.Line:
                     _lastFigure = _currentTool;
                     break;
                 case Tools.Cropping:
-                    _pb.Image = _picture.Bitmap;
+                    _pictureBox.Image = _picture.Bitmap;
                     break;
             }
 
@@ -633,15 +626,16 @@ namespace BestRedactor.Forms
                 {
                     _isMouseDown       = true;
                     _brushSize.Visible = false;
-                     _brush.Width       = Settings.LastUseSize;
+                    _brush.Width       = Settings.LastUseSize;
 
                     if (_currentTool == Tools.Text)
                     {
-                        _textBox.Location = new Point(_x - 5, _y - 8);
+                        _textBox.Location = new Point(_xLocation - 5, _yLocation - 8);
                         _textBox.BringToFront();
                         _textBox.Text        = "";
                         _textBox.Size        = new Size(600, 23);
                         _textBox.Enabled     = true;
+                        _textBox.Visible     = true;
                         _textBox.BorderStyle = BorderStyle.FixedSingle;
                         _textBox.Font        = DefaultFont;
                         _textBox.ForeColor   = Settings.LastUseColor;
@@ -655,7 +649,8 @@ namespace BestRedactor.Forms
                     {
                         case Tools.Brush or >= Tools.Line:
                             _brushSize.Show();
-                            _brushSize.Location = new Point(_x + this.Location.X + 48, _y + this.Location.Y + 10);
+                            _brushSize.Location = new Point(_xLocation + this.Location.X + 48,
+                                _yLocation + this.Location.Y + 10);
                             break;
                         case Tools.Text:
                         {
@@ -684,7 +679,7 @@ namespace BestRedactor.Forms
                 PixelFormat.Format32bppArgb)));
             AddNewTabPages(_pictures[^1]);
             Refresh();
-            _gra.Clear(Color.White);
+            _graphics.Clear(Color.White);
         }
         private void tabControlPage_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -695,8 +690,8 @@ namespace BestRedactor.Forms
         //private void trackBarZoom_Scroll(object sender, EventArgs e)
         //{
 
-        //    _pb.Width = _pb.Width * (trackBarZoom.Value / 100);
-        //    _pb.Height = _pb.Height * (trackBarZoom.Value / 100);
+        //    _pictureBox.Width = _pictureBox.Width * (trackBarZoom.Value / 100);
+        //    _pictureBox.Height = _pictureBox.Height * (trackBarZoom.Value / 100);
         //    //Refresh();
         //}
 
@@ -704,15 +699,15 @@ namespace BestRedactor.Forms
         //{
         //    //trackBarZoom_Scroll(null, null);
         //    trackBarZoom.Value -= 25;
-        //    _pb.Width = _pb.Width * (trackBarZoom.Value / 100);
-        //    _pb.Height = _pb.Height * (trackBarZoom.Value / 100);
+        //    _pictureBox.Width = _pictureBox.Width * (trackBarZoom.Value / 100);
+        //    _pictureBox.Height = _pictureBox.Height * (trackBarZoom.Value / 100);
         //}
         //private void btnZoomPlus_Click(object sender, EventArgs e)
         //{
         //    //trackBarZoom_Scroll(null, null);
         //    trackBarZoom.Value += 25;
-        //    _pb.Width = _pb.Width * (trackBarZoom.Value / 100);
-        //    _pb.Height = _pb.Height * (trackBarZoom.Value / 100);
+        //    _pictureBox.Width = _pictureBox.Width * (trackBarZoom.Value / 100);
+        //    _pictureBox.Height = _pictureBox.Height * (trackBarZoom.Value / 100);
         //}
     }
 }

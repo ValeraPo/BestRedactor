@@ -1118,7 +1118,7 @@ namespace BestRedactor.Forms
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.KeyPreview =  true;
-            this.KeyDown    += Crop;
+            this.KeyDown    += KeyPress;
 
         }
 
