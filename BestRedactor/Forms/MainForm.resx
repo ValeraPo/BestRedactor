@@ -304,6 +304,17 @@
         AElFTkSuQmCC
 </value>
   </data>
+  <data name="tsBtnSelection.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEXSURBVFhH7ZfRTgJBDEXXACKCyoP8/5+iPQlN1p3r1I3J
+        VENPcl6mJXuB6c7uVBRFUdwfHz/U2Zuq3pPPPJjb2Vpkg2pSOk+mqvc8mATdzdYiG1ST0llzMffRhKFB
+        uaiq9/Sg/LKqrmwIGwYR5ggbBvFXctwR7+azyT3uyEISDBq3PrK8sDBnOYVXM4t5DvyCOmWyCHOEDYMI
+        c4QNA1DHcgP70otZe/RihjmYdo44BuvEQhJMO9dn4s8s/FuYfPYI8nSTxeYmGcjU4PvCzSLMETYMIsyx
+        bPhOtga8mare04/mV1PVlQ2qSen7l6lU9Z7+JYc84XtQfh1V78mQwJoXwwbVpPSLrfn7XO7Tv365K4qi
+        KIpspukTaiNImoGJ9/8AAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="tsButtonCursor.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAYAAABXuSs3AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

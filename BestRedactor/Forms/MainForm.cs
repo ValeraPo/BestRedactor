@@ -27,8 +27,8 @@ namespace BestRedactor.Forms
             _pictures              = pictures;
             Settings.OpenedTabs    = 0;
             tsBtn_color1.BackColor = Settings.LastUseColor;
-            _pen.StartCap          = LineCap.Round;
-            _pen.EndCap            = LineCap.Round;
+            _brush.StartCap          = LineCap.Round;
+            _brush.EndCap            = LineCap.Round;
             _erase.StartCap        = LineCap.Round;
             _erase.EndCap          = LineCap.Round;
             tsBtn_color1.Size      = _selectSizeColor;
@@ -63,7 +63,7 @@ namespace BestRedactor.Forms
 
         private          Graphics      _gra;
         private          Point         _px, _py;
-        private          Pen           _pen    = new(Settings.LastUseColor, Settings.LastUseSize);
+        private          Pen           _brush    = new(Settings.LastUseColor, Settings.LastUseSize);
         private readonly Pen           _erase  = new(Color.White, 10);
         private          Pen           _pencil = new(Settings.LastUseColor, 1f);
         private readonly ColorDialog   _cd     = new();
@@ -86,6 +86,7 @@ namespace BestRedactor.Forms
         private readonly Size          _notSelectSizeTools  = new(25, 25);
         private          Picture       _picture => _pictures[tabControlPage.SelectedIndex];
         private          PictureBox    _pb      => (PictureBox)tabControlPage.SelectedTab?.Controls[0];
+        private BrushSize _brushSize = new BrushSize();
 
 
         private void tsButtonCursor_Click(object sender, EventArgs e)
@@ -395,7 +396,7 @@ namespace BestRedactor.Forms
         {
             var tp = new TabPage(picture.FileName);
             var pb = new PictureBox();
-
+            //creation tabPage
             tp.Dock                    = DockStyle.Fill;
             tp.BorderStyle             = BorderStyle.Fixed3D;
             tp.Location                = new Point(0, 0);
@@ -408,7 +409,7 @@ namespace BestRedactor.Forms
             tp.AutoScroll              = true;
             tp.BackColor               = SystemColors.Control;
 
-            //
+            //creation pictureBox
             pb.Location   =  new Point(0, 0);
             pb.Name       =  $"pb{Settings.OpenedTabs}";
             pb.Size       =  new Size(picture.Bitmap.Width, picture.Bitmap.Height);
@@ -421,7 +422,17 @@ namespace BestRedactor.Forms
             pb.MouseUp    += pictureBox_MouseUp;
             pb.Paint      += PbPaint;
 
-            tp.Controls.Add(pb); //создание новой вкладки с объектом PictureBox
+            //creation textBox
+            TextBox textBox = new TextBox();
+            textBox.Multiline = true;
+            textBox.BorderStyle = BorderStyle.None;
+            textBox.Visible = false;
+            
+
+            //создание новой вкладки с объектом PictureBox
+            tp.Controls.Add(pb); 
+            tp.Controls.Add(textBox);
+
             tabControlPage.TabPages.Add(tp);
             tabControlPage.SelectedTab =  tp;
             Settings.OpenedTabs        += 1;
@@ -498,7 +509,7 @@ namespace BestRedactor.Forms
                 if (_cd.ShowDialog() != DialogResult.OK)
                     return;
                 tsBtn_color1.BackColor = _cd.Color;
-                _pen.Color             = tsBtn_color1.BackColor;
+                _brush.Color             = tsBtn_color1.BackColor;
                 _pencil.Color          = tsBtn_color1.BackColor;
                 Settings.LastUseColor  = tsBtn_color1.BackColor;
                 _isClickedColor1       = false;
@@ -506,7 +517,7 @@ namespace BestRedactor.Forms
             }
             else
             {
-                _pen.Color            = tsBtn_color1.BackColor;
+                _brush.Color            = tsBtn_color1.BackColor;
                 _pencil.Color         = tsBtn_color1.BackColor;
                 Settings.LastUseColor = tsBtn_color1.BackColor;
                 tsBtn_color1.Size     = _selectSizeColor;
@@ -522,7 +533,7 @@ namespace BestRedactor.Forms
                 if (_cd.ShowDialog() != DialogResult.OK)
                     return;
                 tsBtn_color2.BackColor = _cd.Color;
-                _pen.Color             = tsBtn_color2.BackColor;
+                _brush.Color             = tsBtn_color2.BackColor;
                 _pencil.Color          = tsBtn_color2.BackColor;
                 Settings.LastUseColor  = tsBtn_color2.BackColor;
                 _isClickedColor2       = false;
@@ -530,7 +541,7 @@ namespace BestRedactor.Forms
             }
             else
             {
-                _pen.Color            = tsBtn_color2.BackColor;
+                _brush.Color            = tsBtn_color2.BackColor;
                 _pencil.Color         = tsBtn_color2.BackColor;
                 Settings.LastUseColor = tsBtn_color2.BackColor;
                 tsBtn_color1.Size     = _notSelectSizeColor;
@@ -577,7 +588,7 @@ namespace BestRedactor.Forms
             if (_currentTool != Tools.Pipette)
                 return;
             Settings.LastUseColor  = _picture.Bitmap.GetPixel(e.X, e.Y);
-            _pen.Color             = Settings.LastUseColor;
+            _brush.Color             = Settings.LastUseColor;
             _pencil.Color          = Settings.LastUseColor;
             tsBtn_color1.BackColor = Settings.LastUseColor;
         }
@@ -679,7 +690,7 @@ namespace BestRedactor.Forms
         {
             if (!_isMouseDown)
                 return;
-            DrawingFigures.DrawAFigure(e.Graphics, _currentTool, _pen, _cX, _cY, _sX, _sY, _x, _y);
+            DrawingFigures.DrawAFigure(e.Graphics, _currentTool, _brush, _cX, _cY, _sX, _sY, _x, _y);
         }
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -689,7 +700,7 @@ namespace BestRedactor.Forms
                 {
                     case Tools.Brush:
                         _px = e.Location;
-                        _gra.DrawLine(_pen, _px, _py);
+                        _gra.DrawLine(_brush, _px, _py);
                         _py = _px;
                         break;
                     case Tools.Pencil:
@@ -705,13 +716,12 @@ namespace BestRedactor.Forms
                 }
             }
             //
-
             _pb.Refresh(); //move out from collection 
             _x                = e.X;
             _y                = e.Y;
             _sX               = e.X - _cX;
             _sY               = e.Y - _cY;
-            lblCursorPos.Text = $@"{e.Location.X},{e.Location.Y}"; //отображение позиции курсора
+            lblCursorPos.Text = $@"{_x},{_y}"; //отображение позиции курсора
         }
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
@@ -725,17 +735,34 @@ namespace BestRedactor.Forms
                 _gra = Graphics.FromImage(_bitmapTmp);
                 _pb.Image = _bitmapTmp;
             }
-            _rectangleTmp = DrawingFigures.DrawAFigure(_gra, _currentTool, _pen, _cX, _cY, _sX, _sY, _x, _y);
+            _rectangleTmp = DrawingFigures.DrawAFigure(_gra, _currentTool, _brush, _cX, _cY, _sX, _sY, _x, _y);
         }
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (_currentTool == Tools.Cropping) { _pb.Image = _picture.Bitmap; }
-            _isMouseDown = true;
-            _py          = e.Location;
-            _cX          = e.X;
-            _cY          = e.Y;
-            if (_currentTool > Tools.Line)
-                _lastFigure = _currentTool;
+            if (e.Button == MouseButtons.Left)
+            {
+                _isMouseDown = true;
+                if (_currentTool > Tools.Line)
+                    _lastFigure = _currentTool;
+                _brushSize.Visible = false;
+                _brush.Width = Settings.LastUseSize;
+
+                if (_currentTool == Tools.Text)
+                {
+                    TextBox textBox = (TextBox)tabControlPage.SelectedTab.Controls[1];
+                    textBox.Location = new Point(_x + this.Location.X + 48, _y + this.Location.Y + 10);
+                    textBox.BringToFront();
+                    textBox.Text = "";
+                    textBox.Size = new Size(256, 23);
+                    textBox.Enabled = true;
+                }
+            }
+            else if (e.Button == MouseButtons.Right && _currentTool == Tools.Brush)
+            {
+                _brushSize.Show();
+                _brushSize.Location = new Point(_x + this.Location.X + 48, _y + this.Location.Y + 10);
+            }
         }
 
 
