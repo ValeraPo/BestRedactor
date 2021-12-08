@@ -8,6 +8,7 @@ using BestRedactor.Enums;
 using BestRedactor.Forms.MethodsForEvents;
 using BestRedactor.Interface;
 using BestRedactor.Logics;
+using System.Runtime.InteropServices;
 
 namespace BestRedactor.Forms
 {
@@ -26,11 +27,23 @@ namespace BestRedactor.Forms
             tsBtn_color1.BackColor = Settings.LastUseColor;
             _brush.StartCap        = LineCap.Round;
             _brush.EndCap          = LineCap.Round;
-            _brush.DashPattern     = new[] { 5f, 5 };
+            //_brush.DashPattern     = new[] { 5f, 5 };
             _erase.StartCap        = LineCap.Round;
             _erase.EndCap          = LineCap.Round;
             tsBtn_color1.Size      = _selectSizeColor;
             tsButtonCursor.Size    = _selectSizeTools;
+            //adding a new tab pages
+            var tp = new TabPage("");
+            tabControlPage.TabPages.Add(tp);
+            var tp2 = new TabPage("");
+            tabControlPage.TabPages.Add(tp2);
+            //_pictures.Add(new Picture(new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height,
+            //    PixelFormat.Format32bppArgb)));
+            //AddNewTabPages(_pictures[^1]);
+            //_graphics.Clear(Color.White);
+
+
+
             if (Settings.FailClose)
             {
                 var result = MessageBox.Show(@"Восстановить предыдущую сессию?",
@@ -50,13 +63,10 @@ namespace BestRedactor.Forms
 
                     Refresh();
                 }
-
-
-                //TODO Выбор развёрнутой формы
-                //TopMost = true;
             }
             else
                 Settings.FailClose = true;
+
         }
 
         private           Graphics      _graphics;
@@ -334,7 +344,7 @@ namespace BestRedactor.Forms
         }
         private new void Refresh()
         {
-            if (Settings.OpenedTabs == 0)
+            if (Settings.OpenedTabs == 1 && tabControlPage.SelectedIndex != tabControlPage.TabPages.Count - 1)
                 return;
             _pictureBox.Refresh();
             _graphics = Graphics.FromImage(_picture.Bitmap);
@@ -677,14 +687,26 @@ namespace BestRedactor.Forms
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _pictures.Add(new Picture(new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height,
+            if (tabControlPage.SelectedIndex == tabControlPage.TabPages.Count - 1)
+            {
+                _pictures.Add(new Picture(new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height,
                 PixelFormat.Format32bppArgb)));
-            AddNewTabPages(_pictures[^1]);
-            Refresh();
-            _graphics.Clear(Color.White);
+                AddNewTabPages(_pictures[^1]);
+                Refresh();
+                _graphics.Clear(Color.White);
+            }
+            
         }
         private void tabControlPage_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //if (tabControlPage.SelectedIndex == tabControlPage.TabPages.Count - 1)
+            //{
+            //    _pictures.Add(new Picture(new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height,
+            //    PixelFormat.Format32bppArgb)));
+            //    AddNewTabPages(_pictures[^1]);
+            //    Refresh();
+            //    _graphics.Clear(Color.White);
+            //}
             Refresh();
         }
 
@@ -711,5 +733,62 @@ namespace BestRedactor.Forms
         //    _pictureBox.Width = _pictureBox.Width * (trackBarZoom.Value / 100);
         //    _pictureBox.Height = _pictureBox.Height * (trackBarZoom.Value / 100);
         //}
+        private string _addButtonFullPath = @"..\..\..\icons\add.png";          
+        private string _closeButtonFullPath = @"..\..\..\icons\closeButt.png";
+        private void tabControl_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            try
+            {
+                var tabPage = this.tabControlPage.TabPages[e.Index];
+                var tabRect = this.tabControlPage.GetTabRect(e.Index);
+                tabRect.Inflate(-2, -2);
+                if (e.Index == this.tabControlPage.TabCount - 1) // Add button to the last TabPage only
+                {
+                    var addImage = new Bitmap(_addButtonFullPath);
+                    e.Graphics.DrawImage(addImage,
+                        tabRect.Left + (tabRect.Width - addImage.Width) / 2,
+                        tabRect.Top + (tabRect.Height - addImage.Height) / 2);
+                }
+                else // draw Close button to all other TabPages
+                {
+                    var closeImage = new Bitmap(_closeButtonFullPath);
+                    e.Graphics.DrawImage(closeImage,
+                        (tabRect.Right - closeImage.Width),
+                        tabRect.Top + (tabRect.Height - closeImage.Height) / 2);
+                    TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font,
+                        tabRect, tabPage.ForeColor, TextFormatFlags.Left);
+                }
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+        [DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
+        private const int TCM_SETMINTABWIDTH = 0x1300 + 49;
+        private void tabControl_HandleCreated(object sender, EventArgs e)
+        {
+            SendMessage(this.tabControlPage.Handle, TCM_SETMINTABWIDTH, IntPtr.Zero, (IntPtr)16);
+        }
+        
+
+        private void tabControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Process MouseDown event only till (tabControl.TabPages.Count - 1) excluding the last TabPage
+            for (var i = 0; i < this.tabControlPage.TabPages.Count - 1; i++)
+            {
+                var tabRect = this.tabControlPage.GetTabRect(i);
+                tabRect.Inflate(-2, -2);
+                var closeImage = new Bitmap(_closeButtonFullPath);
+                var imageRect = new Rectangle(
+                    (tabRect.Right - closeImage.Width),
+                    tabRect.Top + (tabRect.Height - closeImage.Height) / 2,
+                    closeImage.Width,
+                    closeImage.Height);
+                if (imageRect.Contains(e.Location))
+                {
+                    this.tabControlPage.TabPages.RemoveAt(i);
+                    break;
+                }
+            }
+        }
     }
 }
