@@ -270,6 +270,7 @@ namespace BestRedactor.Forms
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.copyToolStripMenuItem.Text = "Копировать";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(copyToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
@@ -841,6 +842,7 @@ namespace BestRedactor.Forms
             this.tsBtnSelection.Size = new System.Drawing.Size(25, 25);
             this.tsBtnSelection.Text = "кадрирование";
             this.tsBtnSelection.ToolTipText = "Выделение";
+            this.tsBtnSelection.Click += new System.EventHandler(tsBtnSelection_Click);
             // 
             // tsButtonCursor
             // 
@@ -1114,6 +1116,8 @@ namespace BestRedactor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.KeyPreview =  true;
+            this.KeyDown    += Crop;
 
         }
 
