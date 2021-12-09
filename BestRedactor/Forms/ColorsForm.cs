@@ -29,6 +29,7 @@ namespace BestRedactor.Forms
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            _main._history.Push(_picture.Bitmap);
             _picture.Bitmap = ColorBalance.RgbBalance(_picture.Bitmap, trackBarRed.Value, trackBarGreen.Value, trackBarBlue.Value);
             _main.RefreshAndPbImage();
             Close();

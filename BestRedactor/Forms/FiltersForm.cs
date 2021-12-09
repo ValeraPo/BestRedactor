@@ -44,6 +44,7 @@ namespace BestRedactor.Forms
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            _main._history.Push(_picture.Bitmap);
             _picture.Bitmap = _fd(_picture.Bitmap, trackBar.Value);
             _main.RefreshAndPbImage();
             Close();
