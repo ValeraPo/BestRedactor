@@ -36,7 +36,7 @@ namespace BestRedactor.Forms.MethodsForEvents
                 case Tools.Selection:
                     if (Settings.OpenedTabs != 0)
                         main._pictureBox.Image = main._picture.Bitmap;
-                    main.tsButtonFraming.Checked = false;
+                    main.tsBtnSelection.Checked = false;
                     break;
 
                 //снятие выделенния с фигуры
@@ -90,7 +90,7 @@ namespace BestRedactor.Forms.MethodsForEvents
                     main.tsText.Checked = true;
                     break;
                 case Tools.Selection:
-                    main.tsButtonFraming.Checked = true;
+                    main.tsBtnSelection.Checked = true;
                     break;
                 
                 //выделенная фигура

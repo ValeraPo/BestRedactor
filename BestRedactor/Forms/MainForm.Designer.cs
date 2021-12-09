@@ -1246,7 +1246,7 @@ namespace BestRedactor.Forms
         private ToolStripSeparator toolStripSeparator12;
         private ToolStripSeparator toolStripSeparator13;
         private ToolStripSeparator toolStripSeparator14;
-        private ToolStripButton tsBtnSelection;
+        internal ToolStripButton tsBtnSelection;
         internal ToolStripMenuItem tsBtnMenuItemDashLine;
         private ToolStripSeparator toolStripSeparator15;
         private ToolStripMenuItem UndoToolStripMenuItem;
