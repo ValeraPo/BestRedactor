@@ -40,26 +40,8 @@ namespace BestRedactor.Forms.MethodsForEvents
                     break;
 
                 //снятие выделенния с фигуры
-                case Tools.Line:
+                case >= Tools.Line:
                     main.tsSplitButtonShape.BackColor = SystemColors.Control;
-                    break;
-                case Tools.DashLine:
-                    break;
-                case Tools.Circle:
-                    break;
-                case Tools.Ellipce:
-                    break;
-                case Tools.Rectangle:
-                    break;
-                case Tools.Square:
-                    break;
-                case Tools.CircleFill:
-                    break;
-                case Tools.EllipceFill:
-                    break;
-                case Tools.RectangleFill:
-                    break;
-                case Tools.SquareFill:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(currentTool), currentTool, null);
@@ -95,44 +77,44 @@ namespace BestRedactor.Forms.MethodsForEvents
                 
                 //выделенная фигура
                 case Tools.Line:
-                    main.tsSplitButtonShape.BackColor = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.tsBtnMenuItemLine.Image;
+                    main.tsSplitButtonShape.BackColor = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.tsBtnMenuItemLine.Image;
                     break;
                 case Tools.DashLine:
-                    main.tsSplitButtonShape.BackColor  = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.tsBtnMenuItemDashLine.Image;
+                    main.tsSplitButtonShape.BackColor  = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.tsBtnMenuItemDashLine.Image;
                     break;
                 case Tools.Ellipce:
-                    main.tsSplitButtonShape.BackColor = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.tsBtnMenuItemEllipce.Image;
+                    main.tsSplitButtonShape.BackColor = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.tsBtnMenuItemEllipce.Image;
                     break;
                 case Tools.EllipceFill:
-                    main.tsSplitButtonShape.BackColor = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.tsBtnMenuItemEllipceFill.Image;
+                    main.tsSplitButtonShape.BackColor = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.tsBtnMenuItemEllipceFill.Image;
                     break;
                 case Tools.Rectangle:
-                    main.tsSplitButtonShape.BackColor = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.tsBtnMenuItemRect.Image;
+                    main.tsSplitButtonShape.BackColor = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.tsBtnMenuItemRect.Image;
                     break;
                 case Tools.RectangleFill:
-                    main.tsSplitButtonShape.BackColor = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.tsBtnMenuItemRectFill.Image;
+                    main.tsSplitButtonShape.BackColor = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.tsBtnMenuItemRectFill.Image;
                     break;
                 case Tools.Circle:
-                    main.tsSplitButtonShape.BackColor = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.tsBtnMenuItemCircle.Image;
+                    main.tsSplitButtonShape.BackColor = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.tsBtnMenuItemCircle.Image;
                     break;
                 case Tools.CircleFill:
-                    main.tsSplitButtonShape.BackColor = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.tsBtnMenuItemCircleFill.Image;
+                    main.tsSplitButtonShape.BackColor = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.tsBtnMenuItemCircleFill.Image;
                     break;
                 case Tools.Square:
-                    main.tsSplitButtonShape.BackColor = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.toolStripMenuSquare.Image;
+                    main.tsSplitButtonShape.BackColor = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.toolStripMenuSquare.Image;
                     break;
                 case Tools.SquareFill:
-                    main.tsSplitButtonShape.BackColor = Color.Turquoise;
-                    main.tsSplitButtonShape.Image = main.toolStripMenuSquareFill.Image;
+                    main.tsSplitButtonShape.BackColor = Color.FromArgb(125, SystemColors.GradientActiveCaption);
+                    main.tsSplitButtonShape.BackgroundImage = main.toolStripMenuSquareFill.Image;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tools), tools, null);

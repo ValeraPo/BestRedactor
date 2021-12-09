@@ -437,9 +437,12 @@ namespace BestRedactor.Forms
         }
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Settings.OpenedTabs == 0)
+            if (Settings.OpenedTabs == 0 || _currentTool != Tools.Selection)
                 return;
-            Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
+            if (_currentTool != Tools.Selection)
+                Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
+            else
+                Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, new Rectangle(0, 0, _picture.Bitmap.Width, _picture.Bitmap.Height)));
         }
 
 
@@ -523,27 +526,28 @@ namespace BestRedactor.Forms
                 RefreshAndSize();
                 lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
             }
+            #region hotkeys
+            //if (_currentTool == Tools.Selection && e.KeyCode == Keys.C && e.Control && !_isMouseDown &&
+            //    Settings.OpenedTabs != 0)
+            //    Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
 
-            if (_currentTool == Tools.Selection && e.KeyCode == Keys.C && e.Control && !_isMouseDown &&
-                Settings.OpenedTabs != 0)
-                Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
-            
-            if (e.Control && e.KeyCode == Keys.C && Settings.OpenedTabs != 0)
-                Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, new Rectangle(0,0,_picture.Bitmap.Width,_picture.Bitmap.Height)));
+            //if (e.Control && e.KeyCode == Keys.C && Settings.OpenedTabs != 0)
+            //    Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, new Rectangle(0,0,_picture.Bitmap.Width,_picture.Bitmap.Height)));
 
-            if (e.Control && e.KeyCode == Keys.V) pasteToolStripMenuItem_Click(null, null);
+            //if (e.Control && e.KeyCode == Keys.V) pasteToolStripMenuItem_Click(null, null);
 
-            if (e.Control && e.KeyCode == Keys.S) FileManagerL.Save(_picture);
+            //if (e.Control && e.KeyCode == Keys.S) FileManagerL.Save(_picture);
 
-            if (e.Control && e.Alt && e.Shift && e.KeyCode == Keys.S) SaveAll(null, null);
+            //if (e.Control && e.Alt && e.Shift && e.KeyCode == Keys.S) SaveAll(null, null);
 
-            if (e.Control && e.Alt && e.KeyCode == Keys.S) toolStripMenuItem2_Click(null, null);
+            //if (e.Control && e.Alt && e.KeyCode == Keys.S) toolStripMenuItem2_Click(null, null);
 
-            if (e.Control && e.KeyCode == Keys.N) newToolStripMenuItem_Click(null, null);
+            //if (e.Control && e.KeyCode == Keys.N) newToolStripMenuItem_Click(null, null);
 
-            if (e.Control && e.KeyCode == Keys.O) openToolStripMenuItem_Click(null, null);
+            //if (e.Control && e.KeyCode == Keys.O) openToolStripMenuItem_Click(null, null);
 
-            if (e.Control && e.KeyCode == Keys.Z) UndoToolStripMenuItem_Click(null, null);
+            //if (e.Control && e.KeyCode == Keys.Z) UndoToolStripMenuItem_Click(null, null);
+            #endregion
 
             if (_currentTool == Tools.Text && e.KeyCode == Keys.Enter && Settings.OpenedTabs != 0 && e.Control)
             {
