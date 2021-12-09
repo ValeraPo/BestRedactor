@@ -524,7 +524,6 @@ namespace BestRedactor.Forms
             this.tabControlPage.TabIndex = 2;
             this.tabControlPage.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
             this.tabControlPage.SelectedIndexChanged += new System.EventHandler(this.tabControlPage_SelectedIndexChanged);
-            this.tabControlPage.HandleCreated += new System.EventHandler(this.tabControl_HandleCreated);
             this.tabControlPage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseDown);
             // 
             // tabPage1
@@ -1127,6 +1126,8 @@ namespace BestRedactor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.KeyPreview =  true;
+            this.KeyDown    += KeyPress;
 
         }
 

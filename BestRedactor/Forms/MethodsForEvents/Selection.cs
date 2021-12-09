@@ -39,20 +39,11 @@ namespace BestRedactor.Forms.MethodsForEvents
                     break;
                 
                 
-                case Tools.Line:
-                case Tools.DashLine:
-                case Tools.Ellipce:
-                case Tools.EllipceFill:
-                case Tools.Rectangle:
-                case Tools.RectangleFill:
-                case Tools.Circle:
-                case Tools.CircleFill:
-                case Tools.Square:
-                case Tools.SquareFill:
+                case >= Tools.Line and <= Tools.SquareFill:
                     main.tsSplitButtonShape.Size = main._notSelectSizeFigure;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(tools), tools, null);
+                    throw new ArgumentOutOfRangeException(nameof(currentTool), currentTool, null);
             }
 
             currentTool = tools;
