@@ -13,9 +13,6 @@ namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
     {
-        //TODO Разобраться как работает отрисовка на Graphics
-        
-        
         //TODO Починить Zoom(удалить)
         //TODO Горячие клавиши
         //TODO Добавить историю(когда-то потом)
@@ -30,7 +27,7 @@ namespace BestRedactor.Forms
             _erase.StartCap        = LineCap.Round;
             _erase.EndCap          = LineCap.Round;
             tsBtn_color1.Size      = _selectSizeColor;
-            tsButtonCursor.Size    = _selectSizeTools;
+            tsButtonCursor.Checked = true;
             tabControlPage.Padding = new Point(tabControlPage.Padding.X + 7, tabControlPage.Padding.Y);
             
 
@@ -80,10 +77,6 @@ namespace BestRedactor.Forms
         private           Tools               _lastFigure          = Tools.Cursor;
         private readonly  Size                _selectSizeColor     = new(25, 25);
         private readonly  Size                _notSelectSizeColor  = new(20, 20);
-        internal readonly Size                _selectSizeFigure    = new(35, 30);
-        internal readonly Size                _notSelectSizeFigure = new(30, 25);
-        internal readonly Size                _selectSizeTools     = new(30, 30);
-        internal readonly Size                _notSelectSizeTools  = new(25, 25);
         internal          Picture             _picture    => _pictures[tabControlPage.SelectedIndex];
         internal          Stack<Bitmap>       _history    => _historyAll[tabControlPage.SelectedIndex];
         internal          PictureBox          _pictureBox => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
