@@ -13,6 +13,9 @@ namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
     {
+        //TODO Разобраться как работает отрисовка на Graphics
+        
+        
         //TODO Починить Zoom(удалить)
         //TODO Горячие клавиши
         //TODO Добавить историю(когда-то потом)
@@ -56,35 +59,35 @@ namespace BestRedactor.Forms
 
         }
 
-        private           string        _closeButtonFullPath = @"..\..\..\icons\closeButt.png";
-        private           Graphics      _graphics;
-        private           Point         _pointFirst, _pointSecond;
-        private           Pen           _brush       = new(Settings.LastUseColor, Settings.LastUseSize);
-        private readonly  Pen           _erase       = new(Color.White, 10);
-        private           Pen           _pencil      = new(Settings.LastUseColor, 1f);
-        private readonly  ColorDialog   _colorDialog = new();
-        private           BrushSize     _brushSize   = new();
-        private           List<Picture> _pictures;
-        private List<Stack<Bitmap>> _historyAll = new();
-        private           Rectangle     _rectangleTmp;
-        private           Bitmap        _bitmapTmp;
-        private           bool          _isMouseDown;
-        private           bool          _isClickedColor1;
-        private           bool          _isClickedColor2;
-        private           bool          _autoSaveTimer;
-        private           int           _xLocation, _yLocation, _xShift, _yShift, _xCoord, _yCoord;
-        private           Tools         _currentTool         = Tools.Cursor;
-        private           Tools         _lastFigure          = Tools.Cursor;
-        private readonly  Size          _selectSizeColor     = new(25, 25);
-        private readonly  Size          _notSelectSizeColor  = new(20, 20);
-        internal readonly Size          _selectSizeFigure    = new(35, 30);
-        internal readonly Size          _notSelectSizeFigure = new(30, 25);
-        internal readonly Size          _selectSizeTools     = new(30, 30);
-        internal readonly Size          _notSelectSizeTools  = new(25, 25);
-        internal          Picture       _picture    => _pictures[tabControlPage.SelectedIndex];
-        internal Stack<Bitmap> _history => _historyAll[tabControlPage.SelectedIndex];
-        internal          PictureBox    _pictureBox => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
-        private           TextBox       _textBox    => (TextBox)tabControlPage.SelectedTab.Controls[0];
+        private           string              _closeButtonFullPath = @"..\..\..\icons\closeButt.png";
+        private           Graphics            _graphics;
+        private           Point               _pointFirst, _pointSecond;
+        private           Pen                 _brush       = new(Settings.LastUseColor, Settings.LastUseSize);
+        private readonly  Pen                 _erase       = new(Color.White, 10);
+        private           Pen                 _pencil      = new(Settings.LastUseColor, 1f);
+        private readonly  ColorDialog         _colorDialog = new();
+        private           BrushSize           _brushSize   = new();
+        private           List<Stack<Bitmap>> _historyAll  = new();
+        private           List<Picture>       _pictures;
+        private           Rectangle           _rectangleTmp;
+        private           Bitmap              _bitmapTmp;
+        private           bool                _isMouseDown;
+        private           bool                _isClickedColor1;
+        private           bool                _isClickedColor2;
+        private           bool                _autoSaveTimer;
+        private           int                 _xLocation, _yLocation, _xShift, _yShift, _xCoord, _yCoord;
+        private           Tools               _currentTool         = Tools.Cursor;
+        private           Tools               _lastFigure          = Tools.Cursor;
+        private readonly  Size                _selectSizeColor     = new(25, 25);
+        private readonly  Size                _notSelectSizeColor  = new(20, 20);
+        internal readonly Size                _selectSizeFigure    = new(35, 30);
+        internal readonly Size                _notSelectSizeFigure = new(30, 25);
+        internal readonly Size                _selectSizeTools     = new(30, 30);
+        internal readonly Size                _notSelectSizeTools  = new(25, 25);
+        internal          Picture             _picture    => _pictures[tabControlPage.SelectedIndex];
+        internal          Stack<Bitmap>       _history    => _historyAll[tabControlPage.SelectedIndex];
+        internal          PictureBox          _pictureBox => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
+        private           TextBox             _textBox    => (TextBox)tabControlPage.SelectedTab.Controls[0];
 
         private void tsButtonCursor_Click(object sender, EventArgs e) =>
             Selection.DisableSelect(Tools.Cursor, ref _currentTool, this);
@@ -330,7 +333,6 @@ namespace BestRedactor.Forms
             if (Settings.OpenedTabs == 0)
                 return;
             _pictureBox.Size                = new Size(_picture.Bitmap.Width, _picture.Bitmap.Height);
-            tabControlPage.SelectedTab.Size = _pictureBox.Size;
             Refresh();
         }
         public void RefreshAndPbImage()
@@ -547,6 +549,8 @@ namespace BestRedactor.Forms
 
             if (e.Control && e.KeyCode == Keys.O) openToolStripMenuItem_Click(null, null);
 
+            if (e.Control && e.KeyCode == Keys.Z) UndoToolStripMenuItem_Click(null, null);
+
             if (_currentTool == Tools.Text && e.KeyCode == Keys.Enter && Settings.OpenedTabs != 0 && e.Control)
             {
                 _history.Push(_picture.Bitmap);
@@ -613,6 +617,17 @@ namespace BestRedactor.Forms
             _yShift           = e.Y - _yCoord;
             lblCursorPos.Text = $@"{_xLocation},{_yLocation}"; //отображение позиции курсора
         }
+
+        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_history.Count == 0)
+                return;
+            _picture.Bitmap = _history.Pop();
+            _pictureBox.Image = _picture.Bitmap;
+            RefreshAndSize();
+        }
+                
+
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             _isMouseDown = false;
