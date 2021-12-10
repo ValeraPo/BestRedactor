@@ -13,9 +13,9 @@ namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
     {
+        //TODO Разворачивание формы при закрытии вкладки и при её открытии
+        
         //TODO Починить Zoom(удалить)
-        //TODO Горячие клавиши
-        //TODO Добавить историю(когда-то потом)
         public MainForm(List<Picture> pictures)
         {
             InitializeComponent();
@@ -437,12 +437,12 @@ namespace BestRedactor.Forms
         }
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Settings.OpenedTabs == 0 || _currentTool != Tools.Selection)
+            if (Settings.OpenedTabs == 0)
                 return;
-            if (_currentTool != Tools.Selection)
-                Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
-            else
-                Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, new Rectangle(0, 0, _picture.Bitmap.Width, _picture.Bitmap.Height)));
+            Clipboard.SetImage(_currentTool == Tools.Selection
+                ? Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp)
+                : Logics.Resize.Cropping(_picture.Bitmap,
+                    new Rectangle(0, 0, _picture.Bitmap.Width, _picture.Bitmap.Height)));
         }
 
 
