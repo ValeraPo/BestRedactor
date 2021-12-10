@@ -1,6 +1,6 @@
 ﻿using System;
-using BestRedactor.Logics;
 using System.Windows.Forms;
+using BestRedactor.Logics;
 
 namespace BestRedactor.Forms
 {

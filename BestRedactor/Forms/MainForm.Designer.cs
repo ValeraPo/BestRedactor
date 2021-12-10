@@ -528,7 +528,7 @@ namespace BestRedactor.Forms
             this.tabControlPage.Location = new System.Drawing.Point(0, 0);
             this.tabControlPage.Name = "tabControlPage";
             this.tabControlPage.SelectedIndex = 0;
-            this.tabControlPage.Size = new System.Drawing.Size(1338, 642);
+            this.tabControlPage.Size = new System.Drawing.Size(1338, 666);
             this.tabControlPage.TabIndex = 2;
             this.tabControlPage.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
             this.tabControlPage.SelectedIndexChanged += new System.EventHandler(this.tabControlPage_SelectedIndexChanged);
@@ -553,7 +553,7 @@ namespace BestRedactor.Forms
             // 
             this.lblCursorPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblCursorPos.AutoSize = true;
-            this.lblCursorPos.Location = new System.Drawing.Point(32, 6);
+            this.lblCursorPos.Location = new System.Drawing.Point(32, 2);
             this.lblCursorPos.Name = "lblCursorPos";
             this.lblCursorPos.Size = new System.Drawing.Size(86, 15);
             this.lblCursorPos.TabIndex = 5;
@@ -563,7 +563,7 @@ namespace BestRedactor.Forms
             // 
             this.lblPictureSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblPictureSize.AutoSize = true;
-            this.lblPictureSize.Location = new System.Drawing.Point(131, 6);
+            this.lblPictureSize.Location = new System.Drawing.Point(131, 2);
             this.lblPictureSize.Name = "lblPictureSize";
             this.lblPictureSize.Size = new System.Drawing.Size(101, 15);
             this.lblPictureSize.TabIndex = 6;
@@ -574,9 +574,9 @@ namespace BestRedactor.Forms
             this.panel1.Controls.Add(this.lblPictureSize);
             this.panel1.Controls.Add(this.lblCursorPos);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 25);
+            this.panel1.Location = new System.Drawing.Point(0, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1370, 24);
+            this.panel1.Size = new System.Drawing.Size(1370, 20);
             this.panel1.TabIndex = 3;
             // 
             // toolStripContainer1
@@ -585,7 +585,7 @@ namespace BestRedactor.Forms
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tabControlPage);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1338, 642);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1338, 666);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -594,7 +594,7 @@ namespace BestRedactor.Forms
             this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.toolStripTools);
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(1370, 667);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1370, 691);
             this.toolStripContainer1.TabIndex = 5;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -626,7 +626,7 @@ namespace BestRedactor.Forms
             this.toolStripTools.Location = new System.Drawing.Point(0, 0);
             this.toolStripTools.Name = "toolStripTools";
             this.toolStripTools.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStripTools.Size = new System.Drawing.Size(32, 642);
+            this.toolStripTools.Size = new System.Drawing.Size(32, 666);
             this.toolStripTools.Stretch = true;
             this.toolStripTools.TabIndex = 4;
             this.toolStripTools.Text = "tools";
@@ -1106,7 +1106,7 @@ namespace BestRedactor.Forms
             this.splitContainer2.Panel2.Controls.Add(this.panel1);
             this.splitContainer2.Panel2MinSize = 23;
             this.splitContainer2.Size = new System.Drawing.Size(1370, 720);
-            this.splitContainer2.SplitterDistance = 667;
+            this.splitContainer2.SplitterDistance = 691;
             this.splitContainer2.TabIndex = 0;
             // 
             // timerIsToSave

@@ -13,8 +13,6 @@ namespace BestRedactor.Forms
 {
     public partial class MainForm : Form
     {
-        //TODO Разворачивание формы при закрытии вкладки и при её открытии
-        
         //TODO Починить Zoom(удалить)
         public MainForm(List<Picture> pictures)
         {
@@ -22,6 +20,7 @@ namespace BestRedactor.Forms
             _pictures              = pictures;
             Settings.OpenedTabs    = 0;
             tsBtn_color1.BackColor = Settings.LastUseColor;
+            tsBtn_color2.BackColor = Settings.SecondColor;
             _brush.StartCap        = LineCap.Round;
             _brush.EndCap          = LineCap.Round;
             _erase.StartCap        = LineCap.Round;
@@ -29,17 +28,12 @@ namespace BestRedactor.Forms
             tsBtn_color1.Size      = _selectSizeColor;
             tsButtonCursor.Checked = true;
             tabControlPage.Padding = new Point(tabControlPage.Padding.X + 7, tabControlPage.Padding.Y);
-            
+
 
             if (Settings.FailClose)
             {
-                var result = MessageBox.Show(@"Восстановить предыдущую сессию?",
-                    @"Backup",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly);
-                if (result == DialogResult.Yes)
+                if (DialogResult.Yes == MessageBox.Show(this, @"Восстановить предыдущую сессию?",
+                        @"Backup", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                 {
                     foreach (var picture in AutoSave.LoadsSession())
                     {
@@ -53,34 +47,41 @@ namespace BestRedactor.Forms
             }
             else
                 Settings.FailClose = true;
-
         }
 
-        private           string              _closeButtonFullPath = @"..\..\..\icons\closeButt.png";
-        private           Graphics            _graphics;
-        private           Point               _pointFirst, _pointSecond;
-        private           Pen                 _brush       = new(Settings.LastUseColor, Settings.LastUseSize);
-        private readonly  Pen                 _erase       = new(Color.White, 10);
-        private           Pen                 _pencil      = new(Settings.LastUseColor, 1f);
-        private readonly  ColorDialog         _colorDialog = new();
-        private           BrushSize           _brushSize   = new();
-        private           List<Stack<Bitmap>> _historyAll  = new();
-        private           List<Picture>       _pictures;
-        private           Rectangle           _rectangleTmp;
-        private           Bitmap              _bitmapTmp;
-        private           bool                _isMouseDown;
-        private           bool                _isClickedColor1;
-        private           bool                _isClickedColor2;
-        private           bool                _autoSaveTimer;
-        private           int                 _xLocation, _yLocation, _xShift, _yShift, _xCoord, _yCoord;
-        private           Tools               _currentTool         = Tools.Cursor;
-        private           Tools               _lastFigure          = Tools.Cursor;
-        private readonly  Size                _selectSizeColor     = new(25, 25);
-        private readonly  Size                _notSelectSizeColor  = new(20, 20);
-        internal          Picture             _picture    => _pictures[tabControlPage.SelectedIndex];
-        internal          Stack<Bitmap>       _history    => _historyAll[tabControlPage.SelectedIndex];
-        internal          PictureBox          _pictureBox => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
-        private           TextBox             _textBox    => (TextBox)tabControlPage.SelectedTab.Controls[0];
+
+        #region InternalVariables
+
+        private          string              _closeButtonFullPath = @"..\..\..\icons\closeButt.png";
+        private          Graphics            _graphics;
+        private          Point               _pointFirst, _pointSecond;
+        private          Pen                 _brush       = new(Settings.LastUseColor, Settings.LastUseSize);
+        private readonly Pen                 _erase       = new(Color.White, 10);
+        private          Pen                 _pencil      = new(Settings.LastUseColor, 1f);
+        private readonly ColorDialog         _colorDialog = new();
+        private          BrushSize           _brushSize   = new();
+        private          List<Stack<Bitmap>> _historyAll  = new();
+        private          List<Picture>       _pictures;
+        private          Rectangle           _rectangleTmp;
+        private          Bitmap              _bitmapTmp;
+        private          bool                _isMouseDown;
+        private          bool                _isClickedColor1;
+        private          bool                _isClickedColor2;
+        private          bool                _autoSaveTimer;
+        private          int                 _xLocation, _yLocation, _xShift, _yShift, _xCoord, _yCoord;
+        private          Tools               _currentTool        = Tools.Cursor;
+        private          Tools               _lastFigure         = Tools.Cursor;
+        private readonly Size                _selectSizeColor    = new(25, 25);
+        private readonly Size                _notSelectSizeColor = new(20, 20);
+        internal         Picture             _picture    => _pictures[tabControlPage.SelectedIndex];
+        internal         Stack<Bitmap>       _history    => _historyAll[tabControlPage.SelectedIndex];
+        internal         PictureBox          _pictureBox => (PictureBox)tabControlPage.SelectedTab?.Controls[1];
+        private          TextBox             _textBox    => (TextBox)tabControlPage.SelectedTab.Controls[0];
+
+        #endregion
+
+
+        #region WallTools
 
         private void tsButtonCursor_Click(object sender, EventArgs e) =>
             Selection.DisableSelect(Tools.Cursor, ref _currentTool, this);
@@ -131,13 +132,7 @@ namespace BestRedactor.Forms
             lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
         }
 
-
-        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _history.Push((Bitmap)_picture.Bitmap.Clone());
-            _graphics.Clear(Settings.LastUseColor);
-            Selection.DisableSelect(Tools.Cursor, ref _currentTool, this);
-        }
+        #endregion
 
 
         private void timerAutoSave_Tick(object sender, EventArgs e)
@@ -301,32 +296,20 @@ namespace BestRedactor.Forms
             tp.Controls.Add(tb);
             //создание новой вкладки с объектом PictureBox
             tp.Controls.Add(pb);
-            
+
             _historyAll.Add(new Stack<Bitmap>());
 
             tabControlPage.TabPages.Add(tp);
             Settings.OpenedTabs        += 1;
-            tabControlPage.SelectedTab = tp;
+            tabControlPage.SelectedTab =  tp;
 
             lblPictureSize.Text = $@"{picture.Bitmap.Width} x {picture.Bitmap.Height}";
         }
-        private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) =>
-            new FiltersForm(_picture, this, Filters.Contrast).ShowDialog();
-        private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
-        {
-            _history.Push((Bitmap)_picture.Bitmap.Clone());
-            _picture.Bitmap = Precision.Blur(_picture.Bitmap);
-            RefreshAndPbImage();
-        }
-        private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) =>
-            new FiltersForm(_picture, this, Filters.Brightness).ShowDialog();
-        private void drDBtnTSMenuItColors_Click(object sender, EventArgs e) =>
-            new ColorsForm(_picture, this).ShowDialog();
         public void RefreshAndSize()
         {
             if (Settings.OpenedTabs == 0)
                 return;
-            _pictureBox.Size                = new Size(_picture.Bitmap.Width, _picture.Bitmap.Height);
+            _pictureBox.Size = new Size(_picture.Bitmap.Width, _picture.Bitmap.Height);
             Refresh();
         }
         public void RefreshAndPbImage()
@@ -363,6 +346,7 @@ namespace BestRedactor.Forms
                 _brush.Color          = tsBtn_color1.BackColor;
                 _pencil.Color         = tsBtn_color1.BackColor;
                 Settings.LastUseColor = tsBtn_color1.BackColor;
+                Settings.SecondColor  = tsBtn_color2.BackColor;
                 tsBtn_color1.Size     = _selectSizeColor;
                 tsBtn_color2.Size     = _notSelectSizeColor;
                 _isClickedColor1      = true;
@@ -387,6 +371,7 @@ namespace BestRedactor.Forms
                 _brush.Color          = tsBtn_color2.BackColor;
                 _pencil.Color         = tsBtn_color2.BackColor;
                 Settings.LastUseColor = tsBtn_color2.BackColor;
+                Settings.SecondColor  = tsBtn_color1.BackColor;
                 tsBtn_color1.Size     = _notSelectSizeColor;
                 tsBtn_color2.Size     = _selectSizeColor;
                 _isClickedColor2      = true;
@@ -399,41 +384,18 @@ namespace BestRedactor.Forms
         }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Settings.FailClose)
-            {
-                var result = MessageBox.Show(@"Сохранить перед закрытием?",
-                    @"Save",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.DefaultDesktopOnly);
-                if (result == DialogResult.Yes) { FileManagerL.Save(_picture); }
-            }
+            if (Settings.FailClose && DialogResult.Yes == MessageBox.Show(this, @"Сохранить перед закрытием?",
+                    @"Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question)) { FileManagerL.Save(_picture); }
 
             if (!_pictures.Remove(_picture))
                 return;
             Settings.OpenedTabs -= 1;
             _historyAll.Remove(_history);
             tabControlPage.TabPages.Remove(tabControlPage.SelectedTab);
-            lblPictureSize.Text = string.Empty;
             tabControlPage.Refresh();
-        }
-        private void pictureBox_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (_currentTool == Tools.Fill)
-            {
-                _history.Push((Bitmap)_picture.Bitmap.Clone());
-                Filling.Fill(_picture.Bitmap, e.X, e.Y, Settings.LastUseColor);
-            }
-            if (_currentTool != Tools.Pipette)
-                return;
-            Settings.LastUseColor = _picture.Bitmap.GetPixel(e.X, e.Y);
-            _brush.Color          = Settings.LastUseColor;
-            _pencil.Color         = Settings.LastUseColor;
-            if (tsBtn_color1.Size == _selectSizeColor)
-                tsBtn_color1.BackColor = Settings.LastUseColor;
-            else
-                tsBtn_color2.BackColor = Settings.LastUseColor;
+            lblPictureSize.Text = Settings.OpenedTabs == 0
+                ? string.Empty
+                : $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
         }
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -444,9 +406,97 @@ namespace BestRedactor.Forms
                 : Logics.Resize.Cropping(_picture.Bitmap,
                     new Rectangle(0, 0, _picture.Bitmap.Width, _picture.Bitmap.Height)));
         }
+        private new void KeyPress(object sender, KeyEventArgs e)
+        {
+            if (_currentTool == Tools.Selection && e.KeyCode == Keys.Enter && !_isMouseDown && Settings.OpenedTabs != 0)
+            {
+                _history.Push((Bitmap)_picture.Bitmap.Clone());
+                _picture.Bitmap   = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
+                _pictureBox.Image = _picture.Bitmap;
+                RefreshAndSize();
+                lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
+            }
+
+            #region hotkeys
+
+            //if (_currentTool == Tools.Selection && e.KeyCode == Keys.C && e.Control && !_isMouseDown &&
+            //    Settings.OpenedTabs != 0)
+            //    Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
+
+            //if (e.Control && e.KeyCode == Keys.C && Settings.OpenedTabs != 0)
+            //    Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, new Rectangle(0,0,_picture.Bitmap.Width,_picture.Bitmap.Height)));
+
+            //if (e.Control && e.KeyCode == Keys.V) pasteToolStripMenuItem_Click(null, null);
+
+            //if (e.Control && e.KeyCode == Keys.S) FileManagerL.Save(_picture);
+
+            //if (e.Control && e.Alt && e.Shift && e.KeyCode == Keys.S) SaveAll(null, null);
+
+            //if (e.Control && e.Alt && e.KeyCode == Keys.S) toolStripMenuItem2_Click(null, null);
+
+            //if (e.Control && e.KeyCode == Keys.N) newToolStripMenuItem_Click(null, null);
+
+            //if (e.Control && e.KeyCode == Keys.O) openToolStripMenuItem_Click(null, null);
+
+            //if (e.Control && e.KeyCode == Keys.Z) UndoToolStripMenuItem_Click(null, null);
+
+            #endregion
+
+            if (_currentTool == Tools.Text && e.KeyCode == Keys.Enter && Settings.OpenedTabs != 0 && e.Control)
+            {
+                _history.Push((Bitmap)_picture.Bitmap.Clone());
+                _graphics.DrawString(_textBox.Text, _textBox.Font, new SolidBrush(Settings.LastUseColor),
+                    _textBox.Location);
+                _textBox.Enabled = false;
+                _textBox.Visible = false;
+            }
+        }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Settings.FailClose = false;
+            if (Settings.OpenedTabs == 0)
+                return;
+            switch (MessageBox.Show(this, @"Сохранить все открытые вкладки?", @"Save All",
+                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+            {
+                case DialogResult.Yes:
+                    FileManagerL.SaveAll(_pictures);
+                    break;
+                case DialogResult.Cancel:
+                    e.Cancel = true;
+                    break;
+            }
+        }
+        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_history.Count == 0)
+                return;
+            _picture.Bitmap   = _history.Pop();
+            _pictureBox.Image = _picture.Bitmap;
+            RefreshAndSize();
+        }
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _history.Push((Bitmap)_picture.Bitmap.Clone());
+            _graphics.Clear(Settings.LastUseColor);
+            Selection.DisableSelect(Tools.Cursor, ref _currentTool, this);
+        }
 
 
-        // filters
+        #region Filters
+
+        private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) =>
+            new FiltersForm(_picture, this, Filters.Contrast).ShowDialog();
+        private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
+        {
+            _history.Push((Bitmap)_picture.Bitmap.Clone());
+            _picture.Bitmap = Precision.Blur(_picture.Bitmap);
+            RefreshAndPbImage();
+        }
+        private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) =>
+            new FiltersForm(_picture, this, Filters.Brightness).ShowDialog();
+        private void drDBtnTSMenuItColors_Click(object sender, EventArgs e) =>
+            new ColorsForm(_picture, this).ShowDialog();
         private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
         {
             _history.Push((Bitmap)_picture.Bitmap.Clone());
@@ -507,8 +557,6 @@ namespace BestRedactor.Forms
             _pictureBox.Image = Logics.Rotation.PictureRotationBy(_picture.Bitmap, 180);
             RefreshAndSize();
         }
-
-
         private void toolStripTextBoxRotateOn_Click(object sender, EventArgs e)
         {
             new Rotation(_picture, this).ShowDialog();
@@ -516,72 +564,17 @@ namespace BestRedactor.Forms
             lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
         }
 
-        private new void KeyPress(object sender, KeyEventArgs e)
-        {
-            if (_currentTool == Tools.Selection && e.KeyCode == Keys.Enter && !_isMouseDown && Settings.OpenedTabs != 0)
-            {
-                _history.Push((Bitmap)_picture.Bitmap.Clone());
-                _picture.Bitmap   = Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp);
-                _pictureBox.Image = _picture.Bitmap;
-                RefreshAndSize();
-                lblPictureSize.Text = $@"{_picture.Bitmap.Width} x {_picture.Bitmap.Height}";
-            }
-            #region hotkeys
-            //if (_currentTool == Tools.Selection && e.KeyCode == Keys.C && e.Control && !_isMouseDown &&
-            //    Settings.OpenedTabs != 0)
-            //    Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, _rectangleTmp));
+        #endregion
 
-            //if (e.Control && e.KeyCode == Keys.C && Settings.OpenedTabs != 0)
-            //    Clipboard.SetImage(Logics.Resize.Cropping(_picture.Bitmap, new Rectangle(0,0,_picture.Bitmap.Width,_picture.Bitmap.Height)));
 
-            //if (e.Control && e.KeyCode == Keys.V) pasteToolStripMenuItem_Click(null, null);
-
-            //if (e.Control && e.KeyCode == Keys.S) FileManagerL.Save(_picture);
-
-            //if (e.Control && e.Alt && e.Shift && e.KeyCode == Keys.S) SaveAll(null, null);
-
-            //if (e.Control && e.Alt && e.KeyCode == Keys.S) toolStripMenuItem2_Click(null, null);
-
-            //if (e.Control && e.KeyCode == Keys.N) newToolStripMenuItem_Click(null, null);
-
-            //if (e.Control && e.KeyCode == Keys.O) openToolStripMenuItem_Click(null, null);
-
-            //if (e.Control && e.KeyCode == Keys.Z) UndoToolStripMenuItem_Click(null, null);
-            #endregion
-
-            if (_currentTool == Tools.Text && e.KeyCode == Keys.Enter && Settings.OpenedTabs != 0 && e.Control)
-            {
-                _history.Push((Bitmap)_picture.Bitmap.Clone());
-                _graphics.DrawString(_textBox.Text, _textBox.Font, new SolidBrush(Settings.LastUseColor),
-                    _textBox.Location);
-                _textBox.Enabled = false;
-                _textBox.Visible = false;
-            }
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Settings.FailClose = false;
-            if (Settings.OpenedTabs == 0)
-                return;
-            var result = MessageBox.Show(@"Сохранить все открытые вкладки?",
-                @"Save All",
-                MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-            if (result == DialogResult.Yes)
-                FileManagerL.SaveAll(_pictures);
-            if (result == DialogResult.Cancel)
-                e.Cancel = true;
-        }
-
+        #region PbDrawing
 
         private void PbPaint(object sender, PaintEventArgs e)
         {
             if (!_isMouseDown)
                 return;
-            DrawingFigures.DrawAFigure(e.Graphics, _currentTool, _brush, _xCoord, _yCoord, _xShift, _yShift, _xLocation, _yLocation);
+            DrawingFigures.DrawAFigure(e.Graphics, _currentTool, _brush, _xCoord, _yCoord, _xShift, _yShift, _xLocation,
+                _yLocation);
         }
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -615,17 +608,6 @@ namespace BestRedactor.Forms
             _yShift           = e.Y - _yCoord;
             lblCursorPos.Text = $@"{_xLocation},{_yLocation}"; //отображение позиции курсора
         }
-
-        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_history.Count == 0)
-                return;
-            _picture.Bitmap = _history.Pop();
-            _pictureBox.Image = _picture.Bitmap;
-            RefreshAndSize();
-        }
-                
-
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             _isMouseDown = false;
@@ -688,10 +670,11 @@ namespace BestRedactor.Forms
                             _textBox.Font        = DefaultFont;
                             _textBox.ForeColor   = Settings.LastUseColor;
                             break;
-                        case <=Tools.Brush and >= Tools.Pencil:
+                        case <= Tools.Brush and >= Tools.Pencil:
                             _history.Push((Bitmap)_picture.Bitmap.Clone());
                             break;
                     }
+
                     break;
                 }
                 case MouseButtons.Right:
@@ -722,21 +705,78 @@ namespace BestRedactor.Forms
                 }
             }
         }
+        private void pictureBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (_currentTool == Tools.Fill)
+            {
+                _history.Push((Bitmap)_picture.Bitmap.Clone());
+                Filling.Fill(_picture.Bitmap, e.X, e.Y, Settings.LastUseColor);
+            }
+
+            if (_currentTool != Tools.Pipette)
+                return;
+            Settings.LastUseColor = _picture.Bitmap.GetPixel(e.X, e.Y);
+            _brush.Color          = Settings.LastUseColor;
+            _pencil.Color         = Settings.LastUseColor;
+            if (tsBtn_color1.Size == _selectSizeColor)
+                tsBtn_color1.BackColor = Settings.LastUseColor;
+            else
+                tsBtn_color2.BackColor = Settings.LastUseColor;
+        }
+
+        #endregion
 
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _pictures.Add(new Picture(new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height,
                 PixelFormat.Format32bppArgb)));
-                AddNewTabPages(_pictures[^1]);
-                Refresh();
-                _graphics.Clear(Color.White);
+            AddNewTabPages(_pictures[^1]);
+            Refresh();
+            _graphics.Clear(Color.White);
         }
         private void tabControlPage_SelectedIndexChanged(object sender, EventArgs e)
         {
             Refresh();
         }
+        private void tabControl_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            try
+            {
+                var tabPage = tabControlPage.TabPages[e.Index];
+                var tabRect = tabControlPage.GetTabRect(e.Index);
+                tabRect.Inflate(-2, -2);
+                var closeImage = new Bitmap(_closeButtonFullPath);
+                e.Graphics.DrawImage(closeImage,
+                    (tabRect.Right - closeImage.Width),
+                    tabRect.Top + (tabRect.Height - closeImage.Height) / 2);
+                TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font,
+                    tabRect, tabPage.ForeColor, TextFormatFlags.Left);
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+        private void tabControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            for (var i = 0; i < tabControlPage.TabPages.Count; i++)
+            {
+                var tabRect = tabControlPage.GetTabRect(i);
+                tabRect.Inflate(-2, -2);
+                var closeImage = new Bitmap(_closeButtonFullPath);
+                var imageRect = new Rectangle(
+                    (tabRect.Right - closeImage.Width),
+                    tabRect.Top + (tabRect.Height - closeImage.Height) / 2,
+                    closeImage.Width,
+                    closeImage.Height);
+                if (imageRect.Contains(e.Location) || e.Button == MouseButtons.Middle)
+                {
+                    closeToolStripMenuItem_Click(null, null);
+                    break;
+                }
+            }
+        }
 
+
+        #region Zoom
 
         //private void trackBarZoom_Scroll(object sender, EventArgs e)
         //{
@@ -760,42 +800,7 @@ namespace BestRedactor.Forms
         //    _pictureBox.Width = _pictureBox.Width * (trackBarZoom.Value / 100);
         //    _pictureBox.Height = _pictureBox.Height * (trackBarZoom.Value / 100);
         //}
-        
-        private void tabControl_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            try
-            {
-                var tabPage = tabControlPage.TabPages[e.Index];
-                var tabRect = tabControlPage.GetTabRect(e.Index);
-                tabRect.Inflate(-2, -2);
-                var closeImage = new Bitmap(_closeButtonFullPath);
-                    e.Graphics.DrawImage(closeImage,
-                        (tabRect.Right - closeImage.Width),
-                        tabRect.Top + (tabRect.Height - closeImage.Height) / 2);
-                    TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font,
-                        tabRect, tabPage.ForeColor, TextFormatFlags.Left);
-                
-            }
-            catch (Exception ex) { throw new Exception(ex.Message); }
-        }
-        private void tabControl_MouseDown(object sender, MouseEventArgs e)
-        {
-            for (var i = 0; i < tabControlPage.TabPages.Count; i++)
-            {
-                var tabRect = tabControlPage.GetTabRect(i);
-                tabRect.Inflate(-2, -2);
-                var closeImage = new Bitmap(_closeButtonFullPath);
-                var imageRect = new Rectangle(
-                    (tabRect.Right - closeImage.Width),
-                    tabRect.Top + (tabRect.Height - closeImage.Height) / 2,
-                    closeImage.Width,
-                    closeImage.Height);
-                if (imageRect.Contains(e.Location))
-                {
-                    closeToolStripMenuItem_Click(null,null);
-                    break;
-                }
-            }
-        }
+
+        #endregion
     }
 }

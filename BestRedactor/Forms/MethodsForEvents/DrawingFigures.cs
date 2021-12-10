@@ -1,8 +1,8 @@
-﻿using BestRedactor.Enums;
-using BestRedactor.Logics;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using BestRedactor.Enums;
+using BestRedactor.Logics;
 
 namespace BestRedactor.Forms.MethodsForEvents
 {

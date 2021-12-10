@@ -19,6 +19,11 @@ namespace BestRedactor.Logics
             get => GetValue<Color>("LastUseColor");
             set => SetValue("LastUseColor", value);
         }
+        public static Color SecondColor
+        {
+            get => GetValue<Color>("SecondColor");
+            set => SetValue("SecondColor", value);
+        }
         public static float   LastUseSize
         {
             get => GetValue<float>("LastUseSize");
