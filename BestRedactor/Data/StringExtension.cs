@@ -17,7 +17,7 @@ namespace BestRedactor.Data
                 Directory.Delete(path, true);
                 Directory.CreateDirectory(path);
             }
-            if (DirectoryСheck(path))
+            if (!DirectoryСheck(path))
                 Directory.CreateDirectory(path);
         }
 
