@@ -35,7 +35,7 @@ namespace BestRedactor.Forms.MethodsForEvents
                     break;
                 case Tools.Selection:
                     if (Settings.OpenedTabs != 0)
-                        main._pictureBox.Image = main._picture.Bitmap;
+                        main.PictureBox.Image = main.Picture.Bitmap;
                     main.tsBtnSelection.Checked = false;
                     break;
 

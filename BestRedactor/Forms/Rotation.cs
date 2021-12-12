@@ -18,13 +18,13 @@ namespace BestRedactor.Forms
         {
             InitializeComponent();
         }
-        private Picture _picture;
-        private MainForm _main;
+        private readonly Picture _picture;
+        private readonly MainForm _main;
         private int _num;
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            if (maskedTextBox.Text == null || maskedTextBox.Text == "0")
-                this.Close();
+            if (maskedTextBox.Text is null or "0")
+                Close();
             _num = int.Parse(maskedTextBox.Text);
             if (!radioButRight.Checked)
             {
@@ -32,12 +32,12 @@ namespace BestRedactor.Forms
             }
             _picture.Bitmap = Logics.Rotation.PictureRotationBy(_picture.Bitmap, _num);
             _main.RefreshAndSize();
-            this.Close();
+            Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
        
