@@ -5,7 +5,7 @@ using BestRedactor.Interface;
 
 namespace BestRedactor.Logics
 {
-    public class FileManagerL
+    public static class FileManagerL
     {
         public static void Save(IPicture picture) => FileManager.Save(picture);
         public static void SaveAs(IPicture picture, string fileName)

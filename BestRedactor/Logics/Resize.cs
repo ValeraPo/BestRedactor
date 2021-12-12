@@ -10,18 +10,10 @@ namespace BestRedactor.Logics
             if (image == null) throw new ArgumentNullException();
             if (image.Width >= 7680 || image.Height >= 7680)
                 throw new ArgumentOutOfRangeException();
-            var resized = new Bitmap(image,
-                new Size((int)(image.Width*coefficient),
-                (int)(image.Height*coefficient)));
+            var resized = new Bitmap(image, new Size((int)(image.Width*coefficient), (int)(image.Height*coefficient)));
             return resized;
         }
         // Кадрирование
-        public static Bitmap Cropping(Bitmap image, Rectangle cropArea)
-        {
-            Bitmap bmpCrop = image.Clone(cropArea,
-                image.PixelFormat);
-            return bmpCrop;
-        }
-
+        public static Bitmap Cropping(Bitmap image, Rectangle cropArea) => image.Clone(cropArea, image.PixelFormat);
     }
 }

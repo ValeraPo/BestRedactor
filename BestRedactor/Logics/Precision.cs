@@ -129,9 +129,9 @@ namespace BestRedactor.Logics
             var height       = sharpenImage.Height;
             var filter = new double[,]
                          {
-                             { -1, -1, -1, },
+                             { -1, -1, -1 },
                              { -1, 9, -1 },
-                             { -1, -1, -1, }
+                             { -1, -1, -1 }
                          };
 
             const double factor = 1.0;
@@ -170,9 +170,7 @@ namespace BestRedactor.Logics
                     var r = Math.Min(Math.Max((int)(factor * red + bias), 0), 255);
                     var g = Math.Min(Math.Max((int)(factor * green + bias), 0), 255);
                     var b = Math.Min(Math.Max((int)(factor * blue + bias), 0), 255);
-                   // if (image.GetPixel(x,y).A != 0)
-                        result[x, y] = Color.FromArgb(r, g, b);
-                    //else result[x, y] = image.GetPixel(x,y);
+                    result[x, y] = Color.FromArgb(r, g, b);
                 }
             }
 

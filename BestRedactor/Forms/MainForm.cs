@@ -511,7 +511,7 @@ namespace BestRedactor.Forms
         private void toolStripMenuInversion_Click(object sender, EventArgs e)
         {
             History.Push((Bitmap)Picture.Bitmap.Clone());
-            Picture.Bitmap = ColorBalance.IverseColor(Picture.Bitmap);
+            Picture.Bitmap = ColorBalance.InverseColor(Picture.Bitmap);
             RefreshAndPbImage();
         }
         private void toolStripMenuSepia_Click(object sender, EventArgs e)

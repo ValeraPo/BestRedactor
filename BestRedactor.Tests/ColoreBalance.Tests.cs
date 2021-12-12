@@ -284,7 +284,7 @@ namespace BestRedactor.Tests
         {
             Bitmap input = Tests.MockInputData(bm);
             Bitmap expected = IverseColorMockOutputData(bm);
-            Bitmap actual = ColorBalance.IverseColor(input);
+            Bitmap actual = ColorBalance.InverseColor(input);
             Assert.AreEqual(Tests.BitmapToColor(expected), Tests.BitmapToColor(actual));
 
         }
@@ -292,13 +292,13 @@ namespace BestRedactor.Tests
         public void NegativeNullIverseColorTest()
         {
             Bitmap expected = null;
-            Assert.Throws<System.ArgumentNullException>(() => ColorBalance.IverseColor(expected));
+            Assert.Throws<System.ArgumentNullException>(() => ColorBalance.InverseColor(expected));
         }
         [Test]
         public void NegativeOutOfRangeIverseColorTest()
         {
             Bitmap expected = new Bitmap(7680, 4320);
-            Assert.Throws<System.ArgumentOutOfRangeException>(() => ColorBalance.IverseColor(expected));
+            Assert.Throws<System.ArgumentOutOfRangeException>(() => ColorBalance.InverseColor(expected));
         }
         // Сепия
         public static Bitmap SepiaMockOutputData(Tests.Bitmaps bm)

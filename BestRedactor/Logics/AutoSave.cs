@@ -5,7 +5,7 @@ using BestRedactor.Data.AutoSave;
 
 namespace BestRedactor.Logics
 {
-    public class AutoSave
+    public static class AutoSave
     {
         // Дергать этот метод по таймеру
         public static void Backup(IEnumerable<IPicture> collection)

@@ -9,11 +9,8 @@ namespace BestRedactor.Logics
             Properties.Settings.Default[key] = value;
             Properties.Settings.Default.Save();
         }
-        private static T GetValue<T>(string key)
-        {
-            return (T)Properties.Settings.Default[key];
-        }
-        
+        private static T GetValue<T>(string key) => (T)Properties.Settings.Default[key];
+
         public static Color  LastUseColor
         {
             get => GetValue<Color>("LastUseColor");
