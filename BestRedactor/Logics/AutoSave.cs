@@ -10,8 +10,7 @@ namespace BestRedactor.Logics
         // Дергать этот метод по таймеру
         public static void Backup(IEnumerable<IPicture> collection)
         {
-            var parallelSaving = new Thread(BackupSession.Backup);
-            parallelSaving.Start(collection);
+            new Thread(BackupSession.Backup).Start(collection);
         }
         // Запускается при ошибке сохранения файлов
         public static IEnumerable<IPicture> LoadsSession()

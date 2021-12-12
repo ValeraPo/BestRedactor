@@ -484,80 +484,116 @@ namespace BestRedactor.Forms
 
         #region Filters
 
-        private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e) =>
+        private void drDBtnTSMenuItIncreaseContrast_Click(object sender, EventArgs e)
+        {
+            if (Settings.OpenedTabs == 0)
+                return; 
             new FiltersForm(Picture, this, Filters.Contrast).ShowDialog();
+        }
         private void drDBtnTSMenuItBlur_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             Picture.Bitmap = Precision.Blur(Picture.Bitmap);
             RefreshAndPbImage();
         }
-        private void drDBtnTSMenuItBright_Click(object sender, EventArgs e) =>
+        private void drDBtnTSMenuItBright_Click(object sender, EventArgs e)
+        {
+            if (Settings.OpenedTabs == 0)
+                return; 
             new FiltersForm(Picture, this, Filters.Brightness).ShowDialog();
-        private void drDBtnTSMenuItColors_Click(object sender, EventArgs e) =>
+        }
+        private void drDBtnTSMenuItColors_Click(object sender, EventArgs e)
+        {
+            if (Settings.OpenedTabs == 0)
+                return; 
             new ColorsForm(Picture, this).ShowDialog();
+        }
         private void drDBtnTSMenuItSharpness_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             Picture.Bitmap = Precision.Sharpness(Picture.Bitmap);
             RefreshAndPbImage();
         }
         private void drDBtnTSMenuItDiscolor_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             Picture.Bitmap = ColorBalance.ToGrayScale(Picture.Bitmap);
             RefreshAndPbImage();
         }
         private void toolStripMenuInversion_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             Picture.Bitmap = ColorBalance.InverseColor(Picture.Bitmap);
             RefreshAndPbImage();
         }
         private void toolStripMenuSepia_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             Picture.Bitmap = ColorBalance.Sepia(Picture.Bitmap);
             RefreshAndPbImage();
         }
         private void toolStripMenuNoize_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             Picture.Bitmap = Precision.Noise(Picture.Bitmap);
             RefreshAndPbImage();
         }
         private void MirrorVertically_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             PictureBox.Image = Logics.Rotation.VerticalReflection(Picture.Bitmap);
             Refresh();
         }
         private void ToolStripMenuHoris_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             PictureBox.Image = Logics.Rotation.HorizontalReflection(Picture.Bitmap);
             Refresh();
         }
         private void toolStripMenuRotBy90_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             PictureBox.Image = Logics.Rotation.PictureRotationBy(Picture.Bitmap, 90);
             RefreshAndSize();
         }
         private void toolStripMenuRotBy270_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0)
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             PictureBox.Image = Logics.Rotation.PictureRotationBy(Picture.Bitmap, 270);
             RefreshAndSize();
         }
         private void toolStripMenuRotBy180_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0) 
+                return; 
             History.Push((Bitmap)Picture.Bitmap.Clone());
             PictureBox.Image = Logics.Rotation.PictureRotationBy(Picture.Bitmap, 180);
             Refresh();
         }
         private void toolStripTextBoxRotateOn_Click(object sender, EventArgs e)
         {
+            if (Settings.OpenedTabs == 0) 
+                return; 
             new Rotation(Picture, this).ShowDialog();
             PictureBox.Image   = Picture.Bitmap;
             lblPictureSize.Text = $@"{Picture.Bitmap.Width} x {Picture.Bitmap.Height}";
