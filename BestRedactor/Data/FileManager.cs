@@ -21,7 +21,7 @@ namespace BestRedactor.Data
             if (picture.ImageFormat == null)
                 throw new ArgumentNullException(nameof(picture.ImageFormat), @"Для сохранения должен быть указан тип");
 
-            picture.Directory.DirectoryCreature(false);
+            picture.Directory.DirectoryCreature();
             var path = $"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}";
             if (File.Exists(path))
                 File.Delete(path);
@@ -36,7 +36,7 @@ namespace BestRedactor.Data
             if (picture.ImageFormat == null)
                 throw new ArgumentNullException(nameof(picture.ImageFormat), @"Для сохранения должен быть указан тип");
 
-            picture.Directory.DirectoryCreature(false);
+            picture.Directory.DirectoryCreature();
             var path = $"{picture.Directory}{picture.FileName}.{picture.ImageFormat.ToString().ToLower()}";
             if (File.Exists(path))
                 File.Delete(path);
