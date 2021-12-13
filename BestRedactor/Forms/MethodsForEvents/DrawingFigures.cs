@@ -6,7 +6,7 @@ using BestRedactor.Logics;
 
 namespace BestRedactor.Forms.MethodsForEvents
 {
-    internal class DrawingFigures
+    internal static class DrawingFigures
     {
         internal static Rectangle DrawAFigure(Graphics g, Tools currentTool, Pen pen, int cX, int cY, int sX, int sY, int x, int y)
         {
@@ -132,78 +132,62 @@ namespace BestRedactor.Forms.MethodsForEvents
 
                 //IV четверть
                 case Tools.Square when sX > 0 && sY > 0 && sX > sY:
-                    sY = sX;
-                    g.DrawRectangle(pen, cX, cY, sX, sY);
+                    g.DrawRectangle(pen, cX, cY, sX, sX);
                     break;
                 case Tools.Square when sX > 0 && sY > 0 && sX < sY:
-                    sX = sY;
                     g.DrawRectangle(pen, cX, cY, sY, sY);
                     break;
                 //III четверть
                 case Tools.Square when sX < 0 && sY > 0 && -sX > sY:
-                    sY = -sX;
-                    g.DrawRectangle(pen, cX + sX, cY, -sX, sY);
+                    g.DrawRectangle(pen, cX + sX, cY, -sX, -sX);
                     break;
                 case Tools.Square when sX < 0 && sY > 0 && -sX < sY:
-                    sX = -sY;
-                    g.DrawRectangle(pen, cX + sX, cY, -sX, sY);
+                    g.DrawRectangle(pen, cX - sY, cY, sY, sY);
                     break;
                 //I четверть
                 case Tools.Square when sX > 0 && sY < 0 && sX > -sY:
-                    sY = -sX;
-                    g.DrawRectangle(pen, cX, cY + sY, sX, -sY);
+                    g.DrawRectangle(pen, cX, cY - sX, sX, sX);
                     break;
                 case Tools.Square when sX > 0 && sY < 0 && sX < -sY:
-                    sX = -sY;
-                    g.DrawRectangle(pen, cX, cY + sY, sX, -sY);
+                    g.DrawRectangle(pen, cX, cY + sY, -sY, -sY);
                     break;
                 //II четверть
                 case Tools.Square when sX < 0 && sY < 0 && -sX > -sY:
-                    sY = sX;
-                    g.DrawRectangle(pen, cX + sX, cY + sY, -sX, -sY);
+                    g.DrawRectangle(pen, cX + sX, cY + sX, -sX, -sX);
                     break;
                 case Tools.Square when sX < 0 && sY < 0 && -sX < -sY:
-                    sX = sY;
-                    g.DrawRectangle(pen, cX + sX, cY + sY, -sX, -sY);
+                    g.DrawRectangle(pen, cX + sY, cY + sY, -sY, -sY);
                     break;
 
 
                 
                 //IV четверть
                 case Tools.SquareFill when sX > 0 && sY > 0 && sX > sY:
-                    sY = sX;
-                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY, sX, sY);
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY, sX, sX);
                     break;
                 case Tools.SquareFill when sX > 0 && sY > 0 && sX < sY:
-                    sX = sY;
                     g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY, sY, sY);
                     break;
                 //III четверть
                 case Tools.SquareFill when sX < 0 && sY > 0 && -sX > sY:
-                    sY = -sX;
-                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY, -sX, sY);
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY, -sX, -sX);
                     break;
                 case Tools.SquareFill when sX < 0 && sY > 0 && -sX < sY:
-                    sX = -sY;
-                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY, -sX, sY);
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX  -sY, cY,sY, sY);
                     break;
                 //I четверть
                 case Tools.SquareFill when sX > 0 && sY < 0 && sX > -sY:
-                    sY = -sX;
-                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY + sY, sX, -sY);
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY - sX, sX, sX);
                     break;
                 case Tools.SquareFill when sX > 0 && sY < 0 && sX < -sY:
-                    sX = -sY;
-                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY + sY, sX, -sY);
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX, cY + sY, -sY, -sY);
                     break;
                 //II четверть
                 case Tools.SquareFill when sX < 0 && sY < 0 && -sX > -sY:
-                    sY = sX;
-                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY + sY, -sX, -sY);
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY + sX, -sX, -sX);
                     break;
                 case Tools.SquareFill when sX < 0 && sY < 0 && -sX < -sY:
-                    sX = sY;
-                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sX, cY + sY, -sX, -sY);
+                    g.FillRectangle(new SolidBrush(Settings.LastUseColor), cX + sY, cY + sY, -sY, -sY);
                     break;
                 
 
